@@ -1,0 +1,6 @@
+template-generate-tool/**
+!template-generate-tool/dist
+.vscode/**
+.gitignore
+tsconfig.json
+images/**

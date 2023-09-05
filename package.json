@@ -1,0 +1,180 @@
+{
+  "name": "vscode-template-generate-tool",
+  "displayName": "模板代码生成工具",
+  "description": "快速配置和生成el-form和el-table代码",
+  "version": "1.0.0",
+  "publisher": "admin_jzh",
+  "icon": "images/logo.png",
+  "homepage": "https://github.com/jzh2/vscode-template-generate-tool/blob/master/README.md",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jzh2/vscode-template-generate-tool"
+  },
+  "bugs": "https://github.com/jzh2/vscode-template-generate-tool/issues",
+  "categories": [
+    "Snippets"
+  ],
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "main": "./extension.js",
+  "scripts": {
+    "build": "cd template-generate-tool && npm run build",
+    "serve": "cd template-generate-tool && npm run serve",
+    "publish": "vsce package"
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "vscode-template-generate-tool.设置",
+        "title": "设置"
+      },
+      {
+        "command": "vscode-template-generate-tool.表单生成",
+        "title": "表单生成"
+      },
+      {
+        "command": "vscode-template-generate-tool.表格生成",
+        "title": "表格生成"
+      },
+      {
+        "command": "vscode-template-generate-tool.API生成",
+        "title": "API生成"
+      },
+      {
+        "command": "vscode-template-generate-tool.前端文档",
+        "title": "前端文档"
+      },
+      {
+        "command": "vscode-template-generate-tool.前端组件库",
+        "title": "前端组件库"
+      },
+      {
+        "command": "vscode-template-generate-tool.样式工具类",
+        "title": "样式工具类"
+      },
+      {
+        "command": "vscode-template-generate-tool.新建浏览器页签",
+        "title": "新建浏览器页签"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "vscode-template-generate-tool.设置",
+        "key": "ctrl+numpad0",
+        "mac": "cmd+alt+0"
+      },
+      {
+        "command": "vscode-template-generate-tool.表单生成",
+        "key": "ctrl+numpad1",
+        "mac": "cmd+alt+1"
+      },
+      {
+        "command": "vscode-template-generate-tool.表格生成",
+        "key": "ctrl+numpad2",
+        "mac": "cmd+alt+2"
+      },
+      {
+        "command": "vscode-template-generate-tool.API生成",
+        "key": "ctrl+numpad3",
+        "mac": "cmd+alt+3"
+      },
+      {
+        "command": "vscode-template-generate-tool.前端文档",
+        "key": "ctrl+numpad4",
+        "mac": "cmd+alt+4"
+      },
+      {
+        "command": "vscode-template-generate-tool.前端组件库",
+        "key": "ctrl+numpad5",
+        "mac": "cmd+alt+5"
+      },
+      {
+        "command": "vscode-template-generate-tool.样式工具类",
+        "key": "ctrl+numpad6",
+        "mac": "cmd+alt+6"
+      },
+      {
+        "command": "vscode-template-generate-tool.新建浏览器页签",
+        "key": "ctrl+numpad7",
+        "mac": "cmd+alt+7"
+      }
+    ],
+    "submenus": [
+      {
+        "id": "vscode-template-generate-tool.generate",
+        "label": "模板生成"
+      },
+      {
+        "id": "vscode-template-generate-tool.doc",
+        "label": "文档"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "submenu": "vscode-template-generate-tool.generate",
+          "group": "vscode-template-generate-tool@1"
+        },
+        {
+          "submenu": "vscode-template-generate-tool.doc",
+          "group": "vscode-template-generate-tool@2"
+        }
+      ],
+      "vscode-template-generate-tool.generate": [
+        {
+          "command": "vscode-template-generate-tool.表单生成",
+          "group": "vscode-template-generate-tool@1"
+        },
+        {
+          "command": "vscode-template-generate-tool.表格生成",
+          "group": "vscode-template-generate-tool@2"
+        },
+        {
+          "command": "vscode-template-generate-tool.API生成",
+          "group": "vscode-template-generate-tool@3"
+        },
+        {
+          "command": "vscode-template-generate-tool.设置",
+          "group": "vscode-template-generate-tool@4"
+        }
+      ],
+      "vscode-template-generate-tool.doc": [
+        {
+          "command": "vscode-template-generate-tool.前端文档",
+          "group": "vscode-template-generate-tool@1"
+        },
+        {
+          "command": "vscode-template-generate-tool.前端组件库",
+          "group": "vscode-template-generate-tool@2"
+        },
+        {
+          "command": "vscode-template-generate-tool.样式工具类",
+          "group": "vscode-template-generate-tool@3"
+        },
+        {
+          "command": "vscode-template-generate-tool.新建浏览器页签",
+          "group": "vscode-template-generate-tool@4"
+        }
+      ]
+    },
+    "snippets": [
+      {
+        "language": "vue",
+        "path": "./snippets/vue.json"
+      },
+      {
+        "language": "javascript",
+        "path": "./snippets/javascript.json"
+      },
+      {
+        "language": "html",
+        "path": "./snippets/html.json"
+      }
+    ]
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.73.0"
+  }
+}

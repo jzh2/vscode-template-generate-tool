@@ -1,0 +1,25 @@
+{
+  "embedded-card": {
+    "prefix": "<embedded-card>",
+    "body": [
+      "<embedded-card>\r",
+      "  <template #header>$1</template>\r",
+      "  $2\r",
+      "</embedded-card>"
+    ],
+    "description": "embedded-card"
+  },
+  "template": {
+    "prefix": "<template>",
+    "body": [
+      "<template v-if=\"$1\">$2</template>\r",
+      "<template v-else>$3</template>"
+    ],
+    "description": "template"
+  },
+  "placeholder": {
+    "prefix": "placeholder",
+    "body": "placeholder=\"$1\"",
+    "description": "placeholder"
+  }
+}

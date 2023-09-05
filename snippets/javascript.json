@@ -1,0 +1,114 @@
+{
+  "Print to console": {
+    "prefix": "ll",
+    "body": ["console.log($1)"],
+    "description": "Log output to console"
+  },
+  "filter": {
+    "prefix": ".filter",
+    "body": ".filter(item => item.$1)",
+    "description": "filter"
+  },
+  "find": {
+    "prefix": ".find",
+    "body": ".find(item => item.$1)",
+    "description": "find"
+  },
+  "findIndex": {
+    "prefix": ".findIndex",
+    "body": ".findIndex(item => item.$1)",
+    "description": "findIndex"
+  },
+  "map": {
+    "prefix": ".map",
+    "body": [".map(item => {\r", "  $1\r", "})"],
+    "description": "map"
+  },
+  "console": {
+    "prefix": "console.log",
+    "body": ["console.log($1)"],
+    "description": "Log output to console"
+  },
+  "components": {
+    "prefix": "components",
+    "body": ["components: {\r", "  $1\r", "},"],
+    "description": "components"
+  },
+  "mixins": {
+    "prefix": "mixins",
+    "body": "mixins: [$1],",
+    "description": "mixins"
+  },
+  "props": {
+    "prefix": "props",
+    "body": [
+      "props: {\r",
+      "  $1: Number,\r",
+      "  age: {\r",
+      "    type: Number,\r",
+      "    default: 0,\r",
+      "    required: true,\r",
+      "    validator: function (value) {\r",
+      "      return value >= 0\r",
+      "    }\r",
+      "  }\r",
+      "},"
+    ],
+    "description": "props"
+  },
+  "data": {
+    "prefix": "data",
+    "body": ["data() {", "  return {", "    $1", "  }", "},"],
+    "description": "data"
+  },
+  "computed": {
+    "prefix": "computed",
+    "body": ["computed: {\r", "  $1() {\r", "    return $2\r", "  }\r", "},"],
+    "description": "computed"
+  },
+  "watch": {
+    "prefix": "watch",
+    "body": [
+      "watch: {\r",
+      "  '$1': {\r",
+      "    deep: true,\r",
+      "    immediate: true,\r",
+      "    handler() {\r",
+      "      $2\r",
+      "    }\r",
+      "  }\r",
+      "},"
+    ],
+    "description": "watch"
+  },
+  "mounted": {
+    "prefix": "mounted",
+    "body": ["mounted() {\r", "  $1", "},"],
+    "description": "mounted"
+  },
+  "created": {
+    "prefix": "created",
+    "body": ["created() {\r", "  $1", "},"],
+    "description": "created"
+  },
+  "methods": {
+    "prefix": "methods",
+    "body": ["methods: {", "  $1() {", "    $2", "  }", "},"],
+    "description": "methods"
+  },
+  "async": {
+    "prefix": "async",
+    "body": [
+      "async $1() {\r",
+      "  try {\r",
+      "    const data = await this.\\$api.a$2({\r",
+      "      data: {\r",
+      "        $3\r",
+      "      }\r",
+      "    })\r",
+      "  } catch (error) {}\r",
+      "}"
+    ],
+    "description": "async"
+  }
+}
