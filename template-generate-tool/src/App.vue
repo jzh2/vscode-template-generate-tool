@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="dark">
     <el-tabs v-model="activeName" type="card">
       <el-tab-pane label="表单" name="form">
         <FormGenerator ref="formGenerator" @changeTemplate="changeTemplate" />

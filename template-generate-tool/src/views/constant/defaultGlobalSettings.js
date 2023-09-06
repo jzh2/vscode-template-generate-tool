@@ -1,6 +1,6 @@
 export const defaultGlobalSettings = {
   simpleMode: true,
-  darkMode: false,
+  darkMode: true,
   formType: ['search', 'default'],
   tableType: ['common', 'default'],
   enableOCR: false,
