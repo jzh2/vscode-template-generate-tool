@@ -121,7 +121,6 @@ export default {
         'CodeMirror-foldgutter-open',
         'CodeMirror-vscrollbar'
       ].some(className => element.classList.contains(className))
-      console.log(element.classList)
       if (selection) {
         // 选中区域复制区域
         this.$copy(selection)
@@ -149,7 +148,7 @@ export default {
       if (getEventPath(e).some(el => this.$refs.codemirror?.$el === el)) {
         return
       }
-      this.$refs.codemirror.codemirror.setSelection(
+      this.$refs.codemirror?.codemirror.setSelection(
         {
           line: 0,
           ch: 0
