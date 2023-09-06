@@ -33,11 +33,16 @@
 import draggable from 'vuedraggable'
 export default {
   name: 'DraggableList',
-  props: {
-    dataList: Array
-  },
   components: {
     draggable
+  },
+  props: {
+    dataList: {
+      type: Array,
+      default: () => {
+        return []
+      }
+    }
   }
 }
 </script>

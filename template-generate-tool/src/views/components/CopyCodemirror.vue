@@ -11,8 +11,8 @@
     </div>
     <codemirror
       ref="codemirror"
-      style="min-height: 100px; max-height: 400px"
       v-model="code"
+      style="min-height: 100px; max-height: 400px"
       :options="{
         tabSize: 2,
         lineNumbers: true,
@@ -46,19 +46,28 @@ import { getEventPath } from '../../utils/dom'
 
 export default {
   name: 'CopyCodemirror',
-  data() {
-    return {
-      code: ''
-    }
-  },
   components: {
     codemirror
   },
   props: {
-    title: String,
-    str: String,
-    mode: String,
+    title: {
+      type: String,
+      default: ''
+    },
+    str: {
+      type: String,
+      default: ''
+    },
+    mode: {
+      type: String,
+      default: 'vue'
+    },
     darkMode: Boolean
+  },
+  data() {
+    return {
+      code: ''
+    }
   },
   watch: {
     str: {
