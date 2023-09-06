@@ -54,6 +54,21 @@ export default {
       }
     }
   },
+  mounted() {
+    const globalSettings = JSON.parse(
+      localStorage.getItem('@bs/template-generate-tool/globalSettings')
+    )
+    if (globalSettings) {
+      const element = document.getElementsByClassName('star-website')[0]
+      if (globalSettings.darkMode) {
+        element.classList.remove('light')
+        element.classList.add('dark')
+      } else {
+        element.classList.remove('dark')
+        element.classList.add('light')
+      }
+    }
+  },
   methods: {
     changeStar() {
       const index = this.starWebsite.findIndex(
@@ -91,6 +106,17 @@ export default {
 }
 </script>
 
+<style>
+.light {
+  color: #000;
+  background-color: #fff;
+}
+.dark {
+  color: #ccc;
+  background-color: #1f1f1f;
+}
+</style>
+
 <style lang="scss" scoped>
 .star-website {
   height: 100%;
@@ -106,6 +132,7 @@ export default {
   iframe {
     width: 100%;
     height: 850px;
+    border-color: transparent;
   }
 }
 </style>
