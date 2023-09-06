@@ -1,7 +1,7 @@
 {
   "name": "vscode-template-generate-tool",
-  "displayName": "模板代码生成工具",
-  "description": "快速配置和生成el-form和el-table代码",
+  "displayName": "vscode-template-generate-tool",
+  "description": "快速配置prop和label，生成el-form和el-table代码",
   "version": "1.0.0",
   "publisher": "admin_jzh",
   "icon": "logo.png",
@@ -22,8 +22,7 @@
   "main": "./extension.js",
   "scripts": {
     "build": "cd template-generate-tool && npm run build",
-    "serve": "cd template-generate-tool && npm run serve",
-    "publish": "vsce package"
+    "serve": "cd template-generate-tool && npm run serve"
   },
   "contributes": {
     "commands": [
