@@ -469,17 +469,10 @@ export default {
     },
     // 更多校验规则
     moreRules() {
-      if (!this.globalSettings.port) {
-        this.$tip.warning('请先在设置页面设置端口')
-      } else {
-        try {
-          axios.get(
-            `http://localhost:${this.globalSettings.port}/openFile?filePath=src/locales/zh-cn.json`
-          )
-        } catch (e) {
-          console.log(e)
-        }
-      }
+      vscode.postMessage({
+        command: 'openFile',
+        file: 'src/locales/zh-cn.json'
+      })
     },
     // 使用自动保存的另一种数据
     useAnotherList() {

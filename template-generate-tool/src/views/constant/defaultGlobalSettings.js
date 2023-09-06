@@ -8,6 +8,5 @@ export const defaultGlobalSettings = {
   secretKey: '',
   enableAutoTranslate: false,
   translateAppid: '',
-  translateKey: '',
-  port: '8080'
+  translateKey: ''
 }
