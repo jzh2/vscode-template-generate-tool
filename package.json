@@ -1,6 +1,6 @@
 {
   "name": "vscode-template-generate-tool",
-  "displayName": "vscode-template-generate-tool",
+  "displayName": "Vscode Template Generate Tool",
   "description": "快速配置prop和label，生成el-form和el-table代码",
   "version": "1.0.0",
   "publisher": "jzh",
