@@ -14,8 +14,8 @@
             <el-col :span="24">
               <el-form-item label="表单项数">
                 <change-count
-                  :simpleMode="globalSettings.simpleMode"
-                  :itemCount="itemCount"
+                  :simple-mode="globalSettings.simpleMode"
+                  :item-count="itemCount"
                   @changeCount="count => changeCount(count)"
                   @resetList="resetList"
                 />
@@ -41,7 +41,7 @@
       </el-collapse-item>
       <el-collapse-item title="数据项设置" name="2">
         <draggable-list
-          :dataList="dataList"
+          :data-list="dataList"
           @addItem="addItem"
           @removeItem="removeItem"
         >
@@ -151,7 +151,7 @@
                       label="序号"
                     />
                     <el-table-column
-                      #default="{ row }"
+                      v-slot="{ row }"
                       label="名称"
                       align="center"
                       min-width="100"
@@ -159,7 +159,7 @@
                       <el-input v-model="row.label" />
                     </el-table-column>
                     <el-table-column
-                      #default="{ row }"
+                      v-slot="{ row }"
                       label="数值"
                       align="center"
                       min-width="100"
@@ -251,7 +251,7 @@
           title="html数据"
           :str="htmlStr"
           mode="vue"
-          :darkMode="globalSettings.darkMode"
+          :dark-mode="globalSettings.darkMode"
         >
           <template #button>
             <el-button type="success" @click="$copy(loopStr)">
@@ -264,19 +264,19 @@
             title="data数据"
             :str="dataStr"
             mode="javascript"
-            :darkMode="globalSettings.darkMode"
+            :dark-mode="globalSettings.darkMode"
           />
           <copy-codemirror
             title="options数据"
             :str="optionsStr"
             mode="javascript"
-            :darkMode="globalSettings.darkMode"
+            :dark-mode="globalSettings.darkMode"
           />
           <copy-codemirror
             title="rules数据"
             :str="rulesStr"
             mode="javascript"
-            :darkMode="globalSettings.darkMode"
+            :dark-mode="globalSettings.darkMode"
           />
         </div>
       </el-collapse-item>

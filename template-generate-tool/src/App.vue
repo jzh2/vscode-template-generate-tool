@@ -33,18 +33,17 @@ export default {
     ApiGenerator,
     GlobalSettings
   },
+  data() {
+    return {
+      activeName: 'settings'
+    }
+  },
   created() {
     window.addEventListener('message', e => {
       if (e?.data?.activeName) {
         this.activeName = e.data.activeName
       }
     })
-  },
-  data() {
-    return {
-      activeName: 'settings',
-      dark: false
-    }
   },
   methods: {
     changeGlobalSettings() {
@@ -60,6 +59,7 @@ export default {
   }
 }
 </script>
+
 <style>
 #app {
   height: 100%;

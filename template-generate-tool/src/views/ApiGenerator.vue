@@ -8,8 +8,8 @@
             <el-col :span="24">
               <el-form-item label="api项数">
                 <change-count
-                  :simpleMode="globalSettings.simpleMode"
-                  :itemCount="itemCount"
+                  :simple-mode="globalSettings.simpleMode"
+                  :item-count="itemCount"
                   @changeCount="count => changeCount(count)"
                   @resetList="resetList"
                 />
@@ -51,30 +51,30 @@
         </el-form>
       </el-collapse-item>
       <el-collapse-item title="数据项设置" name="2">
-        <draggable-list :dataList="dataList" @addItem="addItem">
+        <draggable-list :data-list="dataList" @addItem="addItem">
           <template #default="{ item, index }">
             <el-form ref="form" label-width="100px" :model="item">
               <el-row>
                 <el-col :span="24">
                   <el-form-item :label="`api${index + 1}类型`">
                     <el-select
-                      v-model="item.type"
                       v-if="globalSettings.simpleMode"
+                      v-model="item.type"
                     >
                       <el-option
-                        v-for="item in typeList"
-                        :key="item"
-                        :label="item"
-                        :value="item"
+                        v-for="item2 in typeList"
+                        :key="item2"
+                        :label="item2"
+                        :value="item2"
                       />
                     </el-select>
                     <el-radio-group v-else v-model="item.type">
                       <el-radio-button
-                        v-for="item in typeList"
-                        :key="item"
-                        :label="item"
+                        v-for="item2 in typeList"
+                        :key="item2"
+                        :label="item2"
                       >
-                        {{ item }}
+                        {{ item2 }}
                       </el-radio-button>
                     </el-radio-group>
                   </el-form-item>
@@ -122,7 +122,7 @@
           title="api数据"
           :str="dataStr"
           mode="javascript"
-          :darkMode="globalSettings.darkMode"
+          :dark-mode="globalSettings.darkMode"
         />
       </el-collapse-item>
     </el-collapse>

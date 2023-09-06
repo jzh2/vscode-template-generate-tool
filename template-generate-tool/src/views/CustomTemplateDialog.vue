@@ -22,8 +22,8 @@
         <i class="el-icon-info"></i>
         填写rules则固定值，不填则由系统设置添加
         <codemirror
-          class="start"
           v-model="formData.start"
+          class="start"
           :placeholder="placeholder.start"
           :options="cmOptions"
         />
@@ -36,8 +36,8 @@
           <div>$width可填，填写则固定值，不填则由系统设置添加</div>
         </template>
         <codemirror
-          class="loop"
           v-model="formData.loop"
+          class="loop"
           :placeholder="placeholder.loop"
           :options="cmOptions"
         />
@@ -46,8 +46,8 @@
         <i class="el-icon-info"></i>
         按需填写，不会修改
         <codemirror
-          class="end"
           v-model="formData.end"
+          class="end"
           :placeholder="placeholder.end"
           :options="cmOptions"
         />
@@ -104,7 +104,14 @@ export default {
     codemirror
   },
   props: {
-    dialog: Object,
+    dialog: {
+      type: Object,
+      default: () => {
+        return {
+          data: {}
+        }
+      }
+    },
     darkMode: Boolean
   },
   data() {

@@ -14,8 +14,8 @@
             <el-col :span="24">
               <el-form-item label="表格列数">
                 <change-count
-                  :simpleMode="globalSettings.simpleMode"
-                  :itemCount="itemCount"
+                  :simple-mode="globalSettings.simpleMode"
+                  :item-count="itemCount"
                   @changeCount="count => changeCount(count)"
                   @resetList="resetList"
                 />
@@ -36,7 +36,7 @@
       </el-collapse-item>
       <el-collapse-item title="数据项设置" name="2">
         <draggable-list
-          :dataList="dataList"
+          :data-list="dataList"
           @addItem="addItem"
           @removeItem="removeItem"
         >
@@ -205,7 +205,7 @@
           title="html数据"
           :str="htmlStr"
           mode="vue"
-          :darkMode="globalSettings.darkMode"
+          :dark-mode="globalSettings.darkMode"
           @click="aa"
         >
           <template #button>
@@ -219,7 +219,7 @@
             title="data数据"
             :str="dataStr"
             mode="javascript"
-            :darkMode="globalSettings.darkMode"
+            :dark-mode="globalSettings.darkMode"
           >
             <template #button>
               mock
@@ -230,7 +230,7 @@
             title="rules数据"
             :str="rulesStr"
             mode="javascript"
-            :darkMode="globalSettings.darkMode"
+            :dark-mode="globalSettings.darkMode"
           />
         </div>
       </el-collapse-item>

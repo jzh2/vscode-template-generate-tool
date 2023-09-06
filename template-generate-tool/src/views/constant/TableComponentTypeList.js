@@ -45,7 +45,8 @@ export const componentTypeList = [
       {
         value: 'bs-amount-input',
         label: 'BsAmountInput 金额输入框',
-        template: '<bs-amount-input v-model="row.field" placeholder="请输入" :precision="2" />'
+        template:
+          '<bs-amount-input v-model="row.field" placeholder="请输入" :precision="2" />'
       },
       {
         value: 'bs-tree-select',
@@ -67,12 +68,14 @@ export const componentTypeList = [
       {
         value: 'bs-agency-tree-select',
         label: 'BsAgencyTreeSelect 单位下拉树',
-        template: '<bs-agency-tree-select show-mode="name" v-model="row.field" />'
+        template:
+          '<bs-agency-tree-select show-mode="name" v-model="row.field" />'
       },
       {
         value: 'bs-place-tree-select',
         label: 'BsPlaceTreeSelect 开票点下拉树',
-        template: '<bs-place-tree-select show-mode="name" lazy v-model="row.field" />'
+        template:
+          '<bs-place-tree-select show-mode="name" lazy v-model="row.field" />'
       },
       {
         value: 'bs-agency-place-tree-select',

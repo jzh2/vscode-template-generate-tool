@@ -24,14 +24,17 @@
 <script>
 export default {
   name: 'ChangeCount',
+  props: {
+    itemCount: {
+      type: Number,
+      default: 0
+    },
+    simpleMode: Boolean
+  },
   data() {
     return {
       count: 0
     }
-  },
-  props: {
-    itemCount: Number,
-    simpleMode: Boolean
   },
   watch: {
     itemCount: {
