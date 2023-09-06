@@ -11,12 +11,16 @@ module.exports = defineConfig({
   },
   devServer: {
     proxy: {
-      '/oauth': {
+      '/oauth/2.0/token': {
         target: 'https://aip.baidubce.com',
         changeOrigin: true
       },
-      '/rest': {
+      '/rest/2.0/ocr': {
         target: 'https://aip.baidubce.com',
+        changeOrigin: true
+      },
+      '/api/trans': {
+        target: 'http://api.fanyi.baidu.com',
         changeOrigin: true
       }
     }

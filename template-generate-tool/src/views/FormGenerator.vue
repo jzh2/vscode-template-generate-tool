@@ -523,18 +523,15 @@ export default {
         this.$tip.warning('请在设置中输入API Key和Secret Key')
         return
       }
-      const data = await axios.post('/oauth/2.0/token', {
-        data: {
-          grant_type: 'client_credentials',
-          client_id: apiKey,
-          client_secret: secretKey
-        }
-      })
-      if (data.access_token) {
+      try {
+        const { data } = await axios.post(
+          `/oauth/2.0/token?grant_type=client_credentials&client_id=${apiKey}&client_secret=${secretKey}`
+        )
         this.access_token = data.access_token
-      } else {
-        this.$tip.warning('调用OCR鉴权接口出错，请检查控制台')
-        console.log(data)
+      } catch (error) {
+        this.$tip.warning(
+          `调用OCR鉴权接口出错，错误码：${error.response.data.error}，错误描述：${error.response.data.error_description}`
+        )
       }
     },
     // 文字识别
@@ -551,12 +548,11 @@ export default {
               return
             }
             try {
-              const data = await axios.post('/rest/2.0/ocr/v1/general_basic', {
-                data: {
-                  access_token,
+              const { data } = await axios.post(
+                `/rest/2.0/ocr/v1/general_basic?access_token=${access_token}&image=${encodeURIComponent(
                   image
-                }
-              })
+                )}`
+              )
               if (data.words_result_num) {
                 this.resetList(true)
                 this.changeCount(data.words_result_num, true)
@@ -570,14 +566,12 @@ export default {
                   }
                 })
               } else {
-                this.$tip.warning('调用OCR识别接口出错，请检查控制台')
-                console.log(data)
-                console.log(
-                  '错误码详情见 https://cloud.baidu.com/doc/OCR/s/dk3h7y5vr'
+                this.$tip.warning(
+                  `调用OCR识别接口出错，错误码：${data.error_code}，错误描述：${data.error_msg}，详情见 https://cloud.baidu.com/doc/OCR/s/dk3h7y5vr`
                 )
               }
             } catch (error) {
-              this.$tip.warning('未注册翻译功能，请根据README注册')
+              this.$tip.warning('调用OCR识别接口出错')
             }
           } else if (text) {
             this.resetList(true)
@@ -613,32 +607,26 @@ export default {
         this.$tip.warning('请在设置中输入APP ID和密钥或关闭自动翻译')
         return
       }
-      const appid = translateAppid
-      const key = translateKey
-      const salt = new Date().getTime()
-      const q = item.label
-      const sign = MD5(appid + q + salt + key)
-      const data = await axios.get(
-        'http://api.fanyi.baidu.com/api/trans/vip/translate',
-        {
-          data: {
-            q,
-            appid,
-            salt,
-            from: 'zh',
-            to: 'en',
-            sign
-          }
+      try {
+        const appid = translateAppid
+        const key = translateKey
+        const salt = new Date().getTime()
+        const q = item.label
+        const sign = MD5(appid + q + salt + key)
+        const { data } = await axios.get(
+          `/api/trans/vip/translate?q=${q}&appid=${appid}&salt=${salt}&from=zh&to=en&sign=${sign}`
+        )
+        if (data.trans_result) {
+          item.prop = this.toLowerCamelCase({
+            prop: data.trans_result[0]?.dst
+          })
+        } else {
+          this.$tip.warning(
+            `调用翻译接口出错，错误码：${data.error_code}，错误描述：${data.error_msg}，详情见 http://api.fanyi.baidu.com/doc/21`
+          )
         }
-      )
-      if (data.trans_result) {
-        item.prop = this.toLowerCamelCase({
-          prop: data.trans_result[0]?.dst
-        })
-      } else {
-        this.$tip.warning('调用翻译接口出错，请在控制台查看错误信息')
-        console.log(data)
-        console.log('错误码详情见 http://api.fanyi.baidu.com/doc/21 错误码列表')
+      } catch (error) {
+        this.$tip.warning('调用翻译接口出错')
       }
     },
     // 转小驼峰
