@@ -18,6 +18,7 @@
   "engines": {
     "vscode": "^1.74.0"
   },
+  "activationEvents": [],
   "main": "./extension.js",
   "scripts": {
     "build": "cd template-generate-tool && npm run build",
