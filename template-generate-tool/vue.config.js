@@ -9,22 +9,22 @@ module.exports = defineConfig({
     index: 'src/main.js',
     'star-website': 'src/views/star-website/main.js'
   },
-  devServer: {
-    proxy: {
-      '/oauth/2.0/token': {
-        target: 'https://aip.baidubce.com',
-        changeOrigin: true
-      },
-      '/rest/2.0/ocr': {
-        target: 'https://aip.baidubce.com',
-        changeOrigin: true
-      },
-      '/api/trans': {
-        target: 'http://api.fanyi.baidu.com',
-        changeOrigin: true
-      }
-    }
-  },
+  // devServer: {
+  //   proxy: {
+  //     '/oauth/2.0/token': {
+  //       target: 'https://aip.baidubce.com',
+  //       changeOrigin: true
+  //     },
+  //     '/rest/2.0/ocr': {
+  //       target: 'https://aip.baidubce.com',
+  //       changeOrigin: true
+  //     },
+  //     '/api/trans': {
+  //       target: 'http://api.fanyi.baidu.com',
+  //       changeOrigin: true
+  //     }
+  //   }
+  // },
   configureWebpack: {
     module: {
       rules: [
