@@ -23,7 +23,8 @@
   "scripts": {
     "build": "cd template-generate-tool && npm run build",
     "serve": "cd template-generate-tool && npm run serve",
-    "package": "vsce package"
+    "package": "vsce package",
+    "bp": "cd template-generate-tool && npm run build && cd.. && vsce package"
   },
   "contributes": {
     "commands": [
