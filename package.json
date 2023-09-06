@@ -3,7 +3,7 @@
   "displayName": "vscode-template-generate-tool",
   "description": "快速配置prop和label，生成el-form和el-table代码",
   "version": "1.0.0",
-  "publisher": "admin_jzh",
+  "publisher": "jzh",
   "icon": "logo.png",
   "homepage": "https://github.com/jzh2/vscode-template-generate-tool/blob/master/README.md",
   "license": "SEE LICENSE IN LICENSE.md",
@@ -22,7 +22,8 @@
   "main": "./extension.js",
   "scripts": {
     "build": "cd template-generate-tool && npm run build",
-    "serve": "cd template-generate-tool && npm run serve"
+    "serve": "cd template-generate-tool && npm run serve",
+    "package": "vsce package"
   },
   "contributes": {
     "commands": [
