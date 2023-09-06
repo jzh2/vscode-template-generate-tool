@@ -4,7 +4,7 @@
   "description": "快速配置和生成el-form和el-table代码",
   "version": "1.0.0",
   "publisher": "admin_jzh",
-  "icon": "images/logo.png",
+  "icon": "logo.png",
   "homepage": "https://github.com/jzh2/vscode-template-generate-tool/blob/master/README.md",
   "license": "MIT",
   "repository": {
