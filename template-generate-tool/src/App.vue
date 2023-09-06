@@ -20,6 +20,7 @@
     </el-tabs>
   </div>
 </template>
+
 <script>
 import FormGenerator from './views/FormGenerator.vue'
 import TableGenerator from './views/TableGenerator.vue'
