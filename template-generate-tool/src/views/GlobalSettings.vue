@@ -130,7 +130,7 @@
       v-if="customTemplateDialog.show"
       :visible.sync="customTemplateDialog.show"
       :dialog="customTemplateDialog"
-      :darkMode="globalSettings.darkMode"
+      :dark-mode="globalSettings.darkMode"
       @changeTemplate="$emit('changeTemplate')"
     />
   </el-form>
@@ -146,6 +146,9 @@ import CustomTemplateDialog from './CustomTemplateDialog'
 
 export default {
   name: 'GlobalSettings',
+  components: {
+    CustomTemplateDialog
+  },
   data() {
     return {
       formTypeList: [],
@@ -223,9 +226,6 @@ export default {
       }
     }
   },
-  components: {
-    CustomTemplateDialog
-  },
   created() {
     this.getSettings()
     this.getTemplate()
@@ -267,8 +267,34 @@ export default {
       }
     },
     resetForm() {
-      this.globalSettings = defaultGlobalSettings
-      this.changeSettings()
+      const { apiKey, secretKey, translateAppid, translateKey } =
+        this.globalSettings
+      if (apiKey || secretKey || translateAppid || translateKey) {
+        this.$confirm2
+          .warning('是否同时清除key？', '提示', {
+            confirmButtonText: '是',
+            cancelButtonText: '否',
+            closeOnPressEscape: true,
+            distinguishCancelAndClose: true
+          })
+          .then(() => {
+            this.globalSettings = deepClone(defaultGlobalSettings)
+            this.changeSettings()
+          })
+          .catch(action => {
+            if (action === 'cancel') {
+              this.globalSettings = deepClone(defaultGlobalSettings)
+              this.globalSettings.apiKey = apiKey
+              this.globalSettings.secretKey = secretKey
+              this.globalSettings.translateAppid = translateAppid
+              this.globalSettings.translateKey = translateKey
+              this.changeSettings()
+            }
+          })
+      } else {
+        this.globalSettings = deepClone(defaultGlobalSettings)
+        this.changeSettings()
+      }
     },
     changeSettings() {
       localStorage.setItem(
