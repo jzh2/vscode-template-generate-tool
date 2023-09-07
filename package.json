@@ -4,7 +4,7 @@
   "description": "快速配置prop和label，生成el-form和el-table代码",
   "version": "1.0.0",
   "publisher": "jzh",
-  "icon": "icon/logo.png",
+  "icon": "icons/logo.png",
   "homepage": "https://github.com/jzh2/vscode-template-generate-tool/blob/master/README.md",
   "license": "SEE LICENSE IN LICENSE.md",
   "repository": {
@@ -32,7 +32,7 @@
         {
           "id": "vscode-template-generate-tool",
           "title": "模板代码生成工具",
-          "icon": "icon/icon.svg"
+          "icon": "icons/logo.svg"
         }
       ]
     },

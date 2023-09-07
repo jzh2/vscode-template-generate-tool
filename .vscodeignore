@@ -1,6 +1,7 @@
-template-generate-tool/**
+**
+!icons/
+!out/extension.js
 !template-generate-tool/dist
-.vscode/**
-.gitignore
-tsconfig.json
-images/**
+!package.json
+!LICENSE.md
+!README.md
