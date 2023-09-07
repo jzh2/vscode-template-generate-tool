@@ -1,16 +1,26 @@
-const vscode = require('vscode')
-let generatePanel = null
+import * as vscode from 'vscode'
+let generatePanel: vscode.WebviewPanel | null = null
+let generateWebviewView: vscode.WebviewView | null
 
-/**
- * @param {vscode.ExtensionContext} context
- */
-function activate(context) {
-  const settingsDisposable = getDisposable('设置', 'settings', context)
-  const formDisposable = getDisposable('表单生成', 'form', context)
-  const tableDisposable = getDisposable('表格生成', 'table', context)
-  const apiDisposable = getDisposable('API生成', 'api', context)
+export function activate(context: vscode.ExtensionContext) {
+  // 注册生成侧边栏
+  const generateSidebarProviderDisposable =
+    vscode.window.registerWebviewViewProvider(
+      'vscode-template-generate-tool.generate-webview',
+      new GenerateWebviewViewProvider(context.extensionUri),
+      {
+        webviewOptions: {
+          retainContextWhenHidden: true
+        }
+      }
+    )
+  // 注册快捷键，用于显示侧边栏
+  const generateSidebarDisposable = getGenerateSidebarDisposable(context)
 
-  const webDisposable = getWebDisposable(context)
+  const formDisposable = getGenerateDisposable('表单生成', 'form', context)
+  const tableDisposable = getGenerateDisposable('表格生成', 'table', context)
+  const apiDisposable = getGenerateDisposable('API生成', 'api', context)
+  const settingsDisposable = getGenerateDisposable('设置', 'settings', context)
 
   const docDisposable = getDocDisposable(
     '前端文档',
@@ -28,53 +38,91 @@ function activate(context) {
     context
   )
 
+  const webDisposable = getWebDisposable(context)
+
   context.subscriptions.push(
-    settingsDisposable,
+    generateSidebarProviderDisposable,
+    generateSidebarDisposable,
     formDisposable,
     tableDisposable,
     apiDisposable,
-    webDisposable,
+    settingsDisposable,
     docDisposable,
     componentDisposable,
-    cssDisposable
+    cssDisposable,
+    webDisposable
+  )
+}
+
+// 侧边栏
+class GenerateWebviewViewProvider implements vscode.WebviewViewProvider {
+  constructor(private readonly _extensionUri: vscode.Uri) {}
+
+  public resolveWebviewView(
+    webviewView: vscode.WebviewView,
+    context: vscode.WebviewViewResolveContext,
+    _token: vscode.CancellationToken
+  ) {
+    webviewView.webview.html = getGenerateContent(
+      webviewView.webview,
+      this._extensionUri
+    )
+    webviewView.webview.options = {
+      enableScripts: true
+    }
+    generateWebviewView = webviewView
+  }
+}
+function getGenerateSidebarDisposable(context: vscode.ExtensionContext) {
+  return vscode.commands.registerCommand(
+    'vscode-template-generate-tool.打开侧边栏',
+    () => {
+      generateWebviewView?.show()
+    }
   )
 }
 
 // 工具面板
-function getDisposable(commandName, activeName, context) {
+function getGenerateDisposable(
+  commandName: string,
+  activeName: string,
+  context: vscode.ExtensionContext
+) {
   return vscode.commands.registerCommand(
     `vscode-template-generate-tool.${commandName}`,
     () => {
       if (generatePanel) {
-        generatePanel.reveal(vscode.ViewColumn.Beside)
+        generatePanel.reveal(vscode.ViewColumn.Two)
       } else {
         generatePanel = vscode.window.createWebviewPanel(
           'template-generate-tool',
           '模板代码生成工具',
-          vscode.ViewColumn.Beside,
+          vscode.ViewColumn.Two,
           {
             enableScripts: true,
             retainContextWhenHidden: true
           }
         )
-        generatePanel.webview.html = _getWebviewContent(
+        generatePanel.webview.html = getGenerateContent(
           generatePanel.webview,
           context.extensionUri
         )
         generatePanel.webview.onDidReceiveMessage(
           async message => {
+            const workspaceFolders = vscode.workspace.workspaceFolders
             switch (message.command) {
               case 'openWebsite':
-                let panel = vscode.window.createWebviewPanel(
-                  'template-generate-tool',
-                  '参考文档',
-                  vscode.ViewColumn.One,
-                  {
-                    enableScripts: true,
-                    retainContextWhenHidden: true
-                  }
-                )
-                panel.webview.html = loadDocument(message.website)
+                let panel: vscode.WebviewPanel | null =
+                  vscode.window.createWebviewPanel(
+                    'template-generate-tool',
+                    '参考文档',
+                    vscode.ViewColumn.One,
+                    {
+                      enableScripts: true,
+                      retainContextWhenHidden: true
+                    }
+                  )
+                panel.webview.html = getDocContent(message.website)
                 panel.onDidDispose(
                   () => {
                     panel = null
@@ -87,23 +135,27 @@ function getDisposable(commandName, activeName, context) {
                 vscode.env.openExternal(vscode.Uri.parse(message.website))
                 return
               case 'openFolder':
-                await vscode.commands.executeCommand(
-                  'vscode.openFolder',
-                  vscode.Uri.file(
-                    `${vscode.workspace.workspaceFolders[0].uri.path}\\${message.folder}`
-                  ),
-                  {
-                    forceNewWindow: true // 新窗口打开
-                  }
-                )
+                if (workspaceFolders && workspaceFolders.length !== 0) {
+                  await vscode.commands.executeCommand(
+                    'vscode.openFolder',
+                    vscode.Uri.file(
+                      `${workspaceFolders[0].uri.path}\\${message.folder}`
+                    ),
+                    {
+                      forceNewWindow: true // 新窗口打开
+                    }
+                  )
+                }
                 return
               case 'openFile':
-                await vscode.commands.executeCommand(
-                  'vscode.openFolder',
-                  vscode.Uri.file(
-                    `${vscode.workspace.workspaceFolders[0].uri.path}\\${message.file}`
+                if (workspaceFolders && workspaceFolders.length !== 0) {
+                  await vscode.commands.executeCommand(
+                    'vscode.openFolder',
+                    vscode.Uri.file(
+                      `${workspaceFolders[0].uri.path}\\${message.file}`
+                    )
                   )
-                )
+                }
                 return
             }
           },
@@ -122,8 +174,8 @@ function getDisposable(commandName, activeName, context) {
     }
   )
 }
-
-function _getWebviewContent(webview, extensionUri) {
+// 工具内容
+function getGenerateContent(webview: vscode.Webview, extensionUri: any) {
   const scriptUri = getUri(webview, extensionUri, [
     'template-generate-tool',
     'dist',
@@ -168,20 +220,21 @@ function _getWebviewContent(webview, extensionUri) {
 }
 
 // 浏览器面板
-function getWebDisposable(context) {
+function getWebDisposable(context: vscode.ExtensionContext) {
   return vscode.commands.registerCommand(
     `vscode-template-generate-tool.新建浏览器页签`,
     () => {
-      let webPanel = vscode.window.createWebviewPanel(
-        'template-generate-tool',
-        '浏览器',
-        vscode.ViewColumn.One,
-        {
-          enableScripts: true,
-          retainContextWhenHidden: true
-        }
-      )
-      webPanel.webview.html = loadWebsite(
+      let webPanel: vscode.WebviewPanel | null =
+        vscode.window.createWebviewPanel(
+          'template-generate-tool',
+          '浏览器',
+          vscode.ViewColumn.One,
+          {
+            enableScripts: true,
+            retainContextWhenHidden: true
+          }
+        )
+      webPanel.webview.html = getWebContent(
         webPanel.webview,
         context.extensionUri
       )
@@ -195,8 +248,8 @@ function getWebDisposable(context) {
     }
   )
 }
-
-function loadWebsite(webview, extensionUri) {
+// 浏览器内容
+function getWebContent(webview: vscode.Webview, extensionUri: any) {
   const scriptUri = getUri(webview, extensionUri, [
     'template-generate-tool',
     'dist',
@@ -241,20 +294,25 @@ function loadWebsite(webview, extensionUri) {
 }
 
 // 文档面板
-function getDocDisposable(commandName, url, context) {
+function getDocDisposable(
+  commandName: string,
+  url: string,
+  context: vscode.ExtensionContext
+) {
   return vscode.commands.registerCommand(
     `vscode-template-generate-tool.${commandName}`,
     () => {
-      let docPanel = vscode.window.createWebviewPanel(
-        'template-generate-tool',
-        commandName,
-        vscode.ViewColumn.One,
-        {
-          enableScripts: true,
-          retainContextWhenHidden: true
-        }
-      )
-      docPanel.webview.html = loadDocument(url)
+      let docPanel: vscode.WebviewPanel | null =
+        vscode.window.createWebviewPanel(
+          'template-generate-tool',
+          commandName,
+          vscode.ViewColumn.One,
+          {
+            enableScripts: true,
+            retainContextWhenHidden: true
+          }
+        )
+      docPanel.webview.html = getDocContent(url)
       docPanel.onDidDispose(
         () => {
           docPanel = null
@@ -265,8 +323,8 @@ function getDocDisposable(commandName, url, context) {
     }
   )
 }
-
-function loadDocument(url) {
+// 文档内容
+function getDocContent(url: string) {
   return /*html*/ `
   <!DOCTYPE html>
   <html lang="">
@@ -291,13 +349,10 @@ function loadDocument(url) {
   `
 }
 
-function getUri(webview, extensionUri, pathList) {
+function getUri(
+  webview: vscode.Webview,
+  extensionUri: vscode.Uri,
+  pathList: string[]
+) {
   return webview.asWebviewUri(vscode.Uri.joinPath(extensionUri, ...pathList))
-}
-
-function deactivate() {}
-
-module.exports = {
-  activate,
-  deactivate
 }

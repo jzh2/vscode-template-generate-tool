@@ -4,7 +4,7 @@
   "description": "快速配置prop和label，生成el-form和el-table代码",
   "version": "1.0.0",
   "publisher": "jzh",
-  "icon": "logo.png",
+  "icon": "icon/logo.png",
   "homepage": "https://github.com/jzh2/vscode-template-generate-tool/blob/master/README.md",
   "license": "SEE LICENSE IN LICENSE.md",
   "repository": {
@@ -19,18 +19,36 @@
     "vscode": "^1.74.0"
   },
   "activationEvents": [],
-  "main": "./extension.js",
+  "main": "./out/extension",
   "scripts": {
+    "compile": "tsc -p ./",
     "build": "cd template-generate-tool && npm run build",
     "serve": "cd template-generate-tool && npm run serve",
-    "package": "vsce package",
-    "bp": "cd template-generate-tool && npm run build && cd.. && vsce package"
+    "package": "vsce package"
   },
   "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "vscode-template-generate-tool",
+          "title": "模板代码生成工具",
+          "icon": "icon/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "vscode-template-generate-tool": [
+        {
+          "type": "webview",
+          "id": "vscode-template-generate-tool.generate-webview",
+          "name": "模板生成"
+        }
+      ]
+    },
     "commands": [
       {
-        "command": "vscode-template-generate-tool.设置",
-        "title": "设置"
+        "command": "vscode-template-generate-tool.打开侧边栏",
+        "title": "打开侧边栏"
       },
       {
         "command": "vscode-template-generate-tool.表单生成",
@@ -59,11 +77,15 @@
       {
         "command": "vscode-template-generate-tool.新建浏览器页签",
         "title": "新建浏览器页签"
+      },
+      {
+        "command": "vscode-template-generate-tool.设置",
+        "title": "设置"
       }
     ],
     "keybindings": [
       {
-        "command": "vscode-template-generate-tool.设置",
+        "command": "vscode-template-generate-tool.打开侧边栏",
         "key": "ctrl+numpad0",
         "mac": "cmd+alt+0"
       },
@@ -101,6 +123,11 @@
         "command": "vscode-template-generate-tool.新建浏览器页签",
         "key": "ctrl+numpad7",
         "mac": "cmd+alt+7"
+      },
+      {
+        "command": "vscode-template-generate-tool.设置",
+        "key": "ctrl+numpad8",
+        "mac": "cmd+alt+8"
       }
     ],
     "submenus": [
@@ -177,6 +204,7 @@
     ]
   },
   "devDependencies": {
-    "@types/vscode": "^1.73.0"
+    "@types/vscode": "^1.73.0",
+    "typescript": "^5.2.2"
   }
 }
