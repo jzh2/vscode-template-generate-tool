@@ -1,13 +1,15 @@
 import * as vscode from 'vscode'
-let generatePanel: vscode.WebviewPanel | null = null
+let generatePanel: vscode.WebviewPanel | null
 let generateWebviewView: vscode.WebviewView | null
+let generateWebviewViewProvider: vscode.WebviewViewProvider | null
 
 export function activate(context: vscode.ExtensionContext) {
   // 注册生成侧边栏
+  generateWebviewViewProvider = new GenerateWebviewViewProvider(context)
   const generateSidebarProviderDisposable =
     vscode.window.registerWebviewViewProvider(
       'vscode-template-generate-tool.generate-webview',
-      new GenerateWebviewViewProvider(context.extensionUri),
+      generateWebviewViewProvider,
       {
         webviewOptions: {
           retainContextWhenHidden: true
@@ -54,10 +56,9 @@ export function activate(context: vscode.ExtensionContext) {
   )
 }
 
-// 侧边栏
+// 侧边栏实例
 class GenerateWebviewViewProvider implements vscode.WebviewViewProvider {
-  constructor(private readonly _extensionUri: vscode.Uri) {}
-
+  constructor(private readonly _context: vscode.ExtensionContext) {}
   public resolveWebviewView(
     webviewView: vscode.WebviewView,
     context: vscode.WebviewViewResolveContext,
@@ -65,7 +66,12 @@ class GenerateWebviewViewProvider implements vscode.WebviewViewProvider {
   ) {
     webviewView.webview.html = getGenerateContent(
       webviewView.webview,
-      this._extensionUri
+      this._context.extensionUri
+    )
+    webviewView.webview.onDidReceiveMessage(
+      async message => handleMessage(message, this._context),
+      undefined,
+      this._context.subscriptions
     )
     webviewView.webview.options = {
       enableScripts: true
@@ -73,10 +79,19 @@ class GenerateWebviewViewProvider implements vscode.WebviewViewProvider {
     generateWebviewView = webviewView
   }
 }
+// 显示侧边栏
 function getGenerateSidebarDisposable(context: vscode.ExtensionContext) {
   return vscode.commands.registerCommand(
     'vscode-template-generate-tool.打开侧边栏',
     () => {
+      // TODO 启动一次后才能用快捷键
+      // if (!generateWebviewView) {
+      //   generateWebviewViewProvider?.resolveWebviewView(
+      //     generateWebviewView,
+      //     context,
+      //     new vscode.CancellationTokenSource()
+      //   )
+      // }
       generateWebviewView?.show()
     }
   )
@@ -108,57 +123,7 @@ function getGenerateDisposable(
           context.extensionUri
         )
         generatePanel.webview.onDidReceiveMessage(
-          async message => {
-            const workspaceFolders = vscode.workspace.workspaceFolders
-            switch (message.command) {
-              case 'openWebsite':
-                let panel: vscode.WebviewPanel | null =
-                  vscode.window.createWebviewPanel(
-                    'template-generate-tool',
-                    '参考文档',
-                    vscode.ViewColumn.One,
-                    {
-                      enableScripts: true,
-                      retainContextWhenHidden: true
-                    }
-                  )
-                panel.webview.html = getDocContent(message.website)
-                panel.onDidDispose(
-                  () => {
-                    panel = null
-                  },
-                  null,
-                  context.subscriptions
-                )
-                return
-              case 'openExternalWebsite':
-                vscode.env.openExternal(vscode.Uri.parse(message.website))
-                return
-              case 'openFolder':
-                if (workspaceFolders && workspaceFolders.length !== 0) {
-                  await vscode.commands.executeCommand(
-                    'vscode.openFolder',
-                    vscode.Uri.file(
-                      `${workspaceFolders[0].uri.path}\\${message.folder}`
-                    ),
-                    {
-                      forceNewWindow: true // 新窗口打开
-                    }
-                  )
-                }
-                return
-              case 'openFile':
-                if (workspaceFolders && workspaceFolders.length !== 0) {
-                  await vscode.commands.executeCommand(
-                    'vscode.openFolder',
-                    vscode.Uri.file(
-                      `${workspaceFolders[0].uri.path}\\${message.file}`
-                    )
-                  )
-                }
-                return
-            }
-          },
+          async message => handleMessage(message, context),
           undefined,
           context.subscriptions
         )
@@ -347,6 +312,63 @@ function getDocContent(url: string) {
     </body>
   </html>
   `
+}
+
+interface Message {
+  command: string
+  website: string
+  folder: string
+  file: string
+}
+// 处理消息
+async function handleMessage(
+  message: Message,
+  context: vscode.ExtensionContext
+) {
+  const workspaceFolders = vscode.workspace.workspaceFolders
+  switch (message.command) {
+    case 'openWebsite':
+      let panel: vscode.WebviewPanel | null = vscode.window.createWebviewPanel(
+        'template-generate-tool',
+        '参考文档',
+        vscode.ViewColumn.One,
+        {
+          enableScripts: true,
+          retainContextWhenHidden: true
+        }
+      )
+      panel.webview.html = getDocContent(message.website)
+      panel.onDidDispose(
+        () => {
+          panel = null
+        },
+        null,
+        context.subscriptions
+      )
+      return
+    case 'openExternalWebsite':
+      vscode.env.openExternal(vscode.Uri.parse(message.website))
+      return
+    case 'openFolder':
+      if (workspaceFolders && workspaceFolders.length !== 0) {
+        await vscode.commands.executeCommand(
+          'vscode.openFolder',
+          vscode.Uri.file(`${workspaceFolders[0].uri.path}\\${message.folder}`),
+          {
+            forceNewWindow: true // 新窗口打开
+          }
+        )
+      }
+      return
+    case 'openFile':
+      if (workspaceFolders && workspaceFolders.length !== 0) {
+        await vscode.commands.executeCommand(
+          'vscode.openFolder',
+          vscode.Uri.file(`${workspaceFolders[0].uri.path}\\${message.file}`)
+        )
+      }
+      return
+  }
 }
 
 function getUri(
