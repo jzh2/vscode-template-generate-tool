@@ -130,9 +130,9 @@
 </template>
 
 <script>
-import DraggableList from '../views/components/DraggableList.vue'
-import CopyCodemirror from '../views/components/CopyCodemirror.vue'
-import ChangeCount from '../views/components/ChangeCount.vue'
+import DraggableList from '../views/components/DraggableList'
+import CopyCodemirror from '../views/components/CopyCodemirror'
+import ChangeCount from '../views/components/ChangeCount'
 import { defaultGlobalSettings } from './constant/defaultGlobalSettings'
 
 const typeList = ['get', 'post', 'delete', 'put']

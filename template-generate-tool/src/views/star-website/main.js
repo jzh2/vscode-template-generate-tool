@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import App from './index.vue'
+import App from './index'
 import { Autocomplete } from 'element-ui'
 import 'element-theme-darkplus'
 

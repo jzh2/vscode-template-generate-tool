@@ -29,14 +29,14 @@ module.exports = defineConfig({
     module: {
       rules: [
         {
-          test: /\.tsx?$/,
-          use: 'ts-loader',
-          exclude: /node_modules/
+          test: /\.ts$/,
+          exclude: /node_modules/,
+          use: 'ts-loader'
         }
       ]
     },
     resolve: {
-      extensions: ['.js', '.vue', '.json', '.ts']
+      extensions: ['.vue', '.js', '.json', '.ts']
     }
   }
 })

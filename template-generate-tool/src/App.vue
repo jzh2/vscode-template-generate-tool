@@ -22,10 +22,10 @@
 </template>
 
 <script>
-import FormGenerator from './views/FormGenerator.vue'
-import TableGenerator from './views/TableGenerator.vue'
-import ApiGenerator from './views/ApiGenerator.vue'
-import GlobalSettings from './views/GlobalSettings.vue'
+import FormGenerator from './views/FormGenerator'
+import TableGenerator from './views/TableGenerator'
+import ApiGenerator from './views/ApiGenerator'
+import GlobalSettings from './views/GlobalSettings'
 
 export default {
   components: {
