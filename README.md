@@ -2,11 +2,37 @@
 
 快速配置 prop 和 label，生成 el-form 和 el-table 代码
 
+### 省流
+
+快捷键
+
+- ctrl+数字键区 0-8(Mac: cmd+alt+主键盘区 0-8)
+  分别打开侧边栏表单，侧面板表单、表格、api，前端文档、组件库、样式工具类，浏览器，设置
+
+功能
+
+- 设置页面可以打开常用文件、依赖和模板文件夹
+- 可手动配置生成代码模板
+- paging-grid 等单页面代码片段，created，computed 等生命周期代码片段
+
+问题和 bug
+
+- 侧边栏表单需要手动打开激活一次才能用快捷键:joy:
+- api 识图暂时不可用，可用第三方软件识别成文字复制后，识别剪切板
+- 切换暗黑模式，codemirror 会错位，重新打开可以恢复
+- 有时候打开空白，右下角提示“加载 Web 视图时出错”。可能是 vscode 问题，需要将所有 vscode 窗口关闭重启。
+
 ## 一、模板生成
 
-右键模板生成 - 表单生成/表格生成/API 生成，在侧边窗口打开模板代码生成工具。
-快捷键 <kbd>Ctrl</kbd> + <kbd>数字键盘 1/2/3</kbd>
-Mac <kbd>Cmd</kbd> + <kbd>Alt</kbd> + <kbd>1/2/3</kbd>
+侧边栏点击图标，在侧边栏打开模板代码生成工具。
+快捷键 <kbd>Ctrl</kbd> + <kbd>数字键区 0</kbd>
+Mac <kbd>Cmd</kbd> + <kbd>Alt</kbd> + <kbd>主键盘区 0</kbd>
+必须手动打开激活一次才能用快捷键打开
+其他快捷键可以直接用
+
+或者右键模板生成 - 表单生成/表格生成/API 生成，在侧边窗口打开模板代码生成工具。
+快捷键 <kbd>Ctrl</kbd> + <kbd>数字键区 1/2/3</kbd>
+Mac <kbd>Cmd</kbd> + <kbd>Alt</kbd> + <kbd>主键盘区 1/2/3</kbd>
 
 ### 通用
 
@@ -20,7 +46,7 @@ Mac <kbd>Cmd</kbd> + <kbd>Alt</kbd> + <kbd>1/2/3</kbd>
 
 #### 使用上次表单/表格数据
 
-点击按钮可以获取另一个页面保存的数据，填入 prop 和 label。用于表格数据填入详情的填写表单，以及剪贴板识别错界面的情况。
+点击按钮可以获取另一个页面保存的数据，填入 prop 和 label。用于表格数据填入详情的填写表单，以及剪贴板识别错页面的情况。
 
 #### 复制
 
@@ -48,6 +74,9 @@ Mac <kbd>Cmd</kbd> + <kbd>Alt</kbd> + <kbd>1/2/3</kbd>
   url->method
 
 ### 设置
+
+快捷键 <kbd>Ctrl</kbd> + <kbd>数字键区 8</kbd>
+Mac <kbd>Cmd</kbd> + <kbd>Alt</kbd> + <kbd>主键盘区 8</kbd>
 
 #### 简单模式
 
@@ -94,14 +123,14 @@ A workspace folder is one of potentially many roots opened by the editor. All wo
 ## 三、文档
 
 右键文档 - 前端文档/前端组件库/样式工具类，在第一个窗口打开对应文档。
-快捷键 <kbd>Ctrl</kbd> + <kbd>数字键盘 4/5/6</kbd>
-Mac <kbd>Cmd</kbd> + <kbd>Alt</kbd> + <kbd>4/5/6</kbd>
+快捷键 <kbd>Ctrl</kbd> + <kbd>数字键区 4/5/6</kbd>
+Mac <kbd>Cmd</kbd> + <kbd>Alt</kbd> + <kbd>主键盘区 4/5/6</kbd>
 
 ## 四、浏览器
 
 右键文档 - 新建浏览器页签，在第一个窗口打开一个页签，输入网站，网站可以收藏。用于对照接口文档。
-快捷键 <kbd>Ctrl</kbd> + <kbd>数字键盘 7</kbd>
-Mac <kbd>Cmd</kbd> + <kbd>Alt</kbd> + <kbd>7</kbd>
+快捷键 <kbd>Ctrl</kbd> + <kbd>数字键区 7</kbd>
+Mac <kbd>Cmd</kbd> + <kbd>Alt</kbd> + <kbd>主键盘区 7</kbd>
 
 ## 五、百度 API 注册
 
