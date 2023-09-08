@@ -4,56 +4,72 @@ let generateWebviewView: vscode.WebviewView | null
 let generateWebviewViewProvider: vscode.WebviewViewProvider | null
 
 export function activate(context: vscode.ExtensionContext) {
-  // 注册生成侧边栏
-  generateWebviewViewProvider = new GenerateWebviewViewProvider(context)
-  const generateSidebarProviderDisposable =
-    vscode.window.registerWebviewViewProvider(
-      'vscode-template-generate-tool.generate-webview',
-      generateWebviewViewProvider,
-      {
-        webviewOptions: {
-          retainContextWhenHidden: true
+  const configuration = vscode.workspace.getConfiguration()
+  if (configuration.get('vscode-template-generate-tool.enableSidebar')) {
+    // 注册生成侧边栏
+    generateWebviewViewProvider = new GenerateWebviewViewProvider(context)
+    const generateSidebarProviderDisposable =
+      vscode.window.registerWebviewViewProvider(
+        'vscode-template-generate-tool.generate-webview',
+        generateWebviewViewProvider,
+        {
+          webviewOptions: {
+            retainContextWhenHidden: true
+          }
         }
-      }
+      )
+    // 注册快捷键，用于显示侧边栏
+    const generateSidebarDisposable = getGenerateSidebarDisposable(context)
+    context.subscriptions.push(
+      generateSidebarProviderDisposable,
+      generateSidebarDisposable
     )
-  // 注册快捷键，用于显示侧边栏
-  const generateSidebarDisposable = getGenerateSidebarDisposable(context)
+  }
 
-  const formDisposable = getGenerateDisposable('表单生成', 'form', context)
-  const tableDisposable = getGenerateDisposable('表格生成', 'table', context)
-  const apiDisposable = getGenerateDisposable('API生成', 'api', context)
-  const settingsDisposable = getGenerateDisposable('设置', 'settings', context)
+  if (configuration.get('vscode-template-generate-tool.enableGeneratePanel')) {
+    const formDisposable = getGenerateDisposable('表单生成', 'form', context)
+    const tableDisposable = getGenerateDisposable('表格生成', 'table', context)
+    const apiDisposable = getGenerateDisposable('API生成', 'api', context)
+    const settingsDisposable = getGenerateDisposable(
+      '设置',
+      'settings',
+      context
+    )
+    context.subscriptions.push(
+      formDisposable,
+      tableDisposable,
+      apiDisposable,
+      settingsDisposable
+    )
+  }
 
-  const docDisposable = getDocDisposable(
-    '前端文档',
-    'http://172.18.150.201:10012/frontend-docs/pc/dev-env',
-    context
-  )
-  const componentDisposable = getDocDisposable(
-    '前端组件库',
-    'http://172.18.166.134:31034/frontend-component-doc/index.html#/changelog',
-    context
-  )
-  const cssDisposable = getDocDisposable(
-    '样式工具类',
-    'http://172.18.150.201:10012/frontend-docs/pc/css-utils',
-    context
-  )
+  if (configuration.get('vscode-template-generate-tool.enableDocPanel')) {
+    const docDisposable = getDocDisposable(
+      '前端文档',
+      'http://172.18.150.201:10012/frontend-docs/pc/dev-env',
+      context
+    )
+    const componentDisposable = getDocDisposable(
+      '前端组件库',
+      'http://172.18.166.134:31034/frontend-component-doc/index.html#/changelog',
+      context
+    )
+    const cssDisposable = getDocDisposable(
+      '样式工具类',
+      'http://172.18.150.201:10012/frontend-docs/pc/css-utils',
+      context
+    )
+    context.subscriptions.push(
+      docDisposable,
+      componentDisposable,
+      cssDisposable
+    )
+  }
 
-  const webDisposable = getWebDisposable(context)
-
-  context.subscriptions.push(
-    generateSidebarProviderDisposable,
-    generateSidebarDisposable,
-    formDisposable,
-    tableDisposable,
-    apiDisposable,
-    settingsDisposable,
-    docDisposable,
-    componentDisposable,
-    cssDisposable,
-    webDisposable
-  )
+  if (configuration.get('vscode-template-generate-tool.enableWebPanel')) {
+    const webDisposable = getWebDisposable(context)
+    context.subscriptions.push(webDisposable)
+  }
 }
 
 // 侧边栏实例

@@ -201,6 +201,33 @@
         "language": "html",
         "path": "./snippets/html.json"
       }
+    ],
+    "configuration": [
+      {
+        "title": "Vscode Template Generate Tool",
+        "properties": {
+          "vscode-template-generate-tool.enableSidebar": {
+            "type": "boolean",
+            "default": true,
+            "description": "是否启用侧面板"
+          },
+          "vscode-template-generate-tool.enableGeneratePanel": {
+            "type": "boolean",
+            "default": true,
+            "description": "是否启用工具面板"
+          },
+          "vscode-template-generate-tool.enableDocPanel": {
+            "type": "boolean",
+            "default": true,
+            "description": "是否启用文档面板"
+          },
+          "vscode-template-generate-tool.enableWebPanel": {
+            "type": "boolean",
+            "default": true,
+            "description": "是否启用浏览器面板"
+          }
+        }
+      }
     ]
   },
   "devDependencies": {
