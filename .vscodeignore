@@ -1,5 +1,6 @@
 **
 !icons/
+!snippets/
 !out/extension.js
 !template-generate-tool/dist
 !package.json
