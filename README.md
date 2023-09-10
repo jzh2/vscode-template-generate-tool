@@ -2,6 +2,17 @@
 
 快速配置 prop 和 label，生成 el-form 和 el-table 代码
 
+[![GitHub Release](https://img.shields.io/github/release/jzh2/vscode-template-generate-tool?logo=github)](https://github.com/jzh2/vscode-template-generate-tool)
+[![GitHub Downloads](https://img.shields.io/github/downloads/jzh2/vscode-template-generate-tool/total?logo=github)](https://github.com/jzh2/vscode-template-generate-tool)
+[![GitHub Stars](https://img.shields.io/github/stars/jzh2/vscode-template-generate-tool?logo=github)](https://github.com/jzh2/vscode-template-generate-tool)
+[![GitHub Forks](https://img.shields.io/github/forks/jzh2/vscode-template-generate-tool?logo=github)](https://github.com/jzh2/vscode-template-generate-tool)
+[![GitHub Issues](https://img.shields.io/github/issues/jzh2/vscode-template-generate-tool?logo=github)](https://github.com/jzh2/vscode-template-generate-tool)
+[![GitHub License](https://img.shields.io/github/license/jzh2/vscode-template-generate-tool?logo=github)](https://github.com/jzh2/vscode-template-generate-tool)
+[![Visual Studio Marketplace Downloads](https://img.shields.io/visual-studio-marketplace/d/jzh.vscode-template-generate-tool)](https://github.com/jzh2/vscode-template-generate-tool)
+[![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/jzh.vscode-template-generate-tool)](https://github.com/jzh2/vscode-template-generate-tool)
+[![Visual Studio Marketplace Last Updated](https://img.shields.io/visual-studio-marketplace/last-updated/jzh.vscode-template-generate-tool)](https://github.com/jzh2/vscode-template-generate-tool)
+[![Visual Studio Marketplace Rating](https://img.shields.io/visual-studio-marketplace/stars/jzh.vscode-template-generate-tool)](https://github.com/jzh2/vscode-template-generate-tool)
+
 ### 省流
 
 快捷键
