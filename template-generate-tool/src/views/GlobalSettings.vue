@@ -176,7 +176,7 @@ export default {
           {
             trigger: 'blur',
             validator: (rule, value, callback) => {
-              if (value && !value.match(/^[A-Za-z0-9]{24}$/)) {
+              if (value && !/^[A-Za-z0-9]{24}$/.test(value)) {
                 callback(new Error('请输入24位英文数字字符串'))
               } else {
                 callback()
@@ -188,7 +188,7 @@ export default {
           {
             trigger: 'blur',
             validator: (rule, value, callback) => {
-              if (value && !value.match(/^[A-Za-z0-9]{32}$/)) {
+              if (value && !/^[A-Za-z0-9]{32}$/.test(value)) {
                 callback(new Error('请输入32位的英文数字字符串'))
               } else {
                 callback()
@@ -200,7 +200,7 @@ export default {
           {
             trigger: 'blur',
             validator: (rule, value, callback) => {
-              if (value && !value.match(/^[0-9]{17}$/)) {
+              if (value && !/^[0-9]{17}$/.test(value)) {
                 callback(new Error('请输入17位的数字字符串'))
               } else {
                 callback()
@@ -212,7 +212,7 @@ export default {
           {
             trigger: 'blur',
             validator: (rule, value, callback) => {
-              if (value && !value.match(/^[A-Za-z0-9_]{20}$/)) {
+              if (value && !/^[A-Za-z0-9_]{20}$/.test(value)) {
                 callback(new Error('请输入20位的英文数字字符串'))
               } else {
                 callback()

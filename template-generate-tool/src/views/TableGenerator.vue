@@ -601,7 +601,7 @@ export default {
       if (!item.prop) {
         return item.prop
       }
-      if (!item.prop.match(/^[A-Za-z\s][A-Za-z0-9\s]*$/)) {
+      if (!/^[A-Za-z\s][A-Za-z0-9\s]*$/.test(item.prop)) {
         this.$tip.warning('prop格式错误')
       }
       const words = item.prop.trim().split(/\s+/)
