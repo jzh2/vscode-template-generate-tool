@@ -14,7 +14,14 @@ export const typeList = [
   :data="grid.rows"
   :height="grid.height"
   highlight-current-row
->\n`,
+>
+  <el-table-column
+    type="index"
+    align="center"
+    :width="uiSetting.table.index"
+    label="序号"
+    :index="sequence"
+  />\n`,
         loop: `  <el-table-column
     prop="$prop"
     label="$label"
