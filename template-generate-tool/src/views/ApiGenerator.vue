@@ -51,7 +51,11 @@
         </el-form>
       </el-collapse-item>
       <el-collapse-item title="数据项设置" name="2">
-        <draggable-list :data-list="dataList" @addItem="addItem">
+        <draggable-list
+          :data-list="dataList"
+          @addItem="addItem"
+          @removeItem="removeItem"
+        >
           <template #default="{ item, index }">
             <el-form ref="form" label-width="100px" :model="item">
               <el-row>
@@ -239,6 +243,13 @@ export default {
       this.itemCount++
     },
     removeItem(index) {
+      if (
+        JSON.stringify(this.dataList[index]) === JSON.stringify(this.newItem())
+      ) {
+        this.dataList.splice(index, 1)
+        this.itemCount--
+        return
+      }
       this.$confirm2
         .warning('确定删除吗？')
         .then(() => {
