@@ -113,15 +113,32 @@
       <el-button @click="openFile('src/router/routes.js')">打开路由</el-button>
     </el-form-item>
     <el-form-item label="打开文件夹">
-      <el-button
-        @click="openFolder('node_modules/@bs/module-demo-collection/src/demo')"
-      >
-        打开页面demo
-      </el-button>
-      <el-button @click="openFolder('node_modules/@bs')">打开@bs依赖</el-button>
-      <el-button @click="openFolder('node_modules/nontax-saas-ui')">
-        打开nontax依赖
-      </el-button>
+      <div>
+        <el-button
+          @click="
+            openFolder('node_modules/@bs/module-demo-collection/src/demo')
+          "
+        >
+          打开页面demo
+        </el-button>
+        <el-button @click="openFolder('node_modules/@bs')">
+          打开@bs依赖
+        </el-button>
+        <el-button @click="openFolder('node_modules/nontax-saas-ui')">
+          打开nontax依赖
+        </el-button>
+      </div>
+      <div>
+        <el-button @click="openFolder('node_modules/@bs/vue-asset/mixin')">
+          打开mixin
+        </el-button>
+        <el-button @click="openFolder('node_modules/@bs/vue-asset/plugin')">
+          打开plugin
+        </el-button>
+        <el-button @click="openFolder('node_modules/@bs/utils/src')">
+          打开utils
+        </el-button>
+      </div>
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="resetForm()">重置</el-button>
