@@ -22,23 +22,6 @@ export const typeList = [
 </el-form>`
       },
       {
-        value: 'bsExtForm',
-        label: 'bs-ext-form',
-        start: `<el-form
-  ref="form"
-  label-width="85px"
-  :model="formData"
-  :disabled="isViewMode"
-  :rules="isViewMode ? null : rules"
->
-  <el-row :gutter="50">\n`,
-        loop: `  <el-col :span="12">
-  <el-form-item label="$label" prop="$prop">$component\t</el-form-item>
-  </el-col>\n`,
-        end: `  </el-row>
-</el-form>`
-      },
-      {
         value: 'tax',
         label: '税务',
         start: `<el-form ref="searchForm" :model="search" label-width="calc(8em + 12px)" @submit.native.prevent>
@@ -76,6 +59,18 @@ export const typeList = [
     </el-col>\n`,
         end: `  </el-row>
 </el-form>`
+      },
+      {
+        value: 'bsExtForm',
+        label: 'bs-ext-form',
+        start: `<bs-ext-form
+  ref="form"
+  label-width="85px"
+  :model="formData"
+  :disabled="isViewMode"
+>\n`,
+        loop: `  <bs-ext-form-item label="$label" prop="$prop">$component\t</bs-ext-form-item>\n`,
+        end: `</bs-ext-form>`
       }
     ]
   }
