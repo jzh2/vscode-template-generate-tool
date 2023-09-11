@@ -59,7 +59,7 @@
           <template #default="{ item, index }">
             <el-form ref="form" label-width="100px" :model="item">
               <el-row>
-                <el-col :span="24">
+                <el-col :span="16">
                   <el-form-item :label="`api${index + 1}类型`">
                     <el-select
                       v-if="globalSettings.simpleMode"
@@ -82,6 +82,11 @@
                       </el-radio-button>
                     </el-radio-group>
                   </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-button type="success" @click="getClipboard(item)">
+                    识别剪切板
+                  </el-button>
                 </el-col>
                 <el-col :span="12">
                   <el-form-item label="使用baseUrl">
@@ -257,6 +262,37 @@ export default {
           this.itemCount--
         })
         .catch(() => {})
+    },
+    async getClipboard(item) {
+      const clipboardItems = await navigator.clipboard.read()
+      if (!clipboardItems[0]) {
+        this.$tip.warning('请复制要识别的文字')
+        return
+      }
+      if (clipboardItems[0].types[0] !== 'text/plain') {
+        this.$tip.warning('复制内容格式有误')
+        return
+      }
+      const text = await navigator.clipboard.readText()
+      const texts = text.trim().split(/\s+/)
+      texts.forEach(item2 => {
+        if (/^(post|get|delete|put)$/i.test(item2)) {
+          item.type = item2.toLowerCase()
+        } else if (/^[\u4e00-\u9fa5]{0,}$/.test(item2)) {
+          item.name = item2
+        } else if (/^(\/[0-9a-zA-Z]+)*$/.test(item2)) {
+          if (item2.startsWith(this.baseUrl + '/')) {
+            item.url = item2.replace(this.baseUrl, '')
+            item.useBaseUrl = 1
+          } else if (item2.startsWith(this.baseUrl2 + '/')) {
+            item.url = item2.replace(this.baseUrl2, '')
+            item.useBaseUrl = 2
+          } else {
+            item.useBaseUrl = 0
+          }
+          this.changeUrl(item)
+        }
+      })
     },
     toCamelCase(url, toUpper = true) {
       if (!url) {
