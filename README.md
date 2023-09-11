@@ -31,7 +31,11 @@
 - 侧边栏表单需要手动打开激活一次才能用快捷键:joy:
 - api 识图暂时不可用，可用第三方软件识别成文字复制后，识别剪切板
 - 切换暗黑模式，codemirror 会错位，重新打开可以恢复
-- 有时候打开空白，右下角提示“加载 Web 视图时出错”。可能是 vscode 问题，需要将所有 vscode 窗口关闭重启。
+- 有时候打开空白，右下角提示“加载 Web 视图时出错”，可能是 vscode 问题，需要将所有 vscode 窗口关闭重启。
+
+TODO
+
+可编辑表格没设置
 
 ## 一、模板生成
 
@@ -119,7 +123,7 @@ A workspace folder is one of potentially many roots opened by the editor. All wo
     - 自带的 log，输入第二次会将 log 作为短语，影响判断
   - async
 
-  | Vue api 类型 | 关键词                            |
+  | Vue 选项类型 | 关键词                            |
   | ------------ | --------------------------------- |
   | 数据         | data/props/computed/methods/watch |
   | 生命周期钩子 | created/mounted                   |

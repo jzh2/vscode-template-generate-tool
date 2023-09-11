@@ -5,7 +5,7 @@
   "version": "1.0.1",
   "publisher": "jzh",
   "icon": "icons/logo.png",
-  "homepage": "https://github.com/jzh2/vscode-template-generate-tool/blob/master/README.md",
+  "homepage": "https://github.com/jzh2/vscode-template-generate-tool/blob/main/README.md",
   "license": "SEE LICENSE IN LICENSE.md",
   "repository": {
     "type": "git",
