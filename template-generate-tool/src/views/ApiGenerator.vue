@@ -288,6 +288,7 @@ export default {
             item.url = item2.replace(this.baseUrl2, '')
             item.useBaseUrl = 2
           } else {
+            item.url = item2
             item.useBaseUrl = 0
           }
           this.changeUrl(item)
