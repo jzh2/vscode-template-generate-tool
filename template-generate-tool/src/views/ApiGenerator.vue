@@ -281,10 +281,10 @@ export default {
         } else if (/^[\u4e00-\u9fa5]{0,}$/.test(item2)) {
           item.name = item2
         } else if (/^(\/[0-9a-zA-Z]+)*$/.test(item2)) {
-          if (item2.startsWith(this.baseUrl + '/')) {
+          if (this.baseUrl && item2.startsWith(this.baseUrl + '/')) {
             item.url = item2.replace(this.baseUrl, '')
             item.useBaseUrl = 1
-          } else if (item2.startsWith(this.baseUrl2 + '/')) {
+          } else if (this.baseUrl2 && item2.startsWith(this.baseUrl2 + '/')) {
             item.url = item2.replace(this.baseUrl2, '')
             item.useBaseUrl = 2
           } else {
