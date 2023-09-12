@@ -60,6 +60,18 @@ export const typeList = [
 </el-form>`
       },
       {
+        value: 'noRowCol',
+        label: '不含row/col',
+        start: `<el-form
+  ref="form"
+  label-width="85px"
+  :model="formData"
+  :disabled="isViewMode"
+>\n`,
+        loop: `  <el-form-item label="$label" prop="$prop">$component\t</el-form-item>\n`,
+        end: `</el-form>`
+      },
+      {
         value: 'bsExtForm',
         label: 'bs-ext-form',
         start: `<bs-ext-form
