@@ -243,6 +243,7 @@ import { blobToBase64 } from '../utils/file'
 import { vscode } from '../utils/vscode'
 import MD5 from 'md5'
 import axios from 'axios'
+import jsonpAdapter from 'axios-jsonp'
 import { typeList } from './constant/TableTypeList'
 import { itemTypeList } from './constant/TableItemTypeList'
 import { ruleTemplate } from './constant/TableTemplates'
@@ -484,9 +485,13 @@ export default {
         )
         this.access_token = data.access_token
       } catch (error) {
-        this.$tip.warning(
-          `调用OCR鉴权接口出错，错误码：${error.response.data.error}，错误描述：${error.response.data.error_description}`
-        )
+        if (error.response.data.error) {
+          this.$tip.warning(
+            `调用OCR鉴权接口出错，错误码：${error.response.data.error}，错误描述：${error.response.data.error_description}`
+          )
+        } else {
+          this.$tip.warning(error)
+        }
       }
     },
     // 文字识别
@@ -532,7 +537,7 @@ export default {
                 )
               }
             } catch (error) {
-              this.$tip.warning('调用OCR识别接口出错')
+              this.$tip.warning(error)
             }
           } else if (text) {
             this.resetList(true)
@@ -580,8 +585,11 @@ export default {
         const salt = new Date().getTime()
         const q = item.label
         const sign = MD5(appid + q + salt + key)
-        const { data } = await axios.get(
-          `http://api.fanyi.baidu.com/api/trans/vip/translate?q=${q}&appid=${appid}&salt=${salt}&from=zh&to=en&sign=${sign}`
+        const { data } = await axios(
+          `http://api.fanyi.baidu.com/api/trans/vip/translate?q=${q}&appid=${appid}&salt=${salt}&from=zh&to=en&sign=${sign}`,
+          {
+            adapter: jsonpAdapter
+          }
         )
         if (data.trans_result) {
           item.prop = this.toLowerCamelCase({
@@ -593,7 +601,7 @@ export default {
           )
         }
       } catch (error) {
-        this.$tip.warning('调用翻译接口出错')
+        this.$tip.warning(error)
       }
     },
     // 转小驼峰
