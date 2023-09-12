@@ -581,7 +581,7 @@ export default {
         const q = item.label
         const sign = MD5(appid + q + salt + key)
         const { data } = await axios.get(
-          `/api/trans/vip/translate?q=${q}&appid=${appid}&salt=${salt}&from=zh&to=en&sign=${sign}`
+          `http://api.fanyi.baidu.com/api/trans/vip/translate?q=${q}&appid=${appid}&salt=${salt}&from=zh&to=en&sign=${sign}`
         )
         if (data.trans_result) {
           item.prop = this.toLowerCamelCase({
