@@ -371,7 +371,8 @@ async function handleMessage(
           'vscode.openFolder',
           vscode.Uri.file(`${workspaceFolders[0].uri.path}\\${message.folder}`),
           {
-            forceNewWindow: true // 新窗口打开
+            noRecentEntry: true,
+            forceNewWindow: true
           }
         )
       }
