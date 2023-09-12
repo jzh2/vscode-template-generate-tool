@@ -51,7 +51,6 @@ export const typeList = [
   label-width="85px"
   :model="formData"
   :disabled="isViewMode"
-  :rules="isViewMode ? null : rules"
 >
   <el-row :gutter="50">\n`,
         loop: `    <el-col :span="12">
