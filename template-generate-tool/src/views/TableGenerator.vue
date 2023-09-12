@@ -44,7 +44,7 @@
             <el-form label-width="100px" :model="item">
               <el-row>
                 <el-col :span="24">
-                  <el-form-item :label="`第${index + 1}列类型`">
+                  <el-form-item :label="`第${index + 1}项类型`">
                     <el-select
                       v-if="globalSettings.simpleMode"
                       v-model="item.type"
@@ -254,6 +254,7 @@ import CopyCodemirror from '../views/components/CopyCodemirror'
 import ChangeCount from '../views/components/ChangeCount'
 const defaultType = 'common'
 const dataListStorage = '@bs/template-generate-tool/tableList'
+const anotherDataListStorage = '@bs/template-generate-tool/formList'
 const customTemplateStorage = '@bs/template-generate-tool/tableCustomTemplate'
 
 export default {
@@ -290,7 +291,6 @@ export default {
     }
   },
   computed: {
-    // 普通表格
     isDefaultType() {
       return this.dataType[0] === defaultType
     }
@@ -436,7 +436,7 @@ export default {
         .warning('是否覆盖已有数据？')
         .then(() => {
           const anotherList = JSON.parse(
-            sessionStorage.getItem('@bs/template-generate-tool/formList')
+            sessionStorage.getItem(anotherDataListStorage)
           )
           if (anotherList) {
             this.changeCount(anotherList.list.length, true)
