@@ -46,17 +46,17 @@ export function activate(context: vscode.ExtensionContext) {
   if (configuration.get('vscode-template-generate-tool.enableDocPanel')) {
     const docDisposable = getDocDisposable(
       '前端文档',
-      'http://172.18.150.201:10012/frontend-docs/pc/dev-env',
+      'http://172.18.166.134:31034/frontend-docs/pc/dev-env',
       context
     )
     const componentDisposable = getDocDisposable(
       '前端组件库',
-      'http://172.18.166.134:31034/frontend-component-doc/index.html#/changelog',
+      'http://172.18.166.134:31034/frontend-component-doc/#/changelog',
       context
     )
     const cssDisposable = getDocDisposable(
       '样式工具类',
-      'http://172.18.150.201:10012/frontend-docs/pc/css-utils',
+      'http://172.18.166.134:31034/frontend-docs/pc/css-utils',
       context
     )
     context.subscriptions.push(
