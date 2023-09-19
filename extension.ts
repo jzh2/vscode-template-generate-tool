@@ -70,6 +70,9 @@ export function activate(context: vscode.ExtensionContext) {
     const webDisposable = getWebDisposable(context)
     context.subscriptions.push(webDisposable)
   }
+
+  const runoobDisposable = getRunoobDisposable()
+  context.subscriptions.push(runoobDisposable)
 }
 
 // 侧边栏实例
@@ -328,6 +331,21 @@ function getDocContent(url: string) {
     </body>
   </html>
   `
+}
+
+// 菜鸟教程搜索
+function getRunoobDisposable() {
+  return vscode.commands.registerCommand(
+    `vscode-template-generate-tool.菜鸟教程搜索`,
+    () => {
+      const editor = vscode.window.activeTextEditor
+      const selection = editor?.selection
+      const selectedText = editor?.document.getText(selection)
+      vscode.env.openExternal(
+        vscode.Uri.parse(`https://www.runoob.com/?s=${selectedText}`)
+      )
+    }
+  )
 }
 
 interface Message {
