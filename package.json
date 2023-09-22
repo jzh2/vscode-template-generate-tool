@@ -85,6 +85,10 @@
       {
         "command": "vscode-template-generate-tool.菜鸟教程搜索",
         "title": "菜鸟教程搜索"
+      },
+      {
+        "command": "vscode-template-generate-tool.Element搜索",
+        "title": "Element搜索"
       }
     ],
     "keybindings": [
@@ -157,6 +161,11 @@
         {
           "command": "vscode-template-generate-tool.菜鸟教程搜索",
           "group": "vscode-template-generate-tool@3",
+          "when": "editorTextFocus && editorHasSelection"
+        },
+        {
+          "command": "vscode-template-generate-tool.Element搜索",
+          "group": "vscode-template-generate-tool@4",
           "when": "editorTextFocus && editorHasSelection"
         }
       ],

@@ -72,7 +72,8 @@ export function activate(context: vscode.ExtensionContext) {
   }
 
   const runoobDisposable = getRunoobDisposable()
-  context.subscriptions.push(runoobDisposable)
+  const elementDisposable = getElementDisposable()
+  context.subscriptions.push(runoobDisposable, elementDisposable)
 }
 
 // 侧边栏实例
@@ -343,6 +344,23 @@ function getRunoobDisposable() {
       const selectedText = editor?.document.getText(selection)
       vscode.env.openExternal(
         vscode.Uri.parse(`https://www.runoob.com/?s=${selectedText}`)
+      )
+    }
+  )
+}
+
+// Element搜索
+function getElementDisposable() {
+  return vscode.commands.registerCommand(
+    `vscode-template-generate-tool.Element搜索`,
+    () => {
+      const editor = vscode.window.activeTextEditor
+      const selection = editor?.selection
+      const selectedText = editor?.document.getText(selection)
+      vscode.env.openExternal(
+        vscode.Uri.parse(
+          `https://element.eleme.cn/#/zh-CN/component/${selectedText}`
+        )
       )
     }
   )
