@@ -2,7 +2,7 @@
   "name": "vscode-template-generate-tool",
   "displayName": "Vscode Template Generate Tool",
   "description": "快速配置prop和label，生成el-form和el-table代码",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "publisher": "jzh",
   "icon": "icons/logo.png",
   "homepage": "https://github.com/jzh2/vscode-template-generate-tool/blob/main/README.md",
@@ -87,6 +87,10 @@
         "title": "菜鸟教程搜索"
       },
       {
+        "command": "vscode-template-generate-tool.MDN搜索",
+        "title": "MDN搜索"
+      },
+      {
         "command": "vscode-template-generate-tool.Element搜索",
         "title": "Element搜索"
       }
@@ -94,47 +98,47 @@
     "keybindings": [
       {
         "command": "vscode-template-generate-tool.打开侧边栏",
-        "key": "ctrl+numpad0",
+        "key": "ctrl+NumPad0",
         "mac": "cmd+alt+0"
       },
       {
         "command": "vscode-template-generate-tool.表单生成",
-        "key": "ctrl+numpad1",
+        "key": "ctrl+NumPad1",
         "mac": "cmd+alt+1"
       },
       {
         "command": "vscode-template-generate-tool.表格生成",
-        "key": "ctrl+numpad2",
+        "key": "ctrl+NumPad2",
         "mac": "cmd+alt+2"
       },
       {
         "command": "vscode-template-generate-tool.API生成",
-        "key": "ctrl+numpad3",
+        "key": "ctrl+NumPad3",
         "mac": "cmd+alt+3"
       },
       {
         "command": "vscode-template-generate-tool.前端文档",
-        "key": "ctrl+numpad4",
+        "key": "ctrl+NumPad4",
         "mac": "cmd+alt+4"
       },
       {
         "command": "vscode-template-generate-tool.前端组件库",
-        "key": "ctrl+numpad5",
+        "key": "ctrl+NumPad5",
         "mac": "cmd+alt+5"
       },
       {
         "command": "vscode-template-generate-tool.样式工具类",
-        "key": "ctrl+numpad6",
+        "key": "ctrl+NumPad6",
         "mac": "cmd+alt+6"
       },
       {
         "command": "vscode-template-generate-tool.新建浏览器页签",
-        "key": "ctrl+numpad7",
+        "key": "ctrl+NumPad7",
         "mac": "cmd+alt+7"
       },
       {
         "command": "vscode-template-generate-tool.设置",
-        "key": "ctrl+numpad8",
+        "key": "ctrl+NumPad8",
         "mac": "cmd+alt+8"
       }
     ],
@@ -164,8 +168,13 @@
           "when": "editorTextFocus && editorHasSelection"
         },
         {
-          "command": "vscode-template-generate-tool.Element搜索",
+          "command": "vscode-template-generate-tool.MDN搜索",
           "group": "vscode-template-generate-tool@4",
+          "when": "editorTextFocus && editorHasSelection"
+        },
+        {
+          "command": "vscode-template-generate-tool.Element搜索",
+          "group": "vscode-template-generate-tool@5",
           "when": "editorTextFocus && editorHasSelection"
         }
       ],
