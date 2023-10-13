@@ -751,7 +751,7 @@ export default {
         const bsOptionType = ['bsSelect', 'bsRadio', 'bsCheckbox'].includes(
           type
         )
-        const elOptionType = ['elSelect', 'elEadio', 'elCheckbox'].includes(
+        const elOptionType = ['elSelect', 'elRadio', 'elCheckbox'].includes(
           type
         )
         let optionsContent = ''
@@ -824,7 +824,7 @@ export default {
         const bsOptionType = ['bsSelect', 'bsRadio', 'bsCheckbox'].includes(
           type
         )
-        const elOptionType = ['elSelect', 'elEadio', 'elCheckbox'].includes(
+        const elOptionType = ['elSelect', 'elRadio', 'elCheckbox'].includes(
           type
         )
         if (bsOptionType || elOptionType) {
