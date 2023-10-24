@@ -83,7 +83,7 @@
                       v-model.trim="item.label"
                       :placeholder="`label${index + 1}`"
                       clearable
-                      @change="autoTranslate(item)"
+                      @change="autoTranslate(item, index)"
                     />
                   </el-form-item>
                 </el-col>
@@ -102,7 +102,7 @@
                       v-model="item.prop"
                       :placeholder="`prop${index + 1}`"
                       clearable
-                      @change="toLowerCamelCase(item)"
+                      @change="toLowerCamelCase(item, index)"
                     />
                   </el-form-item>
                 </el-col>
@@ -259,7 +259,7 @@
             </el-button>
           </template>
         </copy-codemirror>
-        <div class="codemirrors">
+        <div class="code-mirrors">
           <copy-codemirror
             title="data数据"
             :str="dataStr"
@@ -571,9 +571,9 @@ export default {
                     this.dataList[index].label = item.words
                   }
                 })
-                this.dataList.forEach(item => {
+                this.dataList.forEach((item, index) => {
                   if (!item.prop) {
-                    this.autoTranslate(item)
+                    this.autoTranslate(item, index)
                   }
                 })
               } else {
@@ -597,9 +597,9 @@ export default {
                 this.dataList[index].label = item
               }
             })
-            this.dataList.forEach(item => {
+            this.dataList.forEach((item, index) => {
               if (!item.prop) {
-                this.autoTranslate(item)
+                this.autoTranslate(item, index)
               }
             })
           }
@@ -614,7 +614,7 @@ export default {
       })
     },
     // 自动翻译
-    async autoTranslate(item) {
+    async autoTranslate(item, index) {
       const { enableAutoTranslate, translateAppid, translateKey } =
         this.globalSettings
       if (!enableAutoTranslate || !item.label) {
@@ -637,9 +637,12 @@ export default {
           }
         )
         if (data.trans_result) {
-          item.prop = this.toLowerCamelCase({
-            prop: data.trans_result[0]?.dst
-          })
+          item.prop = this.toLowerCamelCase(
+            {
+              prop: data.trans_result[0]?.dst
+            },
+            index
+          )
         } else {
           this.$tip.warning(
             `调用翻译接口出错，错误码：${data.error_code}，错误描述：${data.error_msg}，详情见 http://api.fanyi.baidu.com/doc/21`
@@ -650,12 +653,12 @@ export default {
       }
     },
     // 转小驼峰
-    toLowerCamelCase(item) {
+    toLowerCamelCase(item, index) {
       if (!item.prop) {
         return item.prop
       }
       if (!/^[A-Za-z\s][A-Za-z0-9\s]*$/.test(item.prop)) {
-        this.$tip.warning('prop格式错误')
+        this.$tip.warning(`第${index + 1}项prop格式错误`)
       }
       const words = item.prop.trim().split(/\s+/)
       let lowerCamelCase = ''
@@ -882,7 +885,7 @@ export default {
 
 <style lang="scss" scoped>
 .form-generator {
-  .codemirrors {
+  .code-mirrors {
     margin-top: 10px;
     display: flex;
     justify-content: space-between;
