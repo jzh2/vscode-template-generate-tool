@@ -66,7 +66,6 @@ export const typeList = [
         loop: `  <el-table-column
     prop="$prop"
     label="$label"
-    width="$width"
     align="$align"
     show-overflow-tooltip
   />\n`,
@@ -107,7 +106,6 @@ export const typeList = [
         loop: `  <el-table-column
     prop="$prop"
     label="$label"
-    width="$width"
     align="$align"
     show-overflow-tooltip
   >$component</el-table-column>\n`,
@@ -155,7 +153,6 @@ export const typeList = [
         loop: `  <el-table-column
     prop="$prop"
     label="$label"
-    width="$width"
     show-overflow-tooltip
   >$component</el-table-column>\n`,
         end: `  <el-table-column
