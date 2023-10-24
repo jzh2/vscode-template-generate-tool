@@ -417,7 +417,8 @@ export default {
       return deepClone({
         ...this.itemTypeList[0],
         label: '',
-        prop: ''
+        prop: '',
+        enableRules: false
       })
     },
     addItem(index) {
@@ -457,15 +458,15 @@ export default {
         .catch(() => {})
     },
     changeType(item, index) {
-      const label = item.label
-      const prop = item.prop
+      const { label, prop, enableRules } = item
       const t = deepClone(
         this.itemTypeList.find(item2 => item2.type === item.type)
       )
       this.$set(this.dataList, index, {
         ...t,
         label,
-        prop
+        prop,
+        enableRules
       })
     },
     // 更多校验规则

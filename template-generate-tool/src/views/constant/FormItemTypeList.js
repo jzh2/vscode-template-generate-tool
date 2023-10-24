@@ -5,7 +5,6 @@ export const itemTypeList = [
     componentName: 'el-input',
     attributeList: ['clearable'],
     options: {},
-    enableRules: false,
     rules: {
       required: true,
       trigger: 'blur',
@@ -19,7 +18,6 @@ export const itemTypeList = [
     componentName: 'el-input',
     attributeList: ['show-word-limit', 'maxlength="50"', 'type="textarea"'],
     options: {},
-    enableRules: false,
     rules: {
       required: true,
       trigger: 'blur',
@@ -39,7 +37,6 @@ export const itemTypeList = [
         { value: '', label: '' }
       ]
     },
-    enableRules: false,
     rules: {
       required: true,
       trigger: 'change',
@@ -62,7 +59,6 @@ export const itemTypeList = [
         { value: '', label: '' }
       ]
     },
-    enableRules: false,
     rules: {
       required: true,
       trigger: 'change',
@@ -83,7 +79,6 @@ export const itemTypeList = [
       // 通常会在搜索栏出现，所以直接用search
     ],
     options: {},
-    enableRules: false,
     rules: {
       required: true,
       trigger: 'change',
@@ -97,7 +92,6 @@ export const itemTypeList = [
     componentName: 'bs-amount-input',
     attributeList: [],
     options: {},
-    enableRules: false,
     rules: {
       required: true,
       trigger: 'blur',
@@ -111,7 +105,6 @@ export const itemTypeList = [
     componentName: 'bs-amount-input',
     attributeList: [':precision="2"'],
     options: {},
-    enableRules: false,
     rules: {
       required: true,
       trigger: 'blur',
@@ -132,7 +125,6 @@ export const itemTypeList = [
         { value: '', label: '' }
       ]
     },
-    enableRules: false,
     rules: {
       required: true,
       trigger: 'change',
@@ -155,7 +147,6 @@ export const itemTypeList = [
         { value: '', label: '' }
       ]
     },
-    enableRules: false,
     rules: {
       required: true,
       trigger: 'change',
@@ -175,7 +166,6 @@ export const itemTypeList = [
         { value: '', label: '' }
       ]
     },
-    enableRules: false,
     rules: {
       required: true,
       trigger: 'change',
@@ -198,7 +188,6 @@ export const itemTypeList = [
         { value: '', label: '' }
       ]
     },
-    enableRules: false,
     rules: {
       required: true,
       trigger: 'change',

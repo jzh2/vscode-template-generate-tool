@@ -372,7 +372,10 @@ export default {
       return deepClone({
         ...this.itemTypeList[0],
         label: '',
-        prop: ''
+        prop: '',
+        enableCustomContent: false,
+        enableEditableContent: false,
+        enableRules: false
       })
     },
     addItem(index) {
@@ -412,15 +415,21 @@ export default {
         .catch(() => {})
     },
     changeType(item, index) {
-      const label = item.label
-      const prop = item.prop
+      const { label, prop, enableEditableContent, enableRules } = item
+      let { enableCustomContent } = item
+      if (['enum', 'number', 'amount'].includes(item.type)) {
+        enableCustomContent = true
+      }
       const t = deepClone(
         this.itemTypeList.find(item2 => item2.type === item.type)
       )
       this.$set(this.dataList, index, {
         ...t,
         label,
-        prop
+        prop,
+        enableCustomContent,
+        enableEditableContent,
+        enableRules
       })
     },
     // 更多校验规则
