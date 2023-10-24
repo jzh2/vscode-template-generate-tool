@@ -72,8 +72,8 @@ export const typeList = [
         end: `</el-form>`
       },
       {
-        value: 'bsExtForm',
-        label: 'bs-ext-form',
+        value: 'bsExtForm1',
+        label: 'bs-ext-form(一列)',
         start: `<bs-ext-form
   ref="form"
   label-width="85px"
@@ -81,6 +81,18 @@ export const typeList = [
   :disabled="isViewMode"
 >\n`,
         loop: `  <bs-ext-form-item label="$label" prop="$prop">$component\t</bs-ext-form-item>\n`,
+        end: `</bs-ext-form>`
+      },
+      {
+        value: 'bsExtForm2',
+        label: 'bs-ext-form(两列)',
+        start: `<bs-ext-form
+  ref="form"
+  label-width="85px"
+  :model="formData"
+  :disabled="isViewMode"
+>\n`,
+        loop: `  <bs-ext-form-item label="$label" prop="$prop" :span="12">$component\t</bs-ext-form-item>\n`,
         end: `</bs-ext-form>`
       }
     ]
