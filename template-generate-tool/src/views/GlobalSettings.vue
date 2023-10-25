@@ -64,7 +64,7 @@
         自定义模板
       </el-button>
     </el-form-item>
-    <el-form-item label="OCR" prop="enableOCR">
+    <!-- <el-form-item label="OCR" prop="enableOCR">
       <el-switch
         v-model="globalSettings.enableOCR"
         @change="changeSettings()"
@@ -83,7 +83,7 @@
           @change="changeSettings()"
         />
       </el-form-item>
-    </template>
+    </template> -->
     <el-form-item label="翻译" prop="enableAutoTranslate">
       <el-switch
         v-model="globalSettings.enableAutoTranslate"
