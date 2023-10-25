@@ -604,9 +604,11 @@ export default {
         type = 'date'
       } else if (/状态|类型|是否/.test(label)) {
         type = 'enum'
+      } else if (/名称|备注/.test(label)) {
+        type = 'longText'
       } else if (/金额|价/.test(label)) {
         type = 'amount'
-      } else if (/数量|号|码|手机|电话/.test(label)) {
+      } else if (/数|量/.test(label)) {
         type = 'number'
       }
       if (type) {
