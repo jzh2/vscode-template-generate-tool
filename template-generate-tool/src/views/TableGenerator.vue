@@ -78,7 +78,7 @@
                       v-model.trim="item.label"
                       :placeholder="`label${index + 1}`"
                       clearable
-                      @change="autoTranslate(item, index)"
+                      @change="changeLabel(item, index)"
                     />
                   </el-form-item>
                 </el-col>
@@ -536,9 +536,7 @@ export default {
                   }
                 })
                 this.dataList.forEach((item, index) => {
-                  if (!item.prop) {
-                    this.autoTranslate(item, index)
-                  }
+                  this.changeLabel(item, index)
                 })
               } else {
                 this.$tip.warning(
@@ -562,9 +560,7 @@ export default {
               }
             })
             this.dataList.forEach((item, index) => {
-              if (!item.prop) {
-                this.autoTranslate(item, index)
-              }
+              this.changeLabel(item, index)
             })
           }
         })
@@ -577,8 +573,8 @@ export default {
         website: `https://fanyi.baidu.com/#zh/en/${zh}`
       })
     },
-    // 自动翻译
-    async autoTranslate(item, index) {
+    // 自动翻译，自动判断类型
+    async changeLabel(item, index) {
       const { enableAutoTranslate, translateAppid, translateKey } =
         this.globalSettings
       if (!enableAutoTranslate || !item.label) {
@@ -588,6 +584,7 @@ export default {
         this.$tip.warning('请在设置中输入APP ID和密钥或关闭自动翻译')
         return
       }
+      let { prop } = item
       try {
         const appid = translateAppid
         const key = translateKey
@@ -601,7 +598,7 @@ export default {
           }
         )
         if (data.trans_result) {
-          item.prop = this.toLowerCamelCase(
+          prop = this.toLowerCamelCase(
             {
               prop: data.trans_result[0]?.dst
             },
@@ -614,6 +611,27 @@ export default {
         }
       } catch (error) {
         this.$tip.warning(error)
+      }
+      const { label } = item
+      let type
+      if (/日期|时间/.test(label)) {
+        type = 'date'
+      } else if (/状态|类型|是否/.test(label)) {
+        type = 'enum'
+      } else if (/金额|价/.test(label)) {
+        type = 'amount'
+      } else if (/号|码|手机|电话/.test(label)) {
+        type = 'number'
+      }
+      if (type) {
+        this.changeType(
+          {
+            ...item,
+            prop,
+            type
+          },
+          index
+        )
       }
     },
     // 转小驼峰
