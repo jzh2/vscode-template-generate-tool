@@ -707,6 +707,7 @@ export default {
           enableCustomContent,
           enableEditableContent,
           editableContentType,
+          enableRules,
           formatter,
           width,
           align
@@ -729,8 +730,9 @@ export default {
             ).template
           component = `\n\t\t<el-form-item
       v-if="row.editable"
-      :prop="'rows.' + $index + '.${prop}'"
-      :rules="rules.${prop}"
+      :prop="'rows.' + $index + '.${prop}'"${
+        enableRules ? `\n\t\t\t:rules="rules.${prop}"` : ''
+      }
     >
       ${component.replace('field', prop)}
     </el-form-item>
