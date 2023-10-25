@@ -620,7 +620,7 @@ export default {
         type = 'enum'
       } else if (/金额|价/.test(label)) {
         type = 'amount'
-      } else if (/号|码|手机|电话/.test(label)) {
+      } else if (/数量|号|码|手机|电话/.test(label)) {
         type = 'number'
       }
       if (type) {
