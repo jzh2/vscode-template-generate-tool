@@ -704,8 +704,8 @@ export default {
       dataList.forEach((item, index) => {
         const {
           type,
-          enableEditableContent,
           enableCustomContent,
+          enableEditableContent,
           editableContentType,
           formatter,
           width,
@@ -727,7 +727,14 @@ export default {
             .children.find(
               item3 => item3.value === editableContentType[1]
             ).template
-          component = `\n\t\t${component.replace('field', prop)}\n\t`
+          component = `\n\t\t<el-form-item
+      v-if="row.editable"
+      :prop="'rows.' + $index + '.${prop}'"
+      :rules="rules.${prop}"
+    >
+      ${component.replace('field', prop)}
+    </el-form-item>
+    <template v-else>{{ row.${prop} }}</template>\n\t`
         } else if (enableCustomContent) {
           if (type === 'select') {
             component += `\n\t\t<template v-if="row.${prop} === 1">1</template>`

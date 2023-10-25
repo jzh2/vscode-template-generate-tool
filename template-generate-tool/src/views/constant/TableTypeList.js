@@ -44,7 +44,7 @@ export const typeList = [
       },
       {
         value: 'selection',
-        label: '多选',
+        label: '多选(selection-change)',
         start: `<el-table
   ref="table"
   v-loading="grid.loading"
@@ -126,9 +126,46 @@ export const typeList = [
       {
         value: 'tax',
         label: '税务',
-        start: ``,
-        loop: ``,
-        end: ``
+        start: `<el-table
+  ref="table"
+  v-loading="grid.loading"
+  :data="grid.rows"
+  :height="grid.height"
+  highlight-current-row
+  @row-dblclick="row => onView(row)"
+  @current-change="row => (grid.currentRow = row)"
+  @selection-change="val => (grid.selectedRows = val)"
+>
+  <el-table-column type="selection" :width="uiSetting.table.checkbox" />
+  <el-table-column
+    type="index"
+    :width="uiSetting.table.index"
+    label="序号"
+    :index="sequence"
+  />\n`,
+        loop: ` <el-table-column
+    prop="$prop"
+    label="$label"
+    show-overflow-tooltip
+  >$component</el-table-column>\n`,
+        end: `  <el-table-column
+    #default="{ row }"
+    fixed="right"
+    width="200"
+    label="操作"
+    class-name="func-column"
+  >
+    <el-link type="primary" :underline="false" @click="onView(row)">
+      详情
+    </el-link>
+    <el-link type="primary" :underline="false" @click="onUpdate(row)">
+      编辑
+    </el-link>
+    <el-link type="primary" :underline="false" @click="onDelete(row)">
+      删除
+    </el-link>
+  </el-table-column>
+</el-table>`
       }
     ]
   },
