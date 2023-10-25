@@ -526,14 +526,7 @@ export default {
                 this.resetList(true)
                 this.changeCount(data.words_result_num, true)
                 data.words_result.forEach((item, index) => {
-                  const hasAsterisk = item.words.startsWith('*')
-                  if (hasAsterisk) {
-                    this.dataList[index].label = item.words.slice(1)
-                    this.dataList[index].enableRules = true
-                    this.enableRules = true
-                  } else {
-                    this.dataList[index].label = item.words
-                  }
+                  this.dataList[index].label = item.words
                 })
                 this.dataList.forEach((item, index) => {
                   this.changeLabel(item, index)
@@ -550,14 +543,7 @@ export default {
             this.resetList(true)
             this.changeCount(text.length, true)
             text.forEach((item, index) => {
-              const hasAsterisk = item.startsWith('*')
-              if (hasAsterisk) {
-                this.dataList[index].label = item.slice(1)
-                this.dataList[index].enableRules = true
-                this.enableRules = true
-              } else {
-                this.dataList[index].label = item
-              }
+              this.dataList[index].label = item
             })
             this.dataList.forEach((item, index) => {
               this.changeLabel(item, index)
