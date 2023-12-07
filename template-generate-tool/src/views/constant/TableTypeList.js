@@ -124,6 +124,75 @@ export const typeList = [
 </el-table>`
       },
       {
+        value: 'operation',
+        label: '运营',
+        start: `<el-table
+  ref="table"
+  v-loading="grid.loading"
+  border
+  stripe
+  :data="grid.rows"
+  :height="grid.height"
+  highlight-current-row
+  @header-dragend="tableDoLayout"
+  @row-dblclick="row => onView(row)"
+  @current-change="row => (grid.currentRow = row)"
+  @selection-change="val => (grid.selectedRows = val)"
+>
+  <el-table-column
+    type="selection"
+    align="center"
+    :width="uiSetting.table.checkbox"
+  />
+  <el-table-column
+    type="index"
+    align="center"
+    :width="uiSetting.table.index"
+    label="序号"
+    :index="sequence"
+  />\n`,
+        loop: `  <el-table-column
+    prop="$prop"
+    label="$label"
+    align="$align"
+    show-overflow-tooltip
+  >$component</el-table-column>\n`,
+        end: `  <el-table-column
+    #default="{ row }"
+    align="center"
+    fixed="right"
+    width="200"
+    label="操作"
+    class-name="func-column"
+  >
+    <el-tooltip
+      effect="light"
+      content="查看"
+      :enterable="false"
+      placement="bottom-start"
+    >
+      <el-link :icon="uiSetting.icon.view" @click="onView(row)" />
+    </el-tooltip>
+    <el-tooltip
+      effect="light"
+      content="编辑"
+      :enterable="false"
+      placement="bottom-start"
+    >
+      <el-link :icon="uiSetting.icon.edit" @click="onUpdate(row)" />
+    </el-tooltip>
+    <el-tooltip
+      effect="light"
+      content="删除"
+      :enterable="false"
+      placement="bottom-start"
+    >
+      <el-link :icon="uiSetting.icon.delete" @click="onDelete(row)" />
+    </el-tooltip>
+  </el-table-column>
+</el-table>`
+      },
+      {
         value: 'tax',
         label: '税务',
         start: `<el-table

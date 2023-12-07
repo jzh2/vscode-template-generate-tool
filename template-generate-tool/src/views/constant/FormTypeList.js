@@ -22,6 +22,31 @@ export const typeList = [
 </el-form>`
       },
       {
+        value: 'operation',
+        label: '运营',
+        start: `<el-form ref="searchForm" inline :model="search" @submit.native.prevent>\n`,
+        loop: `  <el-form-item prop="$prop" label="$label">$component\t</el-form-item>\n`,
+        end: `  <el-form-item>
+    <el-button
+      type="primary"
+      :icon="uiSetting.icon.search"
+      @click="onQuery()"
+    >
+      查询
+    </el-button>
+    <el-button
+      :icon="uiSetting.icon.reset"
+      @click="
+        $refs.searchForm.resetFields()
+        onQuery()
+      "
+    >
+      重置
+    </el-button>
+  </el-form-item>
+</el-form>`
+      },
+      {
         value: 'tax',
         label: '税务',
         start: `<el-form ref="searchForm" :model="search" label-width="calc(8em + 12px)" @submit.native.prevent>

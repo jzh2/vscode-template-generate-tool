@@ -73,7 +73,15 @@
                   </el-form-item>
                 </el-col>
                 <el-col :span="globalSettings.simpleMode ? 12 : 11">
-                  <el-form-item label="label">
+                  <el-form-item>
+                    <template #label>
+                      <div
+                        style="cursor: pointer"
+                        @click="fillClipboardText('label', index)"
+                      >
+                        label
+                      </div>
+                    </template>
                     <el-input
                       v-model.trim="item.label"
                       :placeholder="`label${index + 1}`"
@@ -92,7 +100,15 @@
                   </el-button>
                 </el-col>
                 <el-col :span="globalSettings.simpleMode ? 12 : 11">
-                  <el-form-item label="prop">
+                  <el-form-item>
+                    <template #label>
+                      <div
+                        style="cursor: pointer"
+                        @click="fillClipboardText('prop', index)"
+                      >
+                        prop
+                      </div>
+                    </template>
                     <el-input
                       v-model="item.prop"
                       :placeholder="`prop${index + 1}`"
@@ -448,6 +464,7 @@ export default {
             sessionStorage.getItem(anotherDataListStorage)
           )
           if (anotherList) {
+            this.resetList(true)
             this.changeCount(anotherList.list.length, true)
             anotherList.list.forEach((item, index) => {
               this.dataList[index].prop = item.prop
@@ -559,44 +576,10 @@ export default {
         website: `https://fanyi.baidu.com/#zh/en/${zh}`
       })
     },
-    // 自动翻译，自动判断类型
+    // 自动判断类型，自动翻译
     async changeLabel(item, index) {
-      const { enableAutoTranslate, translateAppid, translateKey } =
-        this.globalSettings
-      if (!enableAutoTranslate || !item.label) {
+      if (!item.label) {
         return
-      }
-      if (!translateAppid || !translateKey) {
-        this.$tip.warning('请在设置中输入APP ID和密钥或关闭自动翻译')
-        return
-      }
-      let { prop } = item
-      try {
-        const appid = translateAppid
-        const key = translateKey
-        const salt = new Date().getTime()
-        const q = item.label
-        const sign = MD5(appid + q + salt + key)
-        const { data } = await axios(
-          `http://api.fanyi.baidu.com/api/trans/vip/translate?q=${q}&appid=${appid}&salt=${salt}&from=zh&to=en&sign=${sign}`,
-          {
-            adapter: jsonpAdapter
-          }
-        )
-        if (data.trans_result) {
-          prop = this.toLowerCamelCase(
-            {
-              prop: data.trans_result[0]?.dst
-            },
-            index
-          )
-        } else {
-          this.$tip.warning(
-            `调用翻译接口出错，错误码：${data.error_code}，错误描述：${data.error_msg}，详情见 http://api.fanyi.baidu.com/doc/21`
-          )
-        }
-      } catch (error) {
-        this.$tip.warning(error)
       }
       const { label } = item
       let type
@@ -615,11 +598,46 @@ export default {
         this.changeType(
           {
             ...item,
-            prop,
             type
           },
           index
         )
+      }
+      const { enableAutoTranslate, translateAppid, translateKey } =
+        this.globalSettings
+      if (!enableAutoTranslate) {
+        return
+      }
+      if (!translateAppid || !translateKey) {
+        this.$tip.warning('请在设置中输入APP ID和密钥或关闭自动翻译')
+        return
+      }
+      try {
+        const appid = translateAppid
+        const key = translateKey
+        const salt = new Date().getTime()
+        const q = item.label
+        const sign = MD5(appid + q + salt + key)
+        const { data } = await axios(
+          `http://api.fanyi.baidu.com/api/trans/vip/translate?q=${q}&appid=${appid}&salt=${salt}&from=zh&to=en&sign=${sign}`,
+          {
+            adapter: jsonpAdapter
+          }
+        )
+        if (data.trans_result) {
+          this.dataList[index].prop = this.toLowerCamelCase(
+            {
+              prop: data.trans_result[0]?.dst
+            },
+            index
+          )
+        } else {
+          this.$tip.warning(
+            `调用翻译接口出错，错误码：${data.error_code}，错误描述：${data.error_msg}，详情见 http://api.fanyi.baidu.com/doc/21`
+          )
+        }
+      } catch (error) {
+        this.$tip.warning(error)
       }
     },
     // 转小驼峰
@@ -675,6 +693,25 @@ export default {
         })
       }
     },
+    // 填入剪切板文字
+    async fillClipboardText(type, index) {
+      const clipboardItems = await navigator.clipboard.read()
+      if (!clipboardItems[0]) {
+        this.$tip.warning('请复制要输入的文字')
+        return
+      }
+      if (clipboardItems[0].types[0] === 'text/plain') {
+        const text = await navigator.clipboard.readText()
+        this.dataList[index][type] = text
+        if (type === 'label') {
+          this.changeLabel(this.dataList[index], index)
+        } else if (type === 'prop') {
+          this.toLowerCamelCase(this.dataList[index], index)
+        }
+      } else {
+        this.$tip.warning('请复制文字')
+      }
+    },
 
     // 结果
     calcStr() {
@@ -722,7 +759,7 @@ export default {
         enableRules ? `\n\t\t\t:rules="rules.${prop}"` : ''
       }
     >
-      ${component.replace('field', prop)}
+    ${component.replace('field', prop)}
     </el-form-item>
     <template v-else>{{ row.${prop} }}</template>\n\t`
         } else if (enableCustomContent) {

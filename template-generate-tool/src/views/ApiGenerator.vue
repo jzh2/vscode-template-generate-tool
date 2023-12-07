@@ -16,7 +16,15 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="baseUrl">
+              <el-form-item>
+                <template #label>
+                  <div
+                    style="cursor: pointer"
+                    @click="globalFillClipboardText('baseUrl')"
+                  >
+                    baseUrl
+                  </div>
+                </template>
                 <el-input
                   v-model="baseUrl"
                   clearable
@@ -25,7 +33,15 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="baseUrl2">
+              <el-form-item>
+                <template #label>
+                  <div
+                    style="cursor: pointer"
+                    @click="globalFillClipboardText('baseUrl2')"
+                  >
+                    baseUrl2
+                  </div>
+                </template>
                 <el-input
                   v-model="baseUrl2"
                   clearable
@@ -34,7 +50,15 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="method前缀">
+              <el-form-item>
+                <template #label>
+                  <div
+                    style="cursor: pointer"
+                    @click="globalFillClipboardText('methodPrefix')"
+                  >
+                    methodPrefix
+                  </div>
+                </template>
                 <el-input
                   v-model="methodPrefix"
                   clearable
@@ -43,7 +67,15 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="category">
+              <el-form-item>
+                <template #label>
+                  <div
+                    style="cursor: pointer"
+                    @click="globalFillClipboardText('category')"
+                  >
+                    category
+                  </div>
+                </template>
                 <el-input v-model="category" clearable @change="calcStr()" />
               </el-form-item>
             </el-col>
@@ -103,12 +135,28 @@
                   </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                  <el-form-item label="name">
+                  <el-form-item>
+                    <template #label>
+                      <div
+                        style="cursor: pointer"
+                        @click="fillClipboardText('name', index)"
+                      >
+                        name
+                      </div>
+                    </template>
                     <el-input v-model.trim="item.name" clearable />
                   </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                  <el-form-item label="url">
+                  <el-form-item>
+                    <template #label>
+                      <div
+                        style="cursor: pointer"
+                        @click="fillClipboardText('url', index)"
+                      >
+                        url
+                      </div>
+                    </template>
                     <el-input
                       v-model="item.url"
                       clearable
@@ -117,7 +165,15 @@
                   </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                  <el-form-item label="method">
+                  <el-form-item>
+                    <template #label>
+                      <div
+                        style="cursor: pointer"
+                        @click="fillClipboardText('method', index)"
+                      >
+                        method
+                      </div>
+                    </template>
                     <el-input v-model="item.method" clearable />
                   </el-form-item>
                 </el-col>
@@ -333,6 +389,48 @@ export default {
     checkUrl(url) {
       if (!/^(\/[0-9a-zA-Z]+)*$/.test(url)) {
         this.$tip.warning('url格式不正确')
+      }
+    },
+    // 全局设置填入剪切板文字
+    async globalFillClipboardText(type) {
+      const clipboardItems = await navigator.clipboard.read()
+      if (!clipboardItems[0]) {
+        this.$tip.warning('请复制要输入的文字')
+        return
+      }
+      if (clipboardItems[0].types[0] === 'text/plain') {
+        const text = await navigator.clipboard.readText()
+        this[type] = text
+        if (type === 'baseUrl') {
+          this.checkUrl(text)
+          this.changeBaseUrl()
+        } else if (type === 'baseUrl2') {
+          this.checkUrl(text)
+          this.calcStr()
+        } else if (type === 'methodPrefix') {
+          this.changeMethodPrefix()
+        } else if (type === 'category') {
+          this.calcStr()
+        }
+      } else {
+        this.$tip.warning('请复制文字')
+      }
+    },
+    // 数据项填入剪切板文字
+    async fillClipboardText(type, index) {
+      const clipboardItems = await navigator.clipboard.read()
+      if (!clipboardItems[0]) {
+        this.$tip.warning('请复制要输入的文字')
+        return
+      }
+      if (clipboardItems[0].types[0] === 'text/plain') {
+        const text = await navigator.clipboard.readText()
+        this.dataList[index][type] = text
+        if (type === 'url') {
+          this.checkUrl(text)
+        }
+      } else {
+        this.$tip.warning('请复制文字')
       }
     },
 
