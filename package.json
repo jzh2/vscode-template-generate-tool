@@ -2,7 +2,7 @@
   "name": "vscode-template-generate-tool",
   "displayName": "Vscode Template Generate Tool",
   "description": "快速配置prop和label，生成el-form和el-table代码",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "publisher": "jzh",
   "icon": "icons/logo.png",
   "homepage": "https://github.com/jzh2/vscode-template-generate-tool/blob/main/README.md",
@@ -46,6 +46,30 @@
       ]
     },
     "commands": [
+      {
+        "command": "vscode-template-generate-tool.npmRunServe",
+        "title": "npm run serve"
+      },
+      {
+        "command": "vscode-template-generate-tool.npmRunBuild",
+        "title": "npm run build"
+      },
+      {
+        "command": "vscode-template-generate-tool.npmRunPublish",
+        "title": "npm run publish"
+      },
+      {
+        "command": "vscode-template-generate-tool.customTerminal1",
+        "title": "自定义命令1"
+      },
+      {
+        "command": "vscode-template-generate-tool.customTerminal2",
+        "title": "自定义命令2"
+      },
+      {
+        "command": "vscode-template-generate-tool.customTerminal3",
+        "title": "自定义命令3"
+      },
       {
         "command": "vscode-template-generate-tool.打开侧边栏",
         "title": "打开侧边栏"
@@ -144,6 +168,10 @@
     ],
     "submenus": [
       {
+        "id": "vscode-template-generate-tool.terminal",
+        "label": "终端"
+      },
+      {
         "id": "vscode-template-generate-tool.generate",
         "label": "模板生成"
       },
@@ -153,6 +181,18 @@
       }
     ],
     "menus": {
+      "explorer/context": [
+        {
+          "when": "explorerResourceIsFolder",
+          "command": "vscode-template-generate-tool.npmRunServe",
+          "group": "navigation@21"
+        },
+        {
+          "submenu": "vscode-template-generate-tool.terminal",
+          "when": "explorerResourceIsFolder",
+          "group": "navigation@22"
+        }
+      ],
       "editor/context": [
         {
           "submenu": "vscode-template-generate-tool.generate",
@@ -176,6 +216,28 @@
           "command": "vscode-template-generate-tool.Element搜索",
           "group": "vscode-template-generate-tool@5",
           "when": "editorTextFocus && editorHasSelection"
+        }
+      ],
+      "vscode-template-generate-tool.terminal": [
+        {
+          "command": "vscode-template-generate-tool.npmRunBuild",
+          "group": "vscode-template-generate-tool@1"
+        },
+        {
+          "command": "vscode-template-generate-tool.npmRunPublish",
+          "group": "vscode-template-generate-tool@2"
+        },
+        {
+          "command": "vscode-template-generate-tool.customTerminal1",
+          "group": "vscode-template-generate-tool@3"
+        },
+        {
+          "command": "vscode-template-generate-tool.customTerminal2",
+          "group": "vscode-template-generate-tool@4"
+        },
+        {
+          "command": "vscode-template-generate-tool.customTerminal3",
+          "group": "vscode-template-generate-tool@5"
         }
       ],
       "vscode-template-generate-tool.generate": [
@@ -233,25 +295,17 @@
       {
         "title": "Vscode Template Generate Tool",
         "properties": {
-          "vscode-template-generate-tool.enableSidebar": {
-            "type": "boolean",
-            "default": true,
-            "description": "是否启用侧面板"
+          "vscode-template-generate-tool.customTerminal1": {
+            "type": "string",
+            "description": "自定义命令1"
           },
-          "vscode-template-generate-tool.enableGeneratePanel": {
-            "type": "boolean",
-            "default": true,
-            "description": "是否启用工具面板"
+          "vscode-template-generate-tool.customTerminal2": {
+            "type": "string",
+            "description": "自定义命令2"
           },
-          "vscode-template-generate-tool.enableDocPanel": {
-            "type": "boolean",
-            "default": true,
-            "description": "是否启用文档面板"
-          },
-          "vscode-template-generate-tool.enableWebPanel": {
-            "type": "boolean",
-            "default": true,
-            "description": "是否启用浏览器面板"
+          "vscode-template-generate-tool.customTerminal3": {
+            "type": "string",
+            "description": "自定义命令3"
           }
         }
       }

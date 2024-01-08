@@ -4,77 +4,136 @@ let generateWebviewView: vscode.WebviewView | null
 let generateWebviewViewProvider: vscode.WebviewViewProvider | null
 
 export function activate(context: vscode.ExtensionContext) {
-  const configuration = vscode.workspace.getConfiguration()
-  if (configuration.get('vscode-template-generate-tool.enableSidebar')) {
-    // 注册生成侧边栏
-    generateWebviewViewProvider = new GenerateWebviewViewProvider(context)
-    const generateSidebarProviderDisposable =
-      vscode.window.registerWebviewViewProvider(
-        'vscode-template-generate-tool.generate-webview',
-        generateWebviewViewProvider,
-        {
-          webviewOptions: {
-            retainContextWhenHidden: true
-          }
+  // 注册终端命令
+  const npmRunServeDisposable = getTerminalDisposable(
+    'npmRunServe',
+    'npm run serve'
+  )
+  const npmRunBuildDisposable = getTerminalDisposable(
+    'npmRunBuild',
+    'npm run build'
+  )
+  const npmRunPublishDisposable = getTerminalDisposable(
+    'npmRunPublish',
+    'npm run publish'
+  )
+  context.subscriptions.push(
+    npmRunServeDisposable,
+    npmRunBuildDisposable,
+    npmRunPublishDisposable
+  )
+  // 注册自定义终端命令
+  for (let i = 1; i <= 3; i++) {
+    const customTerminalDisposable = getTerminalDisposable(
+      `customTerminal${i}`,
+      '',
+      i
+    )
+    context.subscriptions.push(customTerminalDisposable)
+  }
+
+  // 注册生成侧边栏
+  generateWebviewViewProvider = new GenerateWebviewViewProvider(context)
+  const generateSidebarProviderDisposable =
+    vscode.window.registerWebviewViewProvider(
+      'vscode-template-generate-tool.generate-webview',
+      generateWebviewViewProvider,
+      {
+        webviewOptions: {
+          retainContextWhenHidden: true
         }
-      )
-    // 注册快捷键，用于显示侧边栏
-    const generateSidebarDisposable = getGenerateSidebarDisposable(context)
-    context.subscriptions.push(
-      generateSidebarProviderDisposable,
-      generateSidebarDisposable
+      }
     )
-  }
+  // 注册快捷键，用于显示侧边栏
+  const generateSidebarDisposable = getGenerateSidebarDisposable(context)
+  context.subscriptions.push(
+    generateSidebarProviderDisposable,
+    generateSidebarDisposable
+  )
 
-  if (configuration.get('vscode-template-generate-tool.enableGeneratePanel')) {
-    const formDisposable = getGenerateDisposable('表单生成', 'form', context)
-    const tableDisposable = getGenerateDisposable('表格生成', 'table', context)
-    const apiDisposable = getGenerateDisposable('API生成', 'api', context)
-    const settingsDisposable = getGenerateDisposable(
-      '设置',
-      'settings',
-      context
-    )
-    context.subscriptions.push(
-      formDisposable,
-      tableDisposable,
-      apiDisposable,
-      settingsDisposable
-    )
-  }
+  const formDisposable = getGenerateDisposable('表单生成', 'form', context)
+  const tableDisposable = getGenerateDisposable('表格生成', 'table', context)
+  const apiDisposable = getGenerateDisposable('API生成', 'api', context)
+  const settingsDisposable = getGenerateDisposable('设置', 'settings', context)
+  context.subscriptions.push(
+    formDisposable,
+    tableDisposable,
+    apiDisposable,
+    settingsDisposable
+  )
 
-  if (configuration.get('vscode-template-generate-tool.enableDocPanel')) {
-    const docDisposable = getDocDisposable(
-      '前端文档',
-      'http://172.18.166.134:31034/frontend-docs/pc/dev-env',
-      context
-    )
-    const componentDisposable = getDocDisposable(
-      '前端组件库',
-      'http://172.18.166.134:31034/frontend-component-doc/#/changelog',
-      context
-    )
-    const cssDisposable = getDocDisposable(
-      '样式工具类',
-      'http://172.18.166.134:31034/frontend-docs/pc/css-utils',
-      context
-    )
-    context.subscriptions.push(
-      docDisposable,
-      componentDisposable,
-      cssDisposable
-    )
-  }
+  const docDisposable = getDocDisposable(
+    '前端文档',
+    'http://172.18.166.134:31034/frontend-docs/pc/dev-env',
+    context
+  )
+  const componentDisposable = getDocDisposable(
+    '前端组件库',
+    'http://172.18.166.134:31034/frontend-component-doc/#/changelog',
+    context
+  )
+  const cssDisposable = getDocDisposable(
+    '样式工具类',
+    'http://172.18.166.134:31034/frontend-docs/pc/css-utils',
+    context
+  )
+  context.subscriptions.push(docDisposable, componentDisposable, cssDisposable)
 
-  if (configuration.get('vscode-template-generate-tool.enableWebPanel')) {
-    const webDisposable = getWebDisposable(context)
-    context.subscriptions.push(webDisposable)
-  }
+  const webDisposable = getWebDisposable(context)
+  context.subscriptions.push(webDisposable)
 
   const runoobDisposable = getRunoobDisposable()
   const mdnDisposable = getMdnDisposable()
   const elementDisposable = getElementDisposable()
   context.subscriptions.push(runoobDisposable, mdnDisposable, elementDisposable)
+}
+
+// 终端命令
+function getTerminalDisposable(
+  commandName: String,
+  commandContent: String,
+  commandIndex?: number
+) {
+  return vscode.commands.registerCommand(
+    `vscode-template-generate-tool.${commandName}`,
+    async () => {
+      let content = commandContent
+      if (!content) {
+        const configuration = vscode.workspace.getConfiguration()
+        content =
+          configuration.get(
+            `vscode-template-generate-tool.customTerminal${commandIndex}`
+          ) || ''
+      }
+      if (content) {
+        await vscode.commands.executeCommand('openInIntegratedTerminal')
+        // vscode.commands.executeCommand('workbench.action.terminal.new')
+        // vscode.commands.executeCommand('workbench.action.terminal.sendSequence', {
+        //   text: `cd ${uri._fsPath}\r`
+        // })
+        await vscode.commands.executeCommand(
+          'workbench.action.terminal.sendSequence',
+          {
+            text: `${content}\r`
+          }
+        )
+      } else {
+        const yes: vscode.MessageItem = { title: '是' }
+        const no: vscode.MessageItem = { title: '否', isCloseAffordance: true }
+        const result = await vscode.window.showInformationMessage(
+          `自定义命令未设置，是否去设置`,
+          yes,
+          no
+        )
+        if (result === yes) {
+          vscode.commands.executeCommand(
+            'workbench.action.openSettings',
+            '@ext:jzh.vscode-template-generate-tool'
+          )
+        }
+      }
+    }
+  )
 }
 
 // 侧边栏实例
