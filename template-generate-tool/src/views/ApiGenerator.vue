@@ -334,8 +334,6 @@ export default {
       texts.forEach(item2 => {
         if (/^(post|get|delete|put)$/i.test(item2)) {
           item.type = item2.toLowerCase()
-        } else if (/^[\u4e00-\u9fa5]{0,}$/.test(item2)) {
-          item.name = item2
         } else if (/^(\/[0-9a-zA-Z]+)*$/.test(item2)) {
           if (this.baseUrl && item2.startsWith(this.baseUrl + '/')) {
             item.url = item2.replace(this.baseUrl, '')
@@ -348,6 +346,8 @@ export default {
             item.useBaseUrl = 0
           }
           this.changeUrl(item)
+        } else {
+          item.name = item2
         }
       })
     },
@@ -387,8 +387,11 @@ export default {
       this.calcStr()
     },
     checkUrl(url) {
-      if (!/^(\/[0-9a-zA-Z]+)*$/.test(url)) {
+      if (/^(\/[0-9a-zA-Z]+)*$/.test(url)) {
+        return true
+      } else {
         this.$tip.warning('url格式不正确')
+        return false
       }
     },
     // 全局设置填入剪切板文字
@@ -427,7 +430,19 @@ export default {
         const text = await navigator.clipboard.readText()
         this.dataList[index][type] = text
         if (type === 'url') {
-          this.checkUrl(text)
+          if (this.checkUrl(text)) {
+            if (this.baseUrl && text.startsWith(this.baseUrl + '/')) {
+              this.dataList[index].url = text.replace(this.baseUrl, '')
+              this.dataList[index].useBaseUrl = 1
+            } else if (this.baseUrl2 && text.startsWith(this.baseUrl2 + '/')) {
+              this.dataList[index].url = text.replace(this.baseUrl2, '')
+              this.dataList[index].useBaseUrl = 2
+            } else {
+              this.dataList[index].url = text
+              this.dataList[index].useBaseUrl = 0
+            }
+            this.changeUrl(this.dataList[index])
+          }
         }
       } else {
         this.$tip.warning('请复制文字')
