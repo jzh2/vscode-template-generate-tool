@@ -70,7 +70,7 @@ export const typeList = [
     children: [
       {
         value: 'default',
-        label: '默认',
+        label: '默认(两列)',
         start: `<el-form
   ref="form"
   label-width="85px"
@@ -86,7 +86,7 @@ export const typeList = [
       },
       {
         value: 'noRowCol',
-        label: '不含row/col',
+        label: '不含row/col(一列)',
         start: `<el-form
   ref="form"
   label-width="85px"
@@ -95,18 +95,6 @@ export const typeList = [
 >\n`,
         loop: `  <el-form-item label="$label" prop="$prop">$component\t</el-form-item>\n`,
         end: `</el-form>`
-      },
-      {
-        value: 'bsExtForm1',
-        label: 'bs-ext-form(一列)',
-        start: `<bs-ext-form
-  ref="form"
-  label-width="85px"
-  :model="formData"
-  :disabled="isViewMode"
->\n`,
-        loop: `  <bs-ext-form-item label="$label" prop="$prop">$component\t</bs-ext-form-item>\n`,
-        end: `</bs-ext-form>`
       },
       {
         value: 'bsExtForm2',
@@ -118,6 +106,18 @@ export const typeList = [
   :disabled="isViewMode"
 >\n`,
         loop: `  <bs-ext-form-item label="$label" prop="$prop" :span="12">$component\t</bs-ext-form-item>\n`,
+        end: `</bs-ext-form>`
+      },
+      {
+        value: 'bsExtForm1',
+        label: 'bs-ext-form(一列)',
+        start: `<bs-ext-form
+  ref="form"
+  label-width="85px"
+  :model="formData"
+  :disabled="isViewMode"
+>\n`,
+        loop: `  <bs-ext-form-item label="$label" prop="$prop">$component\t</bs-ext-form-item>\n`,
         end: `</bs-ext-form>`
       }
     ]
