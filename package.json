@@ -2,7 +2,7 @@
   "name": "vscode-template-generate-tool",
   "displayName": "Vscode Template Generate Tool",
   "description": "快速配置prop和label，生成el-form和el-table代码",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "publisher": "jzh",
   "icon": "icons/logo.png",
   "homepage": "https://github.com/jzh2/vscode-template-generate-tool/blob/main/README.md",
@@ -51,12 +51,16 @@
         "title": "npm run serve"
       },
       {
+        "command": "vscode-template-generate-tool.npmRunDev",
+        "title": "npm run dev"
+      },
+      {
         "command": "vscode-template-generate-tool.npmRunBuild",
         "title": "npm run build"
       },
       {
-        "command": "vscode-template-generate-tool.npmRunPublish",
-        "title": "npm run publish"
+        "command": "vscode-template-generate-tool.npmPublish",
+        "title": "npm publish"
       },
       {
         "command": "vscode-template-generate-tool.customTerminal1",
@@ -220,24 +224,28 @@
       ],
       "vscode-template-generate-tool.terminal": [
         {
-          "command": "vscode-template-generate-tool.npmRunBuild",
+          "command": "vscode-template-generate-tool.npmRunDev",
           "group": "vscode-template-generate-tool@1"
         },
         {
-          "command": "vscode-template-generate-tool.npmRunPublish",
+          "command": "vscode-template-generate-tool.npmRunBuild",
           "group": "vscode-template-generate-tool@2"
         },
         {
-          "command": "vscode-template-generate-tool.customTerminal1",
+          "command": "vscode-template-generate-tool.npmPublish",
           "group": "vscode-template-generate-tool@3"
         },
         {
-          "command": "vscode-template-generate-tool.customTerminal2",
+          "command": "vscode-template-generate-tool.customTerminal1",
           "group": "vscode-template-generate-tool@4"
         },
         {
-          "command": "vscode-template-generate-tool.customTerminal3",
+          "command": "vscode-template-generate-tool.customTerminal2",
           "group": "vscode-template-generate-tool@5"
+        },
+        {
+          "command": "vscode-template-generate-tool.customTerminal3",
+          "group": "vscode-template-generate-tool@6"
         }
       ],
       "vscode-template-generate-tool.generate": [

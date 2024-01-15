@@ -9,18 +9,20 @@ export function activate(context: vscode.ExtensionContext) {
     'npmRunServe',
     'npm run serve'
   )
+  const npmRunDevDisposable = getTerminalDisposable('npmRunDev', 'npm run dev')
   const npmRunBuildDisposable = getTerminalDisposable(
     'npmRunBuild',
     'npm run build'
   )
-  const npmRunPublishDisposable = getTerminalDisposable(
-    'npmRunPublish',
-    'npm run publish'
+  const npmPublishDisposable = getTerminalDisposable(
+    'npmPublish',
+    'npm publish'
   )
   context.subscriptions.push(
     npmRunServeDisposable,
+    npmRunDevDisposable,
     npmRunBuildDisposable,
-    npmRunPublishDisposable
+    npmPublishDisposable
   )
   // 注册自定义终端命令
   for (let i = 1; i <= 3; i++) {
