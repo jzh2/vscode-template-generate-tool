@@ -638,7 +638,7 @@ export default {
         type = 'date'
       } else if (/状态|类型|是否/.test(label)) {
         type = 'bsSelect'
-      } else if (/名称|备注/.test(label)) {
+      } else if (/备注/.test(label)) {
         type = 'longText'
       } else if (/金额|价/.test(label)) {
         type = 'amount'
