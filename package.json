@@ -18,7 +18,11 @@
   "engines": {
     "vscode": "^1.74.0"
   },
-  "activationEvents": [],
+  "activationEvents": [
+    "onLanguage:vue",
+    "onLanguage:javascript",
+    "onLanguage:typescript"
+  ],
   "main": "./out/extension",
   "scripts": {
     "compile": "tsc -p ./",
@@ -121,6 +125,10 @@
       {
         "command": "vscode-template-generate-tool.Element搜索",
         "title": "Element搜索"
+      },
+      {
+        "command": "vscode-template-generate-tool.copyMethod",
+        "title": "复制函数"
       }
     ],
     "keybindings": [
@@ -321,6 +329,9 @@
   },
   "devDependencies": {
     "@types/vscode": "^1.73.0",
+    "acorn": "^8.11.3",
+    "acorn-walk": "^8.3.2",
+    "ts-morph": "^21.0.1",
     "typescript": "^5.2.2"
   }
 }

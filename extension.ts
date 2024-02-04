@@ -1,4 +1,7 @@
 import * as vscode from 'vscode'
+import * as acorn from 'acorn'
+import * as walk from 'acorn-walk'
+import { Project } from 'ts-morph'
 let generatePanel: vscode.WebviewPanel | null
 let generateWebviewView: vscode.WebviewView | null
 let generateWebviewViewProvider: vscode.WebviewViewProvider | null
@@ -33,6 +36,27 @@ export function activate(context: vscode.ExtensionContext) {
     )
     context.subscriptions.push(customTerminalDisposable)
   }
+
+  // 注册复制函数按钮
+  const languages = ['vue', 'javascript', 'typescript']
+  languages.forEach(language => {
+    context.subscriptions.push(
+      vscode.languages.registerCodeLensProvider(language, { provideCodeLenses })
+    )
+  })
+  // 注册复制函数命令
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      `vscode-template-generate-tool.copyMethod`,
+      (range: vscode.Range, document: vscode.TextDocument) => {
+        const editor = vscode.window.activeTextEditor
+        if (editor) {
+          editor.selection = new vscode.Selection(range.start, range.end)
+          vscode.env.clipboard.writeText(document.getText(editor.selection))
+        }
+      }
+    )
+  )
 
   // 注册生成侧边栏
   generateWebviewViewProvider = new GenerateWebviewViewProvider(context)
@@ -135,6 +159,89 @@ function getTerminalDisposable(
         }
       }
     }
+  )
+}
+
+// 寻找函数
+function getDocumentRange(document: vscode.TextDocument) {
+  const documentText = document.getText()
+  const ranges: vscode.Range[] = []
+  function getJsTextRange(text: string, scriptStart: number) {
+    const ast = acorn.parse(text, {
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+      locations: true
+    })
+    function getNodeRange(
+      node:
+        | acorn.FunctionDeclaration
+        | acorn.AnonymousFunctionDeclaration
+        | acorn.FunctionExpression
+    ) {
+      if (node.loc) {
+        const { start, end } = node.loc
+        ranges.push(
+          new vscode.Range(
+            scriptStart + start.line - 2,
+            0,
+            scriptStart + end.line - 2,
+            1000
+          )
+        )
+      }
+    }
+    walk.simple(ast, {
+      FunctionDeclaration: node => getNodeRange(node),
+      FunctionExpression: node => getNodeRange(node)
+    })
+  }
+  function getTsTextRange(text: string) {
+    new Project()
+      .createSourceFile('example.ts', text)
+      .getFunctions()
+      .map(item =>
+        ranges.push(
+          new vscode.Range(
+            item.getStartLineNumber() - 1,
+            0,
+            item.getEndLineNumber() - 1,
+            1000
+          )
+        )
+      )
+  }
+  switch (document.languageId) {
+    case 'vue':
+      let match: RegExpExecArray | null
+      const regex = /<script[^>]*>([\s\S]+?)<\/script>/g
+      while ((match = regex.exec(documentText))) {
+        const scriptStart =
+          documentText.slice(0, match.index).split('\n').length +
+          match[0].slice(0, match[0].indexOf('>')).split('\n').length -
+          1
+        getJsTextRange(match[1], scriptStart)
+      }
+      break
+    case 'javascript':
+      getJsTextRange(documentText, 1)
+      break
+    case 'typescript':
+      getTsTextRange(documentText)
+      break
+    default:
+      break
+  }
+  return ranges
+}
+function provideCodeLenses(document: vscode.TextDocument) {
+  const ranges = getDocumentRange(document)
+  return ranges.map(
+    (range: vscode.Range) =>
+      new vscode.CodeLens(range, {
+        title: '复制函数',
+        command: 'vscode-template-generate-tool.copyMethod',
+        arguments: [range, document]
+      })
   )
 }
 
