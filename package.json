@@ -2,7 +2,7 @@
   "name": "vscode-template-generate-tool",
   "displayName": "Vscode Template Generate Tool",
   "description": "快速配置prop和label，生成el-form和el-table代码",
-  "version": "1.0.8",
+  "version": "1.1.0",
   "publisher": "jzh",
   "icon": "icons/logo.png",
   "homepage": "https://github.com/jzh2/vscode-template-generate-tool/blob/main/README.md",
@@ -181,7 +181,7 @@
     "submenus": [
       {
         "id": "vscode-template-generate-tool.terminal",
-        "label": "终端"
+        "label": "其他终端命令"
       },
       {
         "id": "vscode-template-generate-tool.generate",
