@@ -10,11 +10,12 @@ import {
   MarkdownString,
   window,
   Selection,
-  env
+  env,
+  workspace
 } from 'vscode'
 import * as acorn from 'acorn'
 import * as walk from 'acorn-walk'
-import { Project } from 'ts-morph'
+import { Project, Node } from 'ts-morph'
 
 // 复制函数悬浮实例
 export class CopyMethodHoverProvider implements HoverProvider {
@@ -24,8 +25,8 @@ export class CopyMethodHoverProvider implements HoverProvider {
     // 注册复制函数命令
     context.subscriptions.push(
       commands.registerCommand(
-        'vscode-template-generate-tool.copyMethod',
-        this.copyMethod,
+        'vscode-template-generate-tool.copyFunction',
+        this.copyFunction,
         this
       )
     )
@@ -36,26 +37,29 @@ export class CopyMethodHoverProvider implements HoverProvider {
     position: Position
   ): ProviderResult<Hover> {
     this._document = document
-    let hover: Hover | undefined = undefined
-    const ranges = this.getDocumentRange(document)
+    let hover: Hover | undefined
+    const ranges = this.getMethodRange(document)
     ranges.map((range: Range) => {
-      if (range.contains(position)) {
+      const { start } = range
+      const startRange = new Range(start, new Position(start.line, 1000))
+      // 只在函数开头悬停显示按钮
+      if (startRange.contains(position)) {
         const contents = new MarkdownString()
         contents.isTrusted = true
         contents.appendMarkdown(
-          `[复制函数](command:vscode-template-generate-tool.copyMethod?${encodeURIComponent(
+          `[复制函数](command:vscode-template-generate-tool.copyFunction?${encodeURIComponent(
             JSON.stringify({
               range
             })
           )})`
         )
-        hover = new Hover(contents, range)
+        hover = new Hover(contents, startRange)
       }
     })
     return hover
   }
 
-  public async copyMethod(args: any) {
+  public async copyFunction(args: any) {
     const { range } = args
     const editor = window.activeTextEditor
     if (editor) {
@@ -68,10 +72,21 @@ export class CopyMethodHoverProvider implements HoverProvider {
   }
 
   // 寻找函数
-  private getDocumentRange(document: TextDocument) {
+  private getMethodRange(document: TextDocument) {
     const documentText = document.getText()
     const ranges: Range[] = []
-    function getJsTextRange(text: string, scriptStart: number) {
+    // 这是ts的类型名称，为了适配
+    const copyFunctionKinds = workspace
+      .getConfiguration()
+      .get<Array<string>>(
+        `vscode-template-generate-tool.copyFunctionKinds`
+      ) || [
+      'FunctionDeclaration', // 通过function关键字定义的函数
+      'FunctionExpression', // 将函数赋值给变量或者作为参数传递的函数
+      'Arrow', // 箭头函数
+      'Method' // 在对象或类中定义的函数
+    ]
+    function getJsMethodRange(text: string, scriptStart: number) {
       const ast = acorn.parse(text, {
         ecmaVersion: 'latest',
         sourceType: 'module',
@@ -82,7 +97,12 @@ export class CopyMethodHoverProvider implements HoverProvider {
           | acorn.FunctionDeclaration
           | acorn.AnonymousFunctionDeclaration
           | acorn.FunctionExpression
+          | acorn.ArrowFunctionExpression
+          | acorn.MethodDefinition
       ) {
+        if (!copyFunctionKinds.some(item => node.type.includes(item))) {
+          return
+        }
         if (node.loc) {
           const { start, end } = node.loc
           ranges.push(
@@ -97,23 +117,32 @@ export class CopyMethodHoverProvider implements HoverProvider {
       }
       walk.simple(ast, {
         FunctionDeclaration: node => getNodeRange(node),
-        FunctionExpression: node => getNodeRange(node)
+        FunctionExpression: node => getNodeRange(node),
+        ArrowFunctionExpression: node => getNodeRange(node),
+        MethodDefinition: node => getNodeRange(node)
       })
     }
-    function getTsTextRange(text: string) {
-      new Project()
-        .createSourceFile('example.ts', text)
-        .getFunctions()
-        .map(item =>
+    function getTsMethodRange(text: string) {
+      const sourceFile = new Project().createSourceFile('example.ts', text)
+      function printAllChildren(node: Node) {
+        // ts和js的名称不一样，因此配置里用其子字符串
+        // 'FunctionDeclaration', // 通过function关键字定义的函数
+        // 'FunctionExpression', // 将函数赋值给变量或者作为参数传递的函数
+        // 'ArrowFunction', // 箭头函数
+        // 'MethodDeclaration' // 在对象或类中定义的函数
+        if (copyFunctionKinds.some(item => node.getKindName().includes(item))) {
           ranges.push(
             new Range(
-              item.getStartLineNumber() - 1,
+              node.getStartLineNumber() - 1,
               0,
-              item.getEndLineNumber() - 1,
+              node.getEndLineNumber() - 1,
               1000
             )
           )
-        )
+        }
+        node.forEachChild(printAllChildren)
+      }
+      printAllChildren(sourceFile)
     }
     switch (document.languageId) {
       case 'vue':
@@ -124,14 +153,14 @@ export class CopyMethodHoverProvider implements HoverProvider {
             documentText.slice(0, match.index).split('\n').length +
             match[0].slice(0, match[0].indexOf('>')).split('\n').length -
             1
-          getJsTextRange(match[1], scriptStart)
+          getJsMethodRange(match[1], scriptStart)
         }
         break
       case 'javascript':
-        getJsTextRange(documentText, 1)
+        getJsMethodRange(documentText, 1)
         break
       case 'typescript':
-        getTsTextRange(documentText)
+        getTsMethodRange(documentText)
         break
       default:
         break

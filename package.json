@@ -79,10 +79,6 @@
         "title": "自定义命令3"
       },
       {
-        "command": "vscode-template-generate-tool.打开侧边栏",
-        "title": "打开侧边栏"
-      },
-      {
         "command": "vscode-template-generate-tool.表单生成",
         "title": "表单生成"
       },
@@ -115,25 +111,41 @@
         "title": "设置"
       },
       {
-        "command": "vscode-template-generate-tool.菜鸟教程搜索",
-        "title": "菜鸟教程搜索"
+        "command": "vscode-template-generate-tool.百度",
+        "title": "百度"
       },
       {
-        "command": "vscode-template-generate-tool.MDN搜索",
-        "title": "MDN搜索"
+        "command": "vscode-template-generate-tool.必应",
+        "title": "必应"
       },
       {
-        "command": "vscode-template-generate-tool.Element搜索",
-        "title": "Element搜索"
+        "command": "vscode-template-generate-tool.谷歌",
+        "title": "谷歌"
       },
       {
-        "command": "vscode-template-generate-tool.copyMethod",
+        "command": "vscode-template-generate-tool.菜鸟教程",
+        "title": "菜鸟教程"
+      },
+      {
+        "command": "vscode-template-generate-tool.MDN",
+        "title": "MDN"
+      },
+      {
+        "command": "vscode-template-generate-tool.ElementUI",
+        "title": "ElementUI"
+      },
+      {
+        "command": "vscode-template-generate-tool.npmjs",
+        "title": "npmjs"
+      },
+      {
+        "command": "vscode-template-generate-tool.copyFunction",
         "title": "复制函数"
       }
     ],
     "keybindings": [
       {
-        "command": "vscode-template-generate-tool.打开侧边栏",
+        "command": "vscode-template-generate-tool.设置",
         "key": "ctrl+NumPad0",
         "mac": "cmd+alt+0"
       },
@@ -171,11 +183,6 @@
         "command": "vscode-template-generate-tool.新建浏览器页签",
         "key": "ctrl+NumPad7",
         "mac": "cmd+alt+7"
-      },
-      {
-        "command": "vscode-template-generate-tool.设置",
-        "key": "ctrl+NumPad8",
-        "mac": "cmd+alt+8"
       }
     ],
     "submenus": [
@@ -190,6 +197,10 @@
       {
         "id": "vscode-template-generate-tool.doc",
         "label": "文档"
+      },
+      {
+        "id": "vscode-template-generate-tool.search",
+        "label": "搜索"
       }
     ],
     "menus": {
@@ -215,18 +226,8 @@
           "group": "vscode-template-generate-tool@2"
         },
         {
-          "command": "vscode-template-generate-tool.菜鸟教程搜索",
+          "submenu": "vscode-template-generate-tool.search",
           "group": "vscode-template-generate-tool@3",
-          "when": "editorTextFocus && editorHasSelection"
-        },
-        {
-          "command": "vscode-template-generate-tool.MDN搜索",
-          "group": "vscode-template-generate-tool@4",
-          "when": "editorTextFocus && editorHasSelection"
-        },
-        {
-          "command": "vscode-template-generate-tool.Element搜索",
-          "group": "vscode-template-generate-tool@5",
           "when": "editorTextFocus && editorHasSelection"
         }
       ],
@@ -291,6 +292,36 @@
           "command": "vscode-template-generate-tool.新建浏览器页签",
           "group": "vscode-template-generate-tool@4"
         }
+      ],
+      "vscode-template-generate-tool.search": [
+        {
+          "command": "vscode-template-generate-tool.百度",
+          "group": "vscode-template-generate-tool@1"
+        },
+        {
+          "command": "vscode-template-generate-tool.必应",
+          "group": "vscode-template-generate-tool@2"
+        },
+        {
+          "command": "vscode-template-generate-tool.谷歌",
+          "group": "vscode-template-generate-tool@3"
+        },
+        {
+          "command": "vscode-template-generate-tool.菜鸟教程",
+          "group": "vscode-template-generate-tool@4"
+        },
+        {
+          "command": "vscode-template-generate-tool.MDN",
+          "group": "vscode-template-generate-tool@5"
+        },
+        {
+          "command": "vscode-template-generate-tool.ElementUI",
+          "group": "vscode-template-generate-tool@6"
+        },
+        {
+          "command": "vscode-template-generate-tool.npmjs",
+          "group": "vscode-template-generate-tool@7"
+        }
       ]
     },
     "snippets": [
@@ -313,15 +344,57 @@
         "properties": {
           "vscode-template-generate-tool.customTerminal1": {
             "type": "string",
-            "description": "自定义命令1"
+            "description": "自定义命令1",
+            "order": 1
           },
           "vscode-template-generate-tool.customTerminal2": {
             "type": "string",
-            "description": "自定义命令2"
+            "description": "自定义命令2",
+            "order": 2
           },
           "vscode-template-generate-tool.customTerminal3": {
             "type": "string",
-            "description": "自定义命令3"
+            "description": "自定义命令3",
+            "order": 3
+          },
+          "vscode-template-generate-tool.docOpenMode": {
+            "type": "string",
+            "default": "external",
+            "enum": [
+              "external",
+              "internal"
+            ],
+            "enumItemLabels": [
+              "外部浏览器",
+              "内部浏览器"
+            ],
+            "description": "文档打开方式",
+            "order": 4
+          },
+          "vscode-template-generate-tool.copyFunctionKinds": {
+            "type": "array",
+            "default": [
+              "FunctionDeclaration",
+              "FunctionExpression",
+              "ArrowFunction",
+              "Method"
+            ],
+            "items": {
+              "enum": [
+                "FunctionDeclaration",
+                "FunctionExpression",
+                "ArrowFunction",
+                "Method"
+              ],
+              "enumDescriptions": [
+                "通过function关键字定义的函数",
+                "将函数赋值给变量或者作为参数传递的函数",
+                "箭头函数",
+                "在对象或类中定义的函数"
+              ]
+            },
+            "description": "支持复制的函数类型",
+            "order": 5
           }
         }
       }

@@ -6,11 +6,7 @@ import { CopyMethodHoverProvider } from './CopyMethodHoverProvider'
 import { getTerminalDisposable } from './terminalDisposable'
 import { getDocDisposable } from './docDisposable'
 import { getWebDisposable } from './webDisposable'
-import {
-  getRunoobDisposable,
-  getMdnDisposable,
-  getElementDisposable
-} from './searchDisposable'
+import { getSearchDisposable } from './searchDisposable'
 
 let generatePanel: WebviewPanel | null
 
@@ -79,10 +75,20 @@ export function activate(context: ExtensionContext) {
       context
     ),
     // 浏览器
-    getWebDisposable(context),
-    // 搜索右键菜单
-    getRunoobDisposable(),
-    getMdnDisposable(),
-    getElementDisposable()
+    getWebDisposable(context)
   )
+
+  // 右键菜单搜索
+  const searchPlatforms = [
+    '百度',
+    '必应',
+    '谷歌',
+    '菜鸟教程',
+    'MDN',
+    'ElementUI',
+    'npmjs'
+  ]
+  searchPlatforms.forEach(searchPlatform => {
+    context.subscriptions.push(getSearchDisposable(searchPlatform))
+  })
 }

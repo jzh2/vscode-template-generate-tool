@@ -1,6 +1,9 @@
 import {
   ExtensionContext,
   commands,
+  workspace,
+  env,
+  Uri,
   WebviewPanel,
   window,
   ViewColumn
@@ -16,6 +19,15 @@ export function getDocDisposable(
   return commands.registerCommand(
     `vscode-template-generate-tool.${commandName}`,
     () => {
+      if (
+        workspace
+          .getConfiguration()
+          .get<string>(`vscode-template-generate-tool.docOpenMode`) ===
+        'external'
+      ) {
+        env.openExternal(Uri.parse(url))
+        return
+      }
       let docPanel: WebviewPanel | null = window.createWebviewPanel(
         'template-generate-tool',
         commandName,
