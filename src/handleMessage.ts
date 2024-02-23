@@ -9,6 +9,7 @@ import {
   commands
 } from 'vscode'
 import { getDocContent } from './docContent'
+import { join } from 'path'
 
 // 处理消息
 export async function handleMessage(
@@ -42,8 +43,8 @@ export async function handleMessage(
     case 'openFolder':
       if (workspaceFolders && workspaceFolders.length !== 0) {
         await commands.executeCommand(
-          'openFolder',
-          Uri.file(`${workspaceFolders[0].uri.path}\\${message.folder}`),
+          'vscode.openFolder',
+          Uri.file(join(workspaceFolders[0].uri.path, message.folder)),
           {
             noRecentEntry: true,
             forceNewWindow: true
@@ -54,8 +55,8 @@ export async function handleMessage(
     case 'openFile':
       if (workspaceFolders && workspaceFolders.length !== 0) {
         await commands.executeCommand(
-          'openFolder',
-          Uri.file(`${workspaceFolders[0].uri.path}\\${message.file}`)
+          'vscode.openFolder',
+          Uri.file(join(workspaceFolders[0].uri.path, message.file))
         )
       }
       return

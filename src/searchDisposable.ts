@@ -3,7 +3,7 @@ import { commands, window, env, Uri } from 'vscode'
 // 右键菜单搜索
 export function getSearchDisposable(searchPlatform: string) {
   return commands.registerCommand(
-    `vscode-template-generate-tool.${searchPlatform}搜索`,
+    `vscode-template-generate-tool.${searchPlatform}`,
     () => {
       const editor = window.activeTextEditor
       const selection = editor?.selection
