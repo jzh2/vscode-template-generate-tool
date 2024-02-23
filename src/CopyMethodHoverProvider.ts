@@ -13,8 +13,15 @@ import {
   env,
   workspace
 } from 'vscode'
-import * as acorn from 'acorn'
-import * as walk from 'acorn-walk'
+import {
+  parse,
+  FunctionDeclaration,
+  AnonymousFunctionDeclaration,
+  FunctionExpression,
+  ArrowFunctionExpression,
+  MethodDefinition
+} from 'acorn'
+import { simple } from 'acorn-walk'
 import { Project, Node } from 'ts-morph'
 
 // 复制函数悬浮实例
@@ -87,18 +94,18 @@ export class CopyMethodHoverProvider implements HoverProvider {
       'Method' // 在对象或类中定义的函数
     ]
     function getJsMethodRange(text: string, scriptStart: number) {
-      const ast = acorn.parse(text, {
+      const ast = parse(text, {
         ecmaVersion: 'latest',
         sourceType: 'module',
         locations: true
       })
       function getNodeRange(
         node:
-          | acorn.FunctionDeclaration
-          | acorn.AnonymousFunctionDeclaration
-          | acorn.FunctionExpression
-          | acorn.ArrowFunctionExpression
-          | acorn.MethodDefinition
+          | FunctionDeclaration
+          | AnonymousFunctionDeclaration
+          | FunctionExpression
+          | ArrowFunctionExpression
+          | MethodDefinition
       ) {
         if (!copyFunctionKinds.some(item => node.type.includes(item))) {
           return
@@ -115,7 +122,7 @@ export class CopyMethodHoverProvider implements HoverProvider {
           )
         }
       }
-      walk.simple(ast, {
+      simple(ast, {
         FunctionDeclaration: node => getNodeRange(node),
         FunctionExpression: node => getNodeRange(node),
         ArrowFunctionExpression: node => getNodeRange(node),

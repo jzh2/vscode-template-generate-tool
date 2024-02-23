@@ -1,4 +1,4 @@
-import { commands, Uri, window } from 'vscode'
+import { commands, workspace, window } from 'vscode'
 import { execSync } from 'child_process'
 import { readdirSync, statSync } from 'fs'
 import { join } from 'path'
@@ -25,23 +25,22 @@ export function getRecentFileDisposable() {
         // 按顺序优先打开views、pages、src文件夹内文件
         let gitFile = gitFiles[0]
         const keywords = ['views/', 'pages/', 'src/']
-        for (let keyword of keywords) {
+        for (const keyword of keywords) {
           const file = gitFiles.find(file => file.includes(keyword))
           if (file) {
             gitFile = file
             break
           }
         }
-        await commands.executeCommand(
-          'vscode.openFolder',
-          Uri.file(join(uri.path, gitFile))
-        )
+        workspace.openTextDocument(join(uri.path, gitFile)).then(async doc => {
+          window.showTextDocument(doc)
+        })
       } else {
         // 找出文件夹内第一个文件
         function findFirstFileInFolder(folderPath: string): string | null {
           try {
             const files = readdirSync(folderPath)
-            for (let file of files) {
+            for (const file of files) {
               const filePath = join(folderPath, file)
               const stat = statSync(filePath)
               if (stat.isFile()) {
@@ -68,45 +67,25 @@ export function getRecentFileDisposable() {
               join(uri.fsPath, 'src', 'views')
             )
             if (viewsFile) {
-              await commands.executeCommand(
-                'vscode.openFolder',
-                Uri.file(viewsFile),
-                {
-                  noRecentEntry: true,
-                  forceNewWindow: false
-                }
-              )
+              workspace.openTextDocument(viewsFile).then(async doc => {
+                window.showTextDocument(doc)
+              })
             } else {
-              await commands.executeCommand(
-                'vscode.openFolder',
-                Uri.file(srcFile),
-                {
-                  noRecentEntry: true,
-                  forceNewWindow: false
-                }
-              )
+              workspace.openTextDocument(srcFile).then(async doc => {
+                window.showTextDocument(doc)
+              })
             }
           } else {
             // 再找pages
             const pagesFile = findFirstFileInFolder(join(uri.fsPath, 'pages'))
             if (pagesFile) {
-              await commands.executeCommand(
-                'vscode.openFolder',
-                Uri.file(pagesFile),
-                {
-                  noRecentEntry: true,
-                  forceNewWindow: false
-                }
-              )
+              workspace.openTextDocument(pagesFile).then(async doc => {
+                window.showTextDocument(doc)
+              })
             } else {
-              await commands.executeCommand(
-                'vscode.openFolder',
-                Uri.file(dirFile),
-                {
-                  noRecentEntry: true,
-                  forceNewWindow: false
-                }
-              )
+              workspace.openTextDocument(dirFile).then(async doc => {
+                window.showTextDocument(doc)
+              })
             }
           }
         } else {

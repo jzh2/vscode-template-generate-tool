@@ -139,10 +139,6 @@
         "title": "npmjs"
       },
       {
-        "command": "vscode-template-generate-tool.copyFunction",
-        "title": "复制函数"
-      },
-      {
         "command": "vscode-template-generate-tool.openRecentFile",
         "title": "打开最近文件"
       }
