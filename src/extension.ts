@@ -1,9 +1,9 @@
 import { WebviewPanel, ExtensionContext, window, languages } from 'vscode'
-
 import { GenerateWebviewViewProvider } from './GenerateWebviewViewProvider'
 import { getGenerateDisposable } from './generateDisposable'
 import { CopyMethodHoverProvider } from './CopyMethodHoverProvider'
 import { getTerminalDisposable } from './terminalDisposable'
+import { getRecentFileDisposable } from './recentFileDisposable'
 import { getDocDisposable } from './docDisposable'
 import { getWebDisposable } from './webDisposable'
 import { getSearchDisposable } from './searchDisposable'
@@ -56,6 +56,9 @@ export function activate(context: ExtensionContext) {
       getTerminalDisposable(`customTerminal${i}`, '', i)
     )
   }
+
+  // 打开最近文件
+  context.subscriptions.push(getRecentFileDisposable())
 
   context.subscriptions.push(
     // 文档

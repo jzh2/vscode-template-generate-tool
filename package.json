@@ -141,6 +141,10 @@
       {
         "command": "vscode-template-generate-tool.copyFunction",
         "title": "复制函数"
+      },
+      {
+        "command": "vscode-template-generate-tool.openRecentFile",
+        "title": "打开最近文件"
       }
     ],
     "keybindings": [
@@ -214,6 +218,11 @@
           "submenu": "vscode-template-generate-tool.terminal",
           "when": "explorerResourceIsFolder",
           "group": "navigation@22"
+        },
+        {
+          "when": "explorerResourceIsFolder",
+          "command": "vscode-template-generate-tool.openRecentFile",
+          "group": "navigation@23"
         }
       ],
       "editor/context": [
@@ -401,10 +410,11 @@
     ]
   },
   "devDependencies": {
-    "@types/vscode": "^1.73.0",
+    "@types/node": "^20.11.19",
+    "@types/vscode": "^1.86.0",
     "acorn": "^8.11.3",
     "acorn-walk": "^8.3.2",
     "ts-morph": "^21.0.1",
-    "typescript": "^5.2.2"
+    "typescript": "^5.3.3"
   }
 }
