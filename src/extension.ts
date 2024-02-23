@@ -2,6 +2,7 @@ import { WebviewPanel, ExtensionContext, window, languages } from 'vscode'
 import { GenerateWebviewViewProvider } from './GenerateWebviewViewProvider'
 import { getGenerateDisposable } from './generateDisposable'
 import { CopyMethodHoverProvider } from './CopyMethodHoverProvider'
+import { ApiDefinitionProvider } from './ApiDefinitionProvider'
 import { getTerminalDisposable } from './terminalDisposable'
 import { getRecentFileDisposable } from './recentFileDisposable'
 import { getDocDisposable } from './docDisposable'
@@ -39,6 +40,14 @@ export function activate(context: ExtensionContext) {
   availableLanguages.forEach(language => {
     context.subscriptions.push(
       languages.registerHoverProvider(language, copyMethodHoverProvider)
+    )
+  })
+
+  // 查找Api定义
+  const apiDefinitionProvider = new ApiDefinitionProvider()
+  availableLanguages.forEach(language => {
+    context.subscriptions.push(
+      languages.registerDefinitionProvider(language, apiDefinitionProvider)
     )
   })
 
