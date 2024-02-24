@@ -13,55 +13,37 @@
 [![Visual Studio Marketplace Last Updated](https://img.shields.io/visual-studio-marketplace/last-updated/jzh.vscode-template-generate-tool)](https://github.com/jzh2/vscode-template-generate-tool)
 [![Visual Studio Marketplace Rating](https://img.shields.io/visual-studio-marketplace/stars/jzh.vscode-template-generate-tool)](https://github.com/jzh2/vscode-template-generate-tool)
 
-### 更新
+### TODO
 
-1.0.8 调整终端命令
-
-1.0.7 资源管理器添加终端命令
-
-1.0.6 所有输入框都可点击左侧标题粘贴
-
-1.0.5 label 识别到关键字自动判断类型
-
-1.0.4 编辑器选中文本后右键可选择在 MDN 和 Element 搜索
-
-1.0.3 Api 页面识别剪切板，一键填入 type，name，url；编辑器选中文本后右键可选择在菜鸟教程搜索
-
-1.0.2 识别剪切板 label 前有星号，自动开启 rules
-
-1.0.1 ctrl + 数字键区 0 在侧边栏打开
-
-1.0.0 首发
+- 打开文件/文件夹可打开当前项目的
 
 ### 省流
 
 快捷键
 
-- ctrl+数字键区 0-8(Mac: cmd+alt+主键盘区 0-8)
-  分别打开侧边栏表单，侧面板表单、表格、api，前端文档、组件库、样式工具类，浏览器，设置
+- f9 可添加和删除 debugger 行
+- f12 可查找 Api 定义
+- Ctrl + 数字键区 0-7（Mac: Cmd + Alt + 主键盘区 0-7）
+  分别打开设置，侧面板表单、表格、api，前端文档、组件库、样式工具类，浏览器
 
 功能
 
-- 设置页面可以打开常用文件、依赖和模板文件夹
-- 可手动配置生成代码模板
-- paging-grid 等单页面代码片段，created，computed 等生命周期代码片段
-- 编辑器选中文本后右键可选择在菜鸟教程、MDN 和 Element 搜索，建议配置为受信任的域
+- 在函数上悬停可复制完整函数
 - 资源管理器文件夹可执行终端命令
+- 在资源管理器文件夹右键可打开最近修改的文件
+- 编辑器选中文本后右键可选择在菜鸟教程、MDN 和 Element 搜索，建议配置为受信任的域
+
+- paging-grid 等单页面代码片段，created，computed 等生命周期代码片段
+- 设置页面可以打开常用文件、依赖和模板文件夹
 
 问题和 bug
 
-- 侧边栏表单需要手动打开激活一次才能用快捷键 😂
 - api 识图暂时不可用，可用第三方软件识别成文字复制后，识别剪切板
 - 切换暗黑模式，codemirror 会错位，重新打开可以恢复
-- 有时候打开空白，右下角提示“加载 Web 视图时出错”，可能是 vscode 问题，需要将所有 vscode 窗口关闭重启
 
 ## 一、模板生成
 
 侧边栏点击图标，在侧边栏打开模板代码生成工具。
-快捷键 <kbd>Ctrl</kbd> + <kbd>数字键区 0</kbd>
-Mac <kbd>Cmd</kbd> + <kbd>Alt</kbd> + <kbd>主键盘区 0</kbd>
-必须手动打开激活一次才能用快捷键打开
-其他快捷键可以直接用
 
 或者右键模板生成 - 表单生成/表格生成/API 生成，在侧边窗口打开模板代码生成工具。
 快捷键 <kbd>Ctrl</kbd> + <kbd>数字键区 1/2/3</kbd>
@@ -123,8 +105,8 @@ label 含有“日期，时间，状态，类型，是否，名称，备注，�
 
 ### 设置
 
-快捷键 <kbd>Ctrl</kbd> + <kbd>数字键区 8</kbd>
-Mac <kbd>Cmd</kbd> + <kbd>Alt</kbd> + <kbd>主键盘区 8</kbd>
+快捷键 <kbd>Ctrl</kbd> + <kbd>数字键区 0</kbd>
+Mac <kbd>Cmd</kbd> + <kbd>Alt</kbd> + <kbd>主键盘区 0</kbd>
 
 #### 简单模式
 
@@ -132,13 +114,7 @@ Mac <kbd>Cmd</kbd> + <kbd>Alt</kbd> + <kbd>主键盘区 8</kbd>
 
 #### 打开文件/文件夹
 
-文件夹会在新窗口打开，用于查看依赖，不会添加到“最近打开的文件”。
-
-只能打开当前工作区第一个项目的文件/文件夹，暂时无法打开多根工作区(Multi-root workspaces)其他项目。
-
-https://code.visualstudio.com/api/references/vscode-api#WorkspaceFolder
-A workspace folder is one of potentially many roots opened by the editor. All workspace folders are equal which means there is no notion of an active or primary workspace folder.
-工作区文件夹是编辑器打开的可能众多根之一。所有工作区文件夹都是相等的，这意味着没有活动或主工作区文件夹的概念。
+文件夹会在新窗口打开，用于查看依赖和模板文件夹，不会添加到“最近打开的文件”。
 
 ## 二、模板片段
 
