@@ -6,8 +6,10 @@ export function getSearchDisposable(searchPlatform: string) {
     `vscode-template-generate-tool.${searchPlatform}`,
     () => {
       const editor = window.activeTextEditor
-      const selection = editor?.selection
-      const selectedText = editor?.document.getText(selection)
+      if (!editor) {
+        return
+      }
+      const selectedText = editor.document.getText(editor.selection)
       let searchText = ''
       switch (searchPlatform) {
         case '百度':
