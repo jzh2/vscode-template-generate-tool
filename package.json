@@ -51,6 +51,10 @@
     },
     "commands": [
       {
+        "command": "vscode-template-generate-tool.toggleDebugger",
+        "title": "切换断点"
+      },
+      {
         "command": "vscode-template-generate-tool.npmRunServe",
         "title": "npm run serve"
       },
@@ -77,6 +81,10 @@
       {
         "command": "vscode-template-generate-tool.customTerminal3",
         "title": "自定义命令3"
+      },
+      {
+        "command": "vscode-template-generate-tool.openRecentFile",
+        "title": "打开最近的文件"
       },
       {
         "command": "vscode-template-generate-tool.表单生成",
@@ -137,13 +145,15 @@
       {
         "command": "vscode-template-generate-tool.npmjs",
         "title": "npmjs"
-      },
-      {
-        "command": "vscode-template-generate-tool.openRecentFile",
-        "title": "打开最近文件"
       }
     ],
     "keybindings": [
+      {
+        "command": "vscode-template-generate-tool.toggleDebugger",
+        "key": "f9",
+        "mac": "f9",
+        "when": "editorTextFocus"
+      },
       {
         "command": "vscode-template-generate-tool.设置",
         "key": "ctrl+NumPad0",
@@ -347,35 +357,6 @@
       {
         "title": "Vscode Template Generate Tool",
         "properties": {
-          "vscode-template-generate-tool.customTerminal1": {
-            "type": "string",
-            "description": "自定义命令1",
-            "order": 1
-          },
-          "vscode-template-generate-tool.customTerminal2": {
-            "type": "string",
-            "description": "自定义命令2",
-            "order": 2
-          },
-          "vscode-template-generate-tool.customTerminal3": {
-            "type": "string",
-            "description": "自定义命令3",
-            "order": 3
-          },
-          "vscode-template-generate-tool.docOpenMode": {
-            "type": "string",
-            "default": "external",
-            "enum": [
-              "external",
-              "internal"
-            ],
-            "enumItemLabels": [
-              "外部浏览器",
-              "内部浏览器"
-            ],
-            "description": "文档打开方式",
-            "order": 4
-          },
           "vscode-template-generate-tool.copyFunctionKinds": {
             "type": "array",
             "default": [
@@ -399,6 +380,41 @@
               ]
             },
             "description": "支持复制的函数类型",
+            "order": 0
+          },
+          "vscode-template-generate-tool.enableToggleDebugger": {
+            "type": "boolean",
+            "description": "是否启用切换断点",
+            "default": true,
+            "order": 1
+          },
+          "vscode-template-generate-tool.customTerminal1": {
+            "type": "string",
+            "description": "自定义命令1",
+            "order": 2
+          },
+          "vscode-template-generate-tool.customTerminal2": {
+            "type": "string",
+            "description": "自定义命令2",
+            "order": 3
+          },
+          "vscode-template-generate-tool.customTerminal3": {
+            "type": "string",
+            "description": "自定义命令3",
+            "order": 4
+          },
+          "vscode-template-generate-tool.docOpenMode": {
+            "type": "string",
+            "default": "external",
+            "enum": [
+              "external",
+              "internal"
+            ],
+            "enumItemLabels": [
+              "外部浏览器",
+              "内部浏览器"
+            ],
+            "description": "文档打开方式",
             "order": 5
           }
         }

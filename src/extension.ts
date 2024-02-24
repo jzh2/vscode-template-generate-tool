@@ -3,6 +3,7 @@ import { GenerateWebviewViewProvider } from './GenerateWebviewViewProvider'
 import { getGenerateDisposable } from './generateDisposable'
 import { CopyMethodHoverProvider } from './CopyMethodHoverProvider'
 import { ApiDefinitionProvider } from './ApiDefinitionProvider'
+import { getDebuggerDisposable } from './debuggerDisposable'
 import { getTerminalDisposable } from './terminalDisposable'
 import { getRecentFileDisposable } from './recentFileDisposable'
 import { getDocDisposable } from './docDisposable'
@@ -50,6 +51,9 @@ export function activate(context: ExtensionContext) {
       languages.registerDefinitionProvider(language, apiDefinitionProvider)
     )
   })
+
+  // 切换断点
+  context.subscriptions.push(getDebuggerDisposable())
 
   // 终端命令
   context.subscriptions.push(
