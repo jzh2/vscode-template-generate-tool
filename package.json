@@ -407,10 +407,12 @@
   },
   "devDependencies": {
     "@types/node": "^20.11.19",
-    "@types/vscode": "^1.86.0",
+    "@types/vscode": "^1.74.0",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
     "acorn": "^8.11.3",
     "acorn-walk": "^8.3.2",
-    "ts-morph": "^21.0.1",
-    "typescript": "^5.3.3"
+    "ts-morph": "^21.0.1"
   }
 }

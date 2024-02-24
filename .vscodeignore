@@ -1,8 +1,11 @@
 **
 !icons/
 !snippets/
-!out/extension.js
+
+!out/
 !template-generate-tool/dist
 !package.json
+
+!CHANGELOG.md
 !LICENSE.md
 !README.md
