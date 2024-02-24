@@ -1,6 +1,5 @@
 import {
   DefinitionProvider,
-  ExtensionContext,
   TextDocument,
   Position,
   Definition,
@@ -19,28 +18,27 @@ export class ApiDefinitionProvider implements DefinitionProvider {
   public async provideDefinition(
     document: TextDocument,
     position: Position
-  ): Promise<Definition | null> {
+  ): Promise<Definition | undefined> {
     const range = document.getWordRangeAtPosition(position)
     if (!range) {
-      return null
+      return
     }
     const { line, character } = range.start
-    const preMethodText = document.getText(
-      new Range(line, character - 5, line, character)
-    )
-    if (preMethodText !== '$api.') {
-      return null
+    const preMethodText =
+      (line > 0 ? document.lineAt(line - 1).text.trim() : '') +
+      document.getText(new Range(line, 0, line, character)).trim()
+    if (!preMethodText.endsWith('$api.')) {
+      return
     }
     const workspaceFolder = workspace.workspaceFolders?.find(item =>
       document.uri.path.includes(item.uri.path)
     )?.uri.fsPath
     if (!workspaceFolder) {
-      return null
+      return
     }
     const methodText = document.getText(range)
     try {
       const folderPath = join(workspaceFolder, 'src', 'api')
-      const files = readdirSync(folderPath)
       async function findMethodInFile(file: string): Promise<Location | void> {
         return new Promise(async resolve => {
           if (!workspaceFolder) {
@@ -48,7 +46,16 @@ export class ApiDefinitionProvider implements DefinitionProvider {
             return
           }
           const filePath = join(folderPath, file)
-          if (!statSync(filePath).isFile()) {
+          if (statSync(filePath).isDirectory()) {
+            // 子文件夹找到任意一个也返回
+            const subFiles = readdirSync(filePath)
+            for (const subFile of subFiles) {
+              const data = await findMethodInFile(join(file, subFile))
+              if (data) {
+                resolve(data)
+                return
+              }
+            }
             resolve()
             return
           }
@@ -122,6 +129,7 @@ export class ApiDefinitionProvider implements DefinitionProvider {
           resolve()
         })
       }
+      const files = readdirSync(folderPath)
       for (const file of files) {
         const data = await findMethodInFile(file)
         if (data) {
@@ -131,6 +139,6 @@ export class ApiDefinitionProvider implements DefinitionProvider {
     } catch (error) {
       window.showInformationMessage('项目内没有src/api文件夹')
     }
-    return null
+    return
   }
 }
