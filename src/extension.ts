@@ -1,7 +1,7 @@
 import { WebviewPanel, ExtensionContext, window, languages } from 'vscode'
 import { GenerateWebviewViewProvider } from './GenerateWebviewViewProvider'
 import { getGenerateDisposable } from './generateDisposable'
-import { CopyMethodHoverProvider } from './CopyMethodHoverProvider'
+import { CopyFunctionHoverProvider } from './CopyFunctionHoverProvider'
 import { ApiDefinitionProvider } from './ApiDefinitionProvider'
 import { getDebuggerDisposable } from './debuggerDisposable'
 import { getTerminalDisposable } from './terminalDisposable'
@@ -37,10 +37,10 @@ export function activate(context: ExtensionContext) {
 
   // 函数悬浮时复制按钮
   const availableLanguages = ['vue', 'javascript']
-  const copyMethodHoverProvider = new CopyMethodHoverProvider(context)
+  const copyFunctionHoverProvider = new CopyFunctionHoverProvider(context)
   availableLanguages.forEach(language => {
     context.subscriptions.push(
-      languages.registerHoverProvider(language, copyMethodHoverProvider)
+      languages.registerHoverProvider(language, copyFunctionHoverProvider)
     )
   })
 

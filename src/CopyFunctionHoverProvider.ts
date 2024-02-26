@@ -24,7 +24,7 @@ import {
 import { simple } from 'acorn-walk'
 
 // 复制函数悬浮实例
-export class CopyMethodHoverProvider implements HoverProvider {
+export class CopyFunctionHoverProvider implements HoverProvider {
   private _document!: TextDocument
 
   constructor(private context: ExtensionContext) {
@@ -44,7 +44,7 @@ export class CopyMethodHoverProvider implements HoverProvider {
   ): ProviderResult<Hover> {
     this._document = document
     let hover: Hover | undefined
-    const ranges = this.getMethodRange(document)
+    const ranges = this.getFunctionRange(document)
     ranges.map((range: Range) => {
       const { start } = range
       const startRange = new Range(start, new Position(start.line, 1000))
@@ -78,7 +78,7 @@ export class CopyMethodHoverProvider implements HoverProvider {
   }
 
   // 寻找函数
-  private getMethodRange(document: TextDocument) {
+  private getFunctionRange(document: TextDocument) {
     const documentText = document.getText()
     const ranges: Range[] = []
     const copyFunctionKinds = workspace
@@ -91,7 +91,7 @@ export class CopyMethodHoverProvider implements HoverProvider {
       'ArrowFunctionExpression', // 箭头函数
       'MethodDefinition' // 在对象或类中定义的函数
     ]
-    function getJsMethodRange(text: string, scriptStart: number) {
+    function getJsFunctionRange(text: string, scriptStart: number) {
       const ast = parse(text, {
         ecmaVersion: 'latest',
         sourceType: 'module',
@@ -136,11 +136,11 @@ export class CopyMethodHoverProvider implements HoverProvider {
             documentText.slice(0, match.index).split('\n').length +
             match[0].slice(0, match[0].indexOf('>')).split('\n').length -
             1
-          getJsMethodRange(match[1], scriptStart)
+          getJsFunctionRange(match[1], scriptStart)
         }
         break
       case 'javascript':
-        getJsMethodRange(documentText, 1)
+        getJsFunctionRange(documentText, 1)
         break
       default:
         break
