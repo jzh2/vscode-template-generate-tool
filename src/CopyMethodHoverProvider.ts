@@ -22,7 +22,7 @@ import {
   MethodDefinition
 } from 'acorn'
 import { simple } from 'acorn-walk'
-import { Project, Node } from 'ts-morph'
+import { createSourceFile, Node } from 'typescript'
 
 // 复制函数悬浮实例
 export class CopyMethodHoverProvider implements HoverProvider {
@@ -90,8 +90,8 @@ export class CopyMethodHoverProvider implements HoverProvider {
       ) || [
       'FunctionDeclaration', // 通过function关键字定义的函数
       'FunctionExpression', // 将函数赋值给变量或者作为参数传递的函数
-      'Arrow', // 箭头函数
-      'Method' // 在对象或类中定义的函数
+      'ArrowFunctionExpression', // 箭头函数
+      'MethodDefinition' // 在对象或类中定义的函数
     ]
     function getJsMethodRange(text: string, scriptStart: number) {
       const ast = parse(text, {
@@ -107,7 +107,7 @@ export class CopyMethodHoverProvider implements HoverProvider {
           | ArrowFunctionExpression
           | MethodDefinition
       ) {
-        if (!copyFunctionKinds.some(item => node.type.includes(item))) {
+        if (!copyFunctionKinds.some(item => node.type === item)) {
           return
         }
         if (node.loc) {
@@ -115,9 +115,9 @@ export class CopyMethodHoverProvider implements HoverProvider {
           ranges.push(
             new Range(
               scriptStart + start.line - 2,
-              0,
+              start.column,
               scriptStart + end.line - 2,
-              1000
+              end.column
             )
           )
         }
@@ -130,21 +130,26 @@ export class CopyMethodHoverProvider implements HoverProvider {
       })
     }
     function getTsMethodRange(text: string) {
-      const sourceFile = new Project().createSourceFile('example.ts', text)
+      const sourceFile = createSourceFile('example.ts', text, 99)
       function printAllChildren(node: Node) {
-        // ts和js的名称不一样，因此配置里用其子字符串
+        // ts和js的名称不一样，配置里用js的，在这里映射成ts的
         // 'FunctionDeclaration', // 通过function关键字定义的函数
         // 'FunctionExpression', // 将函数赋值给变量或者作为参数传递的函数
         // 'ArrowFunction', // 箭头函数
         // 'MethodDeclaration' // 在对象或类中定义的函数
-        if (copyFunctionKinds.some(item => node.getKindName().includes(item))) {
+        const functionKindMap: { [key: string]: number } = {
+          FunctionDeclaration: 262,
+          FunctionExpression: 218,
+          ArrowFunctionExpression: 219,
+          MethodDefinition: 174
+        }
+        if (
+          copyFunctionKinds.some(item => node.kind === functionKindMap[item])
+        ) {
+          const start = sourceFile.getLineAndCharacterOfPosition(node.pos)
+          const end = sourceFile.getLineAndCharacterOfPosition(node.end)
           ranges.push(
-            new Range(
-              node.getStartLineNumber() - 1,
-              0,
-              node.getEndLineNumber() - 1,
-              1000
-            )
+            new Range(start.line, start.character, end.line, end.character)
           )
         }
         node.forEachChild(printAllChildren)
