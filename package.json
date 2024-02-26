@@ -362,15 +362,15 @@
             "default": [
               "FunctionDeclaration",
               "FunctionExpression",
-              "ArrowFunction",
-              "Method"
+              "ArrowFunctionExpression",
+              "MethodDefinition"
             ],
             "items": {
               "enum": [
                 "FunctionDeclaration",
                 "FunctionExpression",
-                "ArrowFunction",
-                "Method"
+                "ArrowFunctionExpression",
+                "MethodDefinition"
               ],
               "enumDescriptions": [
                 "通过function关键字定义的函数",
@@ -428,7 +428,6 @@
   },
   "dependencies": {
     "acorn": "^8.11.3",
-    "acorn-walk": "^8.3.2",
-    "ts-morph": "^21.0.1"
+    "acorn-walk": "^8.3.2"
   }
 }

@@ -36,7 +36,7 @@ export function activate(context: ExtensionContext) {
   )
 
   // 函数悬浮时复制按钮
-  const availableLanguages = ['vue', 'javascript', 'typescript']
+  const availableLanguages = ['vue', 'javascript']
   const copyMethodHoverProvider = new CopyMethodHoverProvider(context)
   availableLanguages.forEach(language => {
     context.subscriptions.push(

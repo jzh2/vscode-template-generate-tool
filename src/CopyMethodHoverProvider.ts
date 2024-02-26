@@ -22,7 +22,6 @@ import {
   MethodDefinition
 } from 'acorn'
 import { simple } from 'acorn-walk'
-import { createSourceFile, Node } from 'typescript'
 
 // 复制函数悬浮实例
 export class CopyMethodHoverProvider implements HoverProvider {
@@ -82,7 +81,6 @@ export class CopyMethodHoverProvider implements HoverProvider {
   private getMethodRange(document: TextDocument) {
     const documentText = document.getText()
     const ranges: Range[] = []
-    // 这是ts的类型名称，为了适配
     const copyFunctionKinds = workspace
       .getConfiguration()
       .get<Array<string>>(
@@ -129,33 +127,6 @@ export class CopyMethodHoverProvider implements HoverProvider {
         MethodDefinition: node => getNodeRange(node)
       })
     }
-    function getTsMethodRange(text: string) {
-      const sourceFile = createSourceFile('example.ts', text, 99)
-      function printAllChildren(node: Node) {
-        // ts和js的名称不一样，配置里用js的，在这里映射成ts的
-        // 'FunctionDeclaration', // 通过function关键字定义的函数
-        // 'FunctionExpression', // 将函数赋值给变量或者作为参数传递的函数
-        // 'ArrowFunction', // 箭头函数
-        // 'MethodDeclaration' // 在对象或类中定义的函数
-        const functionKindMap: { [key: string]: number } = {
-          FunctionDeclaration: 262,
-          FunctionExpression: 218,
-          ArrowFunctionExpression: 219,
-          MethodDefinition: 174
-        }
-        if (
-          copyFunctionKinds.some(item => node.kind === functionKindMap[item])
-        ) {
-          const start = sourceFile.getLineAndCharacterOfPosition(node.pos)
-          const end = sourceFile.getLineAndCharacterOfPosition(node.end)
-          ranges.push(
-            new Range(start.line, start.character, end.line, end.character)
-          )
-        }
-        node.forEachChild(printAllChildren)
-      }
-      printAllChildren(sourceFile)
-    }
     switch (document.languageId) {
       case 'vue':
         let match: RegExpExecArray | null
@@ -170,9 +141,6 @@ export class CopyMethodHoverProvider implements HoverProvider {
         break
       case 'javascript':
         getJsMethodRange(documentText, 1)
-        break
-      case 'typescript':
-        getTsMethodRange(documentText)
         break
       default:
         break

@@ -3,6 +3,8 @@
 !snippets/
 
 !out/
+!node_modules/acorn
+!node_modules/acorn-walk
 !template-generate-tool/dist
 !package.json
 
