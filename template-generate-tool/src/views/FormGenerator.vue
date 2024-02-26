@@ -474,10 +474,25 @@ export default {
         .catch(() => {})
     },
     changeType(item, index) {
-      const { label, prop, enableRules } = item
-      const t = deepClone(
-        this.itemTypeList.find(item2 => item2.type === item.type)
-      )
+      const {
+        label,
+        prop,
+        enableRules,
+        type,
+        options: { optionList }
+      } = item
+      const t = deepClone(this.itemTypeList.find(item2 => item2.type === type))
+      const enumTypes = [
+        'bsSelect',
+        'elSelect',
+        'bsRadio',
+        'elRadio',
+        'bsCheckbox',
+        'elCheckbox'
+      ]
+      if (optionList && enumTypes.includes(t.type)) {
+        t.options.optionList = optionList
+      }
       this.$set(this.dataList, index, {
         ...t,
         label,
@@ -504,8 +519,10 @@ export default {
             this.resetList(true)
             this.changeCount(anotherList.list.length, true)
             anotherList.list.forEach((item, index) => {
-              this.dataList[index].prop = item.prop
-              this.dataList[index].label = item.label
+              const { prop, label, type } = item
+              this.dataList[index].prop = prop
+              this.dataList[index].label = label
+              this.dataList[index].type = type === 'enum' ? 'bsSelect' : type
             })
           } else {
             this.$tip.warning('无表格数据')
