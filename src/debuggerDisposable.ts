@@ -20,9 +20,7 @@ export function getDebuggerDisposable() {
       const lineText = editor.document.lineAt(line).text
       if (lineText.trim() === 'debugger') {
         editor.edit(editBuilder => {
-          editBuilder.delete(
-            new Range(new Position(line, 0), new Position(line + 1, 0))
-          )
+          editBuilder.delete(new Range(line, 0, line + 1, 0))
         })
       } else {
         // 复制前缀空格
