@@ -13,16 +13,13 @@
 [![Visual Studio Marketplace Last Updated](https://img.shields.io/visual-studio-marketplace/last-updated/jzh.vscode-template-generate-tool)](https://github.com/jzh2/vscode-template-generate-tool)
 [![Visual Studio Marketplace Rating](https://img.shields.io/visual-studio-marketplace/stars/jzh.vscode-template-generate-tool)](https://github.com/jzh2/vscode-template-generate-tool)
 
-### TODO
-
-- 打开文件/文件夹可打开当前项目的
-
 ### 省流
 
 快捷键
 
-- f9 可添加和删除 debugger 行
-- f12 可查找 Api 定义
+- f12 可打开$api.后的 api 定义文件
+- f12 可查找 vue 模板中的函数定义
+- f9 可添加和删除一行 debugger（会覆盖 vscode 的快捷键，可关闭）
 - Ctrl + 数字键区 0-7（Mac: Cmd + Alt + 主键盘区 0-7）
   分别打开设置，侧面板表单、表格、api，前端文档、组件库、样式工具类，浏览器
 
@@ -30,8 +27,8 @@
 
 - 在函数上悬停可复制完整函数
 - 资源管理器文件夹可执行终端命令
-- 在资源管理器文件夹右键可打开最近修改的文件
-- 编辑器选中文本后右键可选择在菜鸟教程、MDN 和 Element 搜索，建议配置为受信任的域
+- 在资源管理器文件夹右键可打开最近修改的文件（优先 git 修改过的，不用项目/views/src/demo/index 一级级打开）
+- 编辑器选中文本后右键通过搜索引擎、MDN、ElementUI、npmjs 搜索，建议配置为受信任的域
 
 - paging-grid 等单页面代码片段，created，computed 等生命周期代码片段
 - 设置页面可以打开常用文件、依赖和模板文件夹
