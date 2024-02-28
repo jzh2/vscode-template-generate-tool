@@ -1,12 +1,15 @@
 **
-!icons/
-!snippets/
+!icons
+!snippets
 
-!out/
-!node_modules/acorn
-!node_modules/acorn-walk
+!out
 !template-generate-tool/dist
 !package.json
+
+!node_modules/acorn
+!node_modules/acorn-walk
+!node_modules/parse5
+!node_modules/entities
 
 !CHANGELOG.md
 !LICENSE.md

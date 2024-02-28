@@ -152,7 +152,7 @@
         "command": "vscode-template-generate-tool.toggleDebugger",
         "key": "f9",
         "mac": "f9",
-        "when": "editorTextFocus"
+        "when": "config.vscode-template-generate-tool.enableToggleDebugger && editorTextFocus"
       },
       {
         "command": "vscode-template-generate-tool.设置",
@@ -428,6 +428,7 @@
   },
   "dependencies": {
     "acorn": "^8.11.3",
-    "acorn-walk": "^8.3.2"
+    "acorn-walk": "^8.3.2",
+    "parse5": "^7.1.2"
   }
 }

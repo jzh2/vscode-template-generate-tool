@@ -2,6 +2,7 @@ import { WebviewPanel, ExtensionContext, window, languages } from 'vscode'
 import { GenerateWebviewViewProvider } from './GenerateWebviewViewProvider'
 import { getGenerateDisposable } from './generateDisposable'
 import { CopyFunctionHoverProvider } from './CopyFunctionHoverProvider'
+import { FunctionDefinitionProvider } from './FunctionDefinitionProvider'
 import { ApiDefinitionProvider } from './ApiDefinitionProvider'
 import { getDebuggerDisposable } from './debuggerDisposable'
 import { getTerminalDisposable } from './terminalDisposable'
@@ -43,6 +44,12 @@ export function activate(context: ExtensionContext) {
       languages.registerHoverProvider(language, copyFunctionHoverProvider)
     )
   })
+
+  // 查找函数定义
+  const functionDefinitionProvider = new FunctionDefinitionProvider()
+  context.subscriptions.push(
+    languages.registerDefinitionProvider('vue', functionDefinitionProvider)
+  )
 
   // 查找Api定义
   const apiDefinitionProvider = new ApiDefinitionProvider()
