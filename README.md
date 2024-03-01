@@ -27,7 +27,7 @@
 
 - 在函数上悬停可复制完整函数
 - 资源管理器文件夹可执行终端命令
-- 在资源管理器文件夹右键可打开最近修改的文件（优先 git 修改过的，不用项目/views/src/demo/index 一级级打开）
+- 在资源管理器文件夹右键可打开最近修改的文件（优先 git 修改过的，不用项目/src/views/demo/index 一级级打开）
 - 编辑器选中文本后右键通过搜索引擎、MDN、ElementUI、npmjs 搜索，建议配置为受信任的域
 
 - paging-grid 等单页面代码片段，created，computed 等生命周期代码片段
