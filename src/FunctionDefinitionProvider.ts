@@ -40,11 +40,6 @@ export class FunctionDefinitionProvider implements DefinitionProvider {
       return
     }
     const functionNameText = document.getText(range)
-    commands.executeCommand('editor.actions.findWithArgs', {
-      searchString: functionNameText,
-      isCaseSensitive: true,
-      matchWholeWord: true
-    })
     const definition: Location[] = []
     // 获取script中的函数开始位置
     function getJsFunctionStart(script: { text: string; startLine: number }) {
