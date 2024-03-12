@@ -87,6 +87,22 @@
         "title": "打开最近的文件"
       },
       {
+        "command": "vscode-template-generate-tool.openGitRepository",
+        "title": "打开Git仓库"
+      },
+      {
+        "command": "vscode-template-generate-tool.openModule",
+        "title": "打开组件库"
+      },
+      {
+        "command": "vscode-template-generate-tool.openMenu",
+        "title": "打开菜单"
+      },
+      {
+        "command": "vscode-template-generate-tool.openRoute",
+        "title": "打开路由"
+      },
+      {
         "command": "vscode-template-generate-tool.表单生成",
         "title": "表单生成"
       },
@@ -211,23 +227,31 @@
       {
         "id": "vscode-template-generate-tool.search",
         "label": "搜索"
+      },
+      {
+        "id": "vscode-template-generate-tool.explorerOpen",
+        "label": "打开"
+      },
+      {
+        "id": "vscode-template-generate-tool.editorOpen",
+        "label": "打开"
       }
     ],
     "menus": {
       "explorer/context": [
         {
-          "when": "explorerResourceIsFolder",
-          "command": "vscode-template-generate-tool.npmRunServe",
+          "submenu": "vscode-template-generate-tool.explorerOpen",
+          "when": "explorerViewletVisible",
           "group": "navigation@21"
         },
         {
-          "submenu": "vscode-template-generate-tool.terminal",
-          "when": "explorerResourceIsFolder",
+          "when": "explorerViewletVisible",
+          "command": "vscode-template-generate-tool.npmRunServe",
           "group": "navigation@22"
         },
         {
-          "when": "explorerResourceIsFolder",
-          "command": "vscode-template-generate-tool.openRecentFile",
+          "submenu": "vscode-template-generate-tool.terminal",
+          "when": "explorerViewletVisible",
           "group": "navigation@23"
         }
       ],
@@ -242,8 +266,11 @@
         },
         {
           "submenu": "vscode-template-generate-tool.search",
-          "group": "vscode-template-generate-tool@3",
-          "when": "editorTextFocus && editorHasSelection"
+          "group": "vscode-template-generate-tool@3"
+        },
+        {
+          "submenu": "vscode-template-generate-tool.editorOpen",
+          "group": "vscode-template-generate-tool@4"
         }
       ],
       "vscode-template-generate-tool.terminal": [
@@ -336,6 +363,34 @@
         {
           "command": "vscode-template-generate-tool.npmjs",
           "group": "vscode-template-generate-tool@7"
+        }
+      ],
+      "vscode-template-generate-tool.explorerOpen": [
+        {
+          "command": "vscode-template-generate-tool.openRecentFile",
+          "group": "vscode-template-generate-tool@1"
+        },
+        {
+          "command": "vscode-template-generate-tool.openGitRepository",
+          "group": "vscode-template-generate-tool@2"
+        }
+      ],
+      "vscode-template-generate-tool.editorOpen": [
+        {
+          "command": "vscode-template-generate-tool.openGitRepository",
+          "group": "vscode-template-generate-tool@1"
+        },
+        {
+          "command": "vscode-template-generate-tool.openModule",
+          "group": "vscode-template-generate-tool@2"
+        },
+        {
+          "command": "vscode-template-generate-tool.openMenu",
+          "group": "vscode-template-generate-tool@3"
+        },
+        {
+          "command": "vscode-template-generate-tool.openRoute",
+          "group": "vscode-template-generate-tool@4"
         }
       ]
     },

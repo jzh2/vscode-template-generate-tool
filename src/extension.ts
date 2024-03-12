@@ -7,6 +7,8 @@ import { ApiDefinitionProvider } from './ApiDefinitionProvider'
 import { getDebuggerDisposable } from './debuggerDisposable'
 import { getTerminalDisposable } from './terminalDisposable'
 import { getRecentFileDisposable } from './recentFileDisposable'
+import { getOpenGitRepositoryDisposable } from './openGitRepositoryDisposable'
+import { getOpenFileDisposable } from './openFileDisposable'
 import { getDocDisposable } from './docDisposable'
 import { getWebDisposable } from './webDisposable'
 import { getSearchDisposable } from './searchDisposable'
@@ -79,6 +81,16 @@ export function activate(context: ExtensionContext) {
 
   // 打开最近文件
   context.subscriptions.push(getRecentFileDisposable())
+
+  // 打开Git仓库
+  context.subscriptions.push(getOpenGitRepositoryDisposable())
+
+  // 打开常用文件
+  context.subscriptions.push(
+    getOpenFileDisposable('openModule', 'src/views/index.js'),
+    getOpenFileDisposable('openMenu', 'src/mock/menu.js'),
+    getOpenFileDisposable('openRoute', 'src/router/routes.js')
+  )
 
   context.subscriptions.push(
     // 文档
