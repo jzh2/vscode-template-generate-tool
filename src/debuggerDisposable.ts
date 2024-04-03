@@ -23,8 +23,9 @@ export function getDebuggerDisposable() {
           editBuilder.delete(new Range(line, 0, line + 1, 0))
         })
       } else {
-        // 复制前缀空格
-        const match = lineText.match(/^\s*/)
+        // 复制上一行前缀空格
+        const preLineText = editor.document.lineAt(line > 0 ? line - 1 : 0).text
+        const match = preLineText.match(/^\s*/)
         const preSpace = match ? match[0] : ''
         editor.edit(editBuilder => {
           editBuilder.insert(new Position(line, 0), `${preSpace}debugger\n`)
