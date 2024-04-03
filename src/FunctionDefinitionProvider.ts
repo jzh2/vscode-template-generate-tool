@@ -134,18 +134,16 @@ export function getScriptTextAndStartLine(
   return scriptList
 }
 function isElement(node: Node): node is Element {
-  return (node as Element).attrs !== undefined
+  return (<Element>node).attrs !== undefined
 }
 function isTemplate(node: Node): node is Template {
-  return (node as Template).content !== undefined
+  return (<Template>node).content !== undefined
 }
 function isTextNode(node: Node): node is TextNode {
-  return (node as TextNode).value !== undefined
+  return (<TextNode>node).value !== undefined
 }
 function hasChildNodes(
   node: Node
 ): node is Element | Document | DocumentFragment {
-  return (
-    (node as Element | Document | DocumentFragment).childNodes !== undefined
-  )
+  return (<Element | Document | DocumentFragment>node).childNodes !== undefined
 }
