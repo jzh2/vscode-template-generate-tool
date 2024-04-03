@@ -17,7 +17,7 @@ export function getOpenFileDisposable(commandName: string, fileName: string) {
             commands.executeCommand('vscode.openFolder', Uri.file(filePath))
           }
         } catch (error) {
-          window.showInformationMessage('本项目没有该文件夹')
+          window.showInformationMessage('本项目没有该文件')
         }
       }
     }
