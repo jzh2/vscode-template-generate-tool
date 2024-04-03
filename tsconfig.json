@@ -7,5 +7,5 @@
     "sourceMap": true,
     "strict": true
   },
-  "include": ["src/extension.ts"]
+  "files": ["src/extension.ts"]
 }
