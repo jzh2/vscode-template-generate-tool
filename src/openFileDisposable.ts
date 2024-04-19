@@ -1,8 +1,8 @@
 import { commands, workspace, window, Uri } from 'vscode'
 import { join } from 'path'
-import { statSync } from 'fs'
+import { existsSync } from 'fs'
 
-// 打开常用文件
+// 打开最近的文件
 export function getOpenFileDisposable(commandName: string, fileName: string) {
   return commands.registerCommand(
     `vscode-template-generate-tool.${commandName}`,
@@ -12,11 +12,9 @@ export function getOpenFileDisposable(commandName: string, fileName: string) {
       )?.uri.fsPath
       if (fsPath) {
         const filePath = join(fsPath, fileName)
-        try {
-          if (statSync(filePath).isFile()) {
-            commands.executeCommand('vscode.openFolder', Uri.file(filePath))
-          }
-        } catch (error) {
+        if (existsSync(filePath)) {
+          commands.executeCommand('vscode.openFolder', Uri.file(filePath))
+        } else {
           window.showInformationMessage('本项目没有该文件')
         }
       }

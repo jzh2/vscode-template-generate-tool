@@ -273,7 +273,7 @@ export const typeList = [
   >
     <template #header>
       <el-button
-        type="success"
+        type="primary"
         class="add-new-row"
         :icon="uiSetting.icon.addRow"
         @click="handleAdd()"

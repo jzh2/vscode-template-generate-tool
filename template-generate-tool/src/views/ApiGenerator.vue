@@ -387,7 +387,7 @@ export default {
       this.calcStr()
     },
     checkUrl(url) {
-      if (/^(\/[0-9a-zA-Z]+)*$/.test(url)) {
+      if (/^(\/[0-9a-zA-Z{}]+)*$/.test(url)) {
         return true
       } else {
         this.$tip.warning('url格式不正确')

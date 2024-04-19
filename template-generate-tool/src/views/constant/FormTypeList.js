@@ -9,7 +9,7 @@ export const typeList = [
         start: `<el-form ref="searchForm" inline :model="search" @submit.native.prevent>\n`,
         loop: `  <el-form-item prop="$prop" label="$label">$component\t</el-form-item>\n`,
         end: `  <el-form-item>
-    <el-button type="success" @click="onQuery()">筛选</el-button>
+    <el-button type="primary" @click="onQuery()">筛选</el-button>
     <el-button
       @click="
         $refs.searchForm.resetFields()
