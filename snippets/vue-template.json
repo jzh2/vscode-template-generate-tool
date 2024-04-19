@@ -16,10 +16,5 @@
       "<template v-else>$3</template>"
     ],
     "description": "template"
-  },
-  "placeholder": {
-    "prefix": "placeholder",
-    "body": "placeholder=\"$1\"",
-    "description": "placeholder"
   }
 }

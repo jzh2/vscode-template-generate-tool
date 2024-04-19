@@ -1,0 +1,56 @@
+{
+  "await": {
+    "prefix": "await",
+    "body": [
+      "await this.\\$api.$1({\r",
+      "  data: {\r",
+      "    $2\r",
+      "  }\r",
+      "})"
+    ],
+    "description": "await"
+  },
+  "async": {
+    "prefix": "async",
+    "body": [
+      "async $1() {\r",
+      "  const data = await this.\\$api.$2({\r",
+      "    data: {\r",
+      "      $3\r",
+      "    }\r",
+      "  })\r",
+      "  this.a$4 = data\r",
+      "},"
+    ],
+    "description": "async"
+  },
+  "async-full": {
+    "prefix": "async",
+    "body": [
+      "async $1() {\r",
+      "  try {\r",
+      "    const data = await this.\\$api.$2({\r",
+      "      data: {\r",
+      "        $3\r",
+      "      }\r",
+      "      params: {\r",
+      "        $3\r",
+      "      }\r",
+      "    })\r",
+      "    this.a$4 = data\r",
+      "  } catch (error) {}\r",
+      "},"
+    ],
+    "description": "async"
+  },
+  "tip.success": {
+    "prefix": "tip.success",
+    "body": "this.\\$tip.success('${1:保存}成功')",
+    "description": "this.$tip.success"
+  },
+  "tip.warning": {
+    "prefix": "tip.warning",
+    "body": "this.\\$tip.warning('${1:保存}失败')",
+    "description": "this.$tip.warning"
+  }
+}
