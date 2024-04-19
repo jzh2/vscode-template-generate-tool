@@ -91,6 +91,10 @@
         "title": "打开Git仓库"
       },
       {
+        "command": "vscode-template-generate-tool.openComponentDocument",
+        "title": "打开组件文档"
+      },
+      {
         "command": "vscode-template-generate-tool.openModule",
         "title": "打开组件库"
       },
@@ -169,6 +173,12 @@
         "key": "f9",
         "mac": "f9",
         "when": "config.vscode-template-generate-tool.enableToggleDebugger && editorTextFocus"
+      },
+      {
+        "command": "vscode-template-generate-tool.openComponentDocument",
+        "key": "ctrl+alt+f12",
+        "mac": "cmd+alt+f12",
+        "when": "editorTextFocus"
       },
       {
         "command": "vscode-template-generate-tool.设置",
@@ -381,16 +391,20 @@
           "group": "vscode-template-generate-tool@1"
         },
         {
-          "command": "vscode-template-generate-tool.openModule",
+          "command": "vscode-template-generate-tool.openComponentDocument",
           "group": "vscode-template-generate-tool@2"
         },
         {
-          "command": "vscode-template-generate-tool.openMenu",
+          "command": "vscode-template-generate-tool.openModule",
           "group": "vscode-template-generate-tool@3"
         },
         {
-          "command": "vscode-template-generate-tool.openRoute",
+          "command": "vscode-template-generate-tool.openMenu",
           "group": "vscode-template-generate-tool@4"
+        },
+        {
+          "command": "vscode-template-generate-tool.openRoute",
+          "group": "vscode-template-generate-tool@5"
         }
       ]
     },
@@ -400,12 +414,20 @@
         "path": "./snippets/vue.json"
       },
       {
-        "language": "javascript",
-        "path": "./snippets/javascript.json"
+        "language": "html",
+        "path": "./snippets/vue-template.json"
       },
       {
-        "language": "html",
-        "path": "./snippets/html.json"
+        "language": "vue-html",
+        "path": "./snippets/vue-template.json"
+      },
+      {
+        "language": "javascript",
+        "path": "./snippets/vue-script.json"
+      },
+      {
+        "language": "javascript",
+        "path": "./snippets/javascript.json"
       }
     ],
     "configuration": [
@@ -471,6 +493,19 @@
             ],
             "description": "文档打开方式",
             "order": 5
+          },
+          "vscode-template-generate-tool.entranceWorkspaceMap": {
+            "type": "object",
+            "description": "子项目所属入口工程",
+            "default": {
+              "ebill-industry": "ebill-frontend",
+              "ebill-assistant-industry": "ebill-frontend",
+              "finance-payment-industry": "ebill-frontend",
+              "ebill-operation": "operation-frontend",
+              "ebill-assistant-operation": "operation-frontend",
+              "finance-payment-operation": "operation-frontend"
+            },
+            "order": 6
           }
         }
       }

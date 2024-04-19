@@ -4,6 +4,8 @@ import { getGenerateDisposable } from './generateDisposable'
 import { CopyFunctionHoverProvider } from './CopyFunctionHoverProvider'
 import { FunctionDefinitionProvider } from './FunctionDefinitionProvider'
 import { ApiDefinitionProvider } from './ApiDefinitionProvider'
+import { ComponentDefinitionProvider } from './ComponentDefinitionProvider'
+import { getComponentDocumentDisposable } from './ComponentDocumentDisposable'
 import { getDebuggerDisposable } from './debuggerDisposable'
 import { getTerminalDisposable } from './terminalDisposable'
 import { getRecentFileDisposable } from './recentFileDisposable'
@@ -61,6 +63,15 @@ export function activate(context: ExtensionContext) {
     )
   })
 
+  // 查找组件定义
+  const peekFileDefinitionProvider = new ComponentDefinitionProvider()
+  context.subscriptions.push(
+    languages.registerDefinitionProvider('vue', peekFileDefinitionProvider)
+  )
+
+  // 打开组件文档
+  context.subscriptions.push(getComponentDocumentDisposable())
+
   // 切换断点
   context.subscriptions.push(getDebuggerDisposable())
 
@@ -85,7 +96,7 @@ export function activate(context: ExtensionContext) {
   // 打开Git仓库
   context.subscriptions.push(getOpenGitRepositoryDisposable())
 
-  // 打开常用文件
+  // 打开最近的文件
   context.subscriptions.push(
     getOpenFileDisposable('openModule', 'src/views/index.js'),
     getOpenFileDisposable('openMenu', 'src/mock/menu.js'),

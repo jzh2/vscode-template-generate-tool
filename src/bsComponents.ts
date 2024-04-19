@@ -1,0 +1,30 @@
+export const bsComponents = [
+  'dialog-tip-info',
+  'tip-info',
+  'vue-pdf',
+
+  'card-grid-layout',
+  'embedded-card',
+  'flat-collapse-form-layout',
+  'flat-form-layout',
+  'grid-layout',
+  'tab-tree-grid-layout',
+  'tree-grid-layout',
+  'tree-multi-grid-layout',
+
+  'dict-select',
+  'industry-dict-select',
+  'financial-department-tree',
+  'financial-department-tree-select',
+  'region-tree',
+  'region-tree-select',
+  'region-agency-tree',
+  'region-agency-tree-select',
+  'region-tenant-tree',
+  'resource-pools-tree',
+  'resource-pools-tree-select',
+  'resource-pools-select',
+  'org-tree',
+  'org-tree-select',
+  'sync-dialog'
+]
