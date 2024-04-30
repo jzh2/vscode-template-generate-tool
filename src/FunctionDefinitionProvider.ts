@@ -5,8 +5,7 @@ import {
   Definition,
   Location,
   Uri,
-  Range,
-  commands
+  Range
 } from 'vscode'
 import { parse, FunctionExpression } from 'acorn'
 import { simple } from 'acorn-walk'

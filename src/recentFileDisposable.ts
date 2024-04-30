@@ -2,6 +2,8 @@ import { commands, workspace, window } from 'vscode'
 import { execSync } from 'child_process'
 import { readdirSync, statSync } from 'fs'
 import { join } from 'path'
+
+// 打开最近文件
 export function getRecentFileDisposable() {
   return commands.registerCommand(
     `vscode-template-generate-tool.openRecentFile`,

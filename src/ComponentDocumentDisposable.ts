@@ -3,6 +3,7 @@ import { elComponentsTransform } from './elComponents'
 import { uvComponentsTransform } from './uvComponents'
 import { bsComponents } from './bsComponents'
 
+// 打开组件文档
 export function getComponentDocumentDisposable() {
   return commands.registerCommand(
     `vscode-template-generate-tool.openComponentDocument`,
@@ -20,14 +21,11 @@ export function getComponentDocumentDisposable() {
           .split('>')
           .pop() ?? ''
       const lineText2 = lineText.slice(character).split(/\s/)[0].split('>')[0]
-      console.log('jzh-', lineText1)
-      console.log('jzh-', lineText2)
       if (!lineText1.startsWith('<')) {
         return
       }
       const componentName =
         lineText1.slice(lineText1.indexOf('/') === 1 ? 2 : 1) + lineText2
-      console.log('jzh-', componentName)
       if (!/^[\w-]+$/.test(componentName)) {
         return
       }

@@ -13,6 +13,7 @@ import { bsComponents } from './bsComponents'
 import { existsSync } from 'fs'
 import { join } from 'path'
 
+// 查找组件定义
 export class ComponentDefinitionProvider implements DefinitionProvider {
   public async provideDefinition(
     document: TextDocument,
@@ -32,23 +33,14 @@ export class ComponentDefinitionProvider implements DefinitionProvider {
       (lineText.slice(0, character).split(/\s/).pop() ?? '').split('>').pop() ??
       ''
     const lineText2 = lineText.slice(character).split(/\s/)[0].split('>')[0]
-    console.log('jzh-', lineText1)
-    console.log('jzh-', lineText2)
     if (!lineText1.startsWith('<')) {
       return
     }
     const componentName =
       lineText1.slice(lineText1.indexOf('/') === 1 ? 2 : 1) + lineText2
-    console.log('jzh-', componentName)
     if (!/^[\w-]+$/.test(componentName)) {
       return
     }
-    // const pascalCase = componentName
-    //   .replace(/-([a-z])/g, (_match, letter) => letter.toUpperCase())
-    //   .replace(/^\w/, c => c.toUpperCase())
-    // const camelCase = componentName.replace(/-([a-z])/g, (_match, letter) =>
-    //   letter.toUpperCase()
-    // )
     if (componentName.startsWith('uv-')) {
       // 2.uv-ui
       const filePath = join(
@@ -81,8 +73,8 @@ export class ComponentDefinitionProvider implements DefinitionProvider {
         ) || {}
     const entranceName = entranceWorkspaceMap[baseWorkspaceFolder.name]
     if (entranceName) {
-      const entranceWorkspaceFolder = workspace.workspaceFolders?.find(item =>
-        item.uri.path.endsWith('/' + entranceName)
+      const entranceWorkspaceFolder = workspace.workspaceFolders?.find(
+        item => item.name === entranceName
       )
       if (entranceWorkspaceFolder) {
         baseWorkspaceFolders.push(entranceWorkspaceFolder)

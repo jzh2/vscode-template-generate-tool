@@ -43,6 +43,20 @@
     ],
     "description": "async"
   },
+  "tryloading": {
+    "prefix": "tryloading",
+    "body": [
+      "try {\r",
+      "  this.loading = true\r",
+      "  ${1}\r",
+      "} catch (error) {\r",
+      "  console.log(error)\r",
+      "} finally {\r",
+      "  this.loading = false\r",
+      "}"
+    ],
+    "description": "tryloading"
+  },
   "tip.success": {
     "prefix": "tip.success",
     "body": "this.\\$tip.success('${1:保存}成功')",
