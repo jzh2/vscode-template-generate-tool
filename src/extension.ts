@@ -6,6 +6,7 @@ import { FunctionDefinitionProvider } from './FunctionDefinitionProvider'
 import { ApiDefinitionProvider } from './ApiDefinitionProvider'
 import { ComponentDefinitionProvider } from './ComponentDefinitionProvider'
 import { getComponentDocumentDisposable } from './ComponentDocumentDisposable'
+import { getComponentImportDisposable } from './ComponentImportDisposable'
 import { getDebuggerDisposable } from './debuggerDisposable'
 import { getTerminalDisposable } from './terminalDisposable'
 import { getRecentFileDisposable } from './recentFileDisposable'
@@ -72,6 +73,9 @@ export function activate(context: ExtensionContext) {
   // 打开组件文档
   context.subscriptions.push(getComponentDocumentDisposable())
 
+  // 组件导入
+  context.subscriptions.push(getComponentImportDisposable())
+
   // 切换断点
   context.subscriptions.push(getDebuggerDisposable())
 
@@ -96,11 +100,12 @@ export function activate(context: ExtensionContext) {
   // 打开Git仓库
   context.subscriptions.push(getOpenGitRepositoryDisposable())
 
-  // 打开最近的文件
+  // 打开指定文件
   context.subscriptions.push(
-    getOpenFileDisposable('openModule', 'src/views/index.js'),
-    getOpenFileDisposable('openMenu', 'src/mock/menu.js'),
-    getOpenFileDisposable('openRoute', 'src/router/routes.js')
+    getOpenFileDisposable('openProxy', 'vue.config.proxy.js'), // 本地代理
+    getOpenFileDisposable('openModule', 'src/views/index.js'), // 组件库
+    getOpenFileDisposable('openMenu', 'src/mock/menu.js'), // 菜单
+    getOpenFileDisposable('openRoute', 'src/router/routes.js') // 路由
   )
 
   context.subscriptions.push(

@@ -95,6 +95,14 @@
         "title": "打开组件文档"
       },
       {
+        "command": "vscode-template-generate-tool.componentImport",
+        "title": "组件导入"
+      },
+      {
+        "command": "vscode-template-generate-tool.openProxy",
+        "title": "打开本地代理"
+      },
+      {
         "command": "vscode-template-generate-tool.openModule",
         "title": "打开组件库"
       },
@@ -178,6 +186,12 @@
         "command": "vscode-template-generate-tool.openComponentDocument",
         "key": "ctrl+alt+f12",
         "mac": "cmd+alt+f12",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "vscode-template-generate-tool.componentImport",
+        "key": "ctrl+alt+f11",
+        "mac": "cmd+alt+f11",
         "when": "editorTextFocus"
       },
       {
@@ -391,7 +405,7 @@
           "group": "vscode-template-generate-tool@1"
         },
         {
-          "command": "vscode-template-generate-tool.openComponentDocument",
+          "command": "vscode-template-generate-tool.openProxy",
           "group": "vscode-template-generate-tool@2"
         },
         {
@@ -415,10 +429,6 @@
       },
       {
         "language": "html",
-        "path": "./snippets/vue-template.json"
-      },
-      {
-        "language": "vue-html",
         "path": "./snippets/vue-template.json"
       },
       {
