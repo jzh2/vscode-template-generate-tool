@@ -24,8 +24,8 @@
     ],
     "description": "async"
   },
-  "async-full": {
-    "prefix": "async",
+  "async-try": {
+    "prefix": "async-try",
     "body": [
       "async $1() {\r",
       "  try {\r",
@@ -41,21 +41,19 @@
       "  } catch (error) {}\r",
       "},"
     ],
-    "description": "async"
+    "description": "async-try"
   },
-  "tryloading": {
-    "prefix": "tryloading",
+  "try-loading": {
+    "prefix": "try-loading",
     "body": [
       "try {\r",
       "  this.loading = true\r",
       "  ${1}\r",
-      "} catch (error) {\r",
-      "  console.log(error)\r",
       "} finally {\r",
       "  this.loading = false\r",
       "}"
     ],
-    "description": "tryloading"
+    "description": "try-loading"
   },
   "tip.success": {
     "prefix": "tip.success",
