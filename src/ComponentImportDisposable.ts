@@ -36,11 +36,12 @@ export function getComponentImportDisposable() {
       const ast = parse5(document.getText(), {
         sourceCodeLocationInfo: true
       })
-      getScriptTextAndStartLine(ast).map(getJsFunctionStart)
+      getScriptTextAndStartLine(ast).map(insertStatementAtScript)
     }
   )
 }
 
+// 转大驼峰
 function toPascalCase(componentName: string) {
   return componentName
     .replace(/-([a-z])/g, (_match, letter) => letter.toUpperCase())
@@ -50,25 +51,33 @@ function toPascalCase(componentName: string) {
   // )
 }
 
-// 获取script中的函数开始位置
-function getJsFunctionStart(script: { text: string; startLine: number }) {
+// 转小驼峰
+function toCamelCase(componentName: string) {
+  return componentName.replace(/-([a-z])/g, (_match, letter) =>
+    letter.toUpperCase()
+  )
+}
+
+// 插入语句
+function insertStatementAtScript(script: { text: string; startLine: number }) {
   const { text, startLine } = script
   const ast = parse(text, {
     ecmaVersion: 'latest',
     sourceType: 'module',
     locations: true
   })
-  function getNodeStart(node: ExportDefaultDeclaration) {
+  function insertStatementAtDeclaration(node: ExportDefaultDeclaration) {
     if (node.loc) {
       const exportStartLine = node.loc.start.line
       if (node.declaration.type === 'ObjectExpression') {
+        // components
         const componentsNode = node.declaration.properties.find(
           item =>
             item.type === 'Property' &&
             item.key.type === 'Identifier' &&
             item.key.name === 'components'
         )
-        let insertPosition: Position, insertValue: string
+        let componentInsertPosition: Position, componentInsertValue: string
         if (componentsNode) {
           const componentsStartLine = componentsNode.loc?.start.line
           const componentsEndLine = componentsNode.loc?.end.line
@@ -81,33 +90,75 @@ function getJsFunctionStart(script: { text: string; startLine: number }) {
               componentsNode.value.properties.length === 0
             ) {
               // components是空的
-              insertPosition = new Position(
+              componentInsertPosition = new Position(
                 startLine + componentsEndLine! - 2,
                 componentsEndColumn! - 1
               )
-              insertValue = ` ${toPascalCase(componentName)} `
+              componentInsertValue = ` ${toPascalCase(componentName)} `
             } else {
               // components不是空的
-              insertPosition = new Position(
+              componentInsertPosition = new Position(
                 startLine + componentsEndLine! - 2,
                 componentsEndColumn! - 2
               )
-              insertValue = `, ${toPascalCase(componentName)}`
+              componentInsertValue = `, ${toPascalCase(componentName)}`
             }
           } else {
             // components不在一行
-            insertPosition = new Position(
+            componentInsertPosition = new Position(
               startLine + componentsEndLine! - 3,
               1000
             )
-            insertValue = `,\n    ${toPascalCase(componentName)}`
+            componentInsertValue = `,\n    ${toPascalCase(componentName)}`
           }
         } else {
           // 没有components
-          insertPosition = new Position(startLine + exportStartLine - 1, 0)
-          insertValue = `  components: {\n    ${toPascalCase(
+          componentInsertPosition = new Position(
+            startLine + exportStartLine - 1,
+            0
+          )
+          componentInsertValue = `  components: {\n    ${toPascalCase(
             componentName
           )}\n  },\n`
+        }
+        let dataInsertPosition: Position, dataInsertValue: string
+        // data
+        if (componentName.endsWith('-dialog')) {
+          const dataNode = node.declaration.properties.find(
+            item =>
+              item.type === 'Property' &&
+              item.key.type === 'Identifier' &&
+              item.key.name === 'data'
+          )
+          if (dataNode) {
+            // 有data
+            const dataEndLine = dataNode.loc?.end.line
+            dataInsertPosition = new Position(
+              startLine + dataEndLine! - 4,
+              1000
+            )
+            dataInsertValue = `,
+      ${toCamelCase(componentName)}: {
+        data: {},
+        mode: 1,
+        show: false
+      }`
+          } else {
+            // 没有data
+            dataInsertPosition = new Position(
+              startLine + exportStartLine - 1,
+              0
+            )
+            dataInsertValue = `  data() {
+    return {
+      ${toCamelCase(componentName)}: {
+        data: {},
+        mode: 1,
+        show: false
+      }
+    }
+  },\n`
+          }
         }
         window.activeTextEditor!.edit(editBuilder => {
           editBuilder.insert(
@@ -116,12 +167,16 @@ function getJsFunctionStart(script: { text: string; startLine: number }) {
               componentName
             )} from './${componentName}.vue'\n\n`
           )
-          editBuilder.insert(insertPosition, insertValue)
+          editBuilder.insert(componentInsertPosition, componentInsertValue)
+          if (dataInsertValue) {
+            editBuilder.insert(dataInsertPosition, dataInsertValue)
+          }
         })
+        // TODO 跳转到修改处
       }
     }
   }
   simple(ast, {
-    ExportDefaultDeclaration: node => getNodeStart(node)
+    ExportDefaultDeclaration: node => insertStatementAtDeclaration(node)
   })
 }
