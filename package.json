@@ -91,6 +91,18 @@
         "title": "打开Git仓库"
       },
       {
+        "command": "vscode-template-generate-tool.openJenkins",
+        "title": "打开Jenkins"
+      },
+      {
+        "command": "vscode-template-generate-tool.openKubernetes2",
+        "title": "打开K8S2"
+      },
+      {
+        "command": "vscode-template-generate-tool.openKubernetes4",
+        "title": "打开K8S4"
+      },
+      {
         "command": "vscode-template-generate-tool.openComponentDocument",
         "title": "打开组件文档"
       },
@@ -396,20 +408,32 @@
           "group": "vscode-template-generate-tool@1"
         },
         {
-          "command": "vscode-template-generate-tool.openProxy",
+          "command": "vscode-template-generate-tool.openJenkins",
           "group": "vscode-template-generate-tool@2"
         },
         {
-          "command": "vscode-template-generate-tool.openModule",
+          "command": "vscode-template-generate-tool.openKubernetes2",
           "group": "vscode-template-generate-tool@3"
         },
         {
-          "command": "vscode-template-generate-tool.openMenu",
+          "command": "vscode-template-generate-tool.openKubernetes4",
           "group": "vscode-template-generate-tool@4"
         },
         {
-          "command": "vscode-template-generate-tool.openRoute",
+          "command": "vscode-template-generate-tool.openProxy",
           "group": "vscode-template-generate-tool@5"
+        },
+        {
+          "command": "vscode-template-generate-tool.openModule",
+          "group": "vscode-template-generate-tool@6"
+        },
+        {
+          "command": "vscode-template-generate-tool.openMenu",
+          "group": "vscode-template-generate-tool@7"
+        },
+        {
+          "command": "vscode-template-generate-tool.openRoute",
+          "group": "vscode-template-generate-tool@8"
         }
       ]
     },
@@ -507,6 +531,21 @@
               "finance-payment-operation": "operation-frontend"
             },
             "order": 6
+          },
+          "vscode-template-generate-tool.openJenkins": {
+            "type": "object",
+            "description": "Jenkins地址",
+            "order": 7
+          },
+          "vscode-template-generate-tool.openKubernetes2": {
+            "type": "object",
+            "description": "K8S地址2",
+            "order": 8
+          },
+          "vscode-template-generate-tool.openKubernetes4": {
+            "type": "object",
+            "description": "K8S地址4",
+            "order": 9
           }
         }
       }

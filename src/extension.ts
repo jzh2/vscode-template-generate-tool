@@ -11,6 +11,7 @@ import { getDebuggerDisposable } from './debuggerDisposable'
 import { getTerminalDisposable } from './terminalDisposable'
 import { getRecentFileDisposable } from './recentFileDisposable'
 import { getOpenGitRepositoryDisposable } from './openGitRepositoryDisposable'
+import { getOpenLinkDisposable } from './openLinkDisposable'
 import { getOpenFileDisposable } from './openFileDisposable'
 import { getDocDisposable } from './docDisposable'
 import { getWebDisposable } from './webDisposable'
@@ -97,8 +98,11 @@ export function activate(context: ExtensionContext) {
   // 打开最近文件
   context.subscriptions.push(getRecentFileDisposable())
 
-  // 打开Git仓库
+  // 打开项目相关链接
   context.subscriptions.push(getOpenGitRepositoryDisposable())
+  context.subscriptions.push(getOpenLinkDisposable('openJenkins'))
+  context.subscriptions.push(getOpenLinkDisposable('openKubernetes2'))
+  context.subscriptions.push(getOpenLinkDisposable('openKubernetes4'))
 
   // 打开指定文件
   context.subscriptions.push(
