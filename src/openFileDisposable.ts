@@ -6,9 +6,9 @@ import { existsSync } from 'fs'
 export function getOpenFileDisposable(commandName: string, fileName: string) {
   return commands.registerCommand(
     `vscode-template-generate-tool.${commandName}`,
-    () => {
+    uri => {
       const workspaceFolder = workspace.workspaceFolders?.find(item =>
-        window.activeTextEditor?.document.uri.path.includes(item.uri.path)
+        uri.path.includes(item.uri.path)
       )
       if (!workspaceFolder) {
         return

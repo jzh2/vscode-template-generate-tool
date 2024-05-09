@@ -253,30 +253,31 @@
         "label": "搜索"
       },
       {
-        "id": "vscode-template-generate-tool.explorerOpen",
-        "label": "打开"
-      },
-      {
-        "id": "vscode-template-generate-tool.editorOpen",
+        "id": "vscode-template-generate-tool.open",
         "label": "打开"
       }
     ],
     "menus": {
       "explorer/context": [
         {
-          "submenu": "vscode-template-generate-tool.explorerOpen",
+          "submenu": "vscode-template-generate-tool.open",
           "when": "explorerViewletVisible",
           "group": "navigation@21"
         },
         {
           "when": "explorerViewletVisible",
-          "command": "vscode-template-generate-tool.npmRunServe",
+          "command": "vscode-template-generate-tool.openRecentFile",
           "group": "navigation@22"
+        },
+        {
+          "when": "explorerViewletVisible",
+          "command": "vscode-template-generate-tool.npmRunServe",
+          "group": "navigation@23"
         },
         {
           "submenu": "vscode-template-generate-tool.terminal",
           "when": "explorerViewletVisible",
-          "group": "navigation@23"
+          "group": "navigation@24"
         }
       ],
       "editor/context": [
@@ -293,7 +294,7 @@
           "group": "vscode-template-generate-tool@3"
         },
         {
-          "submenu": "vscode-template-generate-tool.editorOpen",
+          "submenu": "vscode-template-generate-tool.open",
           "group": "vscode-template-generate-tool@4"
         }
       ],
@@ -389,17 +390,7 @@
           "group": "vscode-template-generate-tool@7"
         }
       ],
-      "vscode-template-generate-tool.explorerOpen": [
-        {
-          "command": "vscode-template-generate-tool.openRecentFile",
-          "group": "vscode-template-generate-tool@1"
-        },
-        {
-          "command": "vscode-template-generate-tool.openGitRepository",
-          "group": "vscode-template-generate-tool@2"
-        }
-      ],
-      "vscode-template-generate-tool.editorOpen": [
+      "vscode-template-generate-tool.open": [
         {
           "command": "vscode-template-generate-tool.openGitRepository",
           "group": "vscode-template-generate-tool@1"
