@@ -138,17 +138,49 @@ function insertStatementAtScript(script: { text: string; startLine: number }) {
           )
           if (dataNode) {
             // 有data
+            const dataStartLine = dataNode.loc?.start.line
             const dataEndLine = dataNode.loc?.end.line
-            dataInsertPosition = new Position(
-              startLine + dataEndLine! - 4,
-              1000
-            )
-            dataInsertValue = `,
+            if (dataStartLine === dataEndLine) {
+              // 没有return
+              dataInsertPosition = new Position(
+                startLine + dataEndLine! - 2,
+                10
+              )
+              dataInsertValue = `
+    return {
+      ${camelCaseComponentName}: {
+        data: {},
+        mode: 1,
+        show: false
+      }
+    }
+  `
+            } else if (dataEndLine! - dataStartLine! === 2) {
+              // 有return没数据
+              dataInsertPosition = new Position(
+                startLine + dataEndLine! - 3,
+                12
+              )
+              dataInsertValue = `
+      ${camelCaseComponentName}: {
+        data: {},
+        mode: 1,
+        show: false
+      }
+    `
+            } else {
+              // 有return有数据
+              dataInsertPosition = new Position(
+                startLine + dataEndLine! - 4,
+                1000
+              )
+              dataInsertValue = `,
       ${camelCaseComponentName}: {
         data: {},
         mode: 1,
         show: false
       }`
+            }
           } else {
             // 没有data
             dataInsertPosition = new Position(
