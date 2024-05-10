@@ -107,19 +107,21 @@ export class ComponentDefinitionProvider implements DefinitionProvider {
       bsComponents.includes(componentName)
     ) {
       // Vue.use和Vue.component不是通过import导入，所以f12找不到
-      for (const item of ['business', 'common', 'layout']) {
-        const filePath = join(
-          workspaceFolder,
-          'node_modules',
-          'nontax-saas-ui',
-          'packages',
-          item,
-          componentName,
-          'src',
-          'index.vue'
-        )
-        if (existsSync(filePath)) {
-          return new Location(Uri.file(filePath), newPosition)
+      for (const base of baseWorkspaceFolders) {
+        for (const item of ['business', 'common', 'layout']) {
+          const filePath = join(
+            base.uri.fsPath,
+            'node_modules',
+            'nontax-saas-ui',
+            'packages',
+            item,
+            componentName,
+            'src',
+            'index.vue'
+          )
+          if (existsSync(filePath)) {
+            return new Location(Uri.file(filePath), newPosition)
+          }
         }
       }
     }
