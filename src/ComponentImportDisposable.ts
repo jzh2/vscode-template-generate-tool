@@ -1,4 +1,10 @@
-import { commands, window, Position } from 'vscode'
+import {
+  commands,
+  window,
+  Position,
+  Selection,
+  TextEditorRevealType
+} from 'vscode'
 import { parse, ExportDefaultDeclaration } from 'acorn'
 import { simple } from 'acorn-walk'
 import { parse as parse5 } from 'parse5'
@@ -77,6 +83,7 @@ function insertStatementAtScript(script: { text: string; startLine: number }) {
             item.key.type === 'Identifier' &&
             item.key.name === 'components'
         )
+        const pascalCaseComponentName = toPascalCase(componentName)
         let componentInsertPosition: Position, componentInsertValue: string
         if (componentsNode) {
           const componentsStartLine = componentsNode.loc?.start.line
@@ -94,14 +101,14 @@ function insertStatementAtScript(script: { text: string; startLine: number }) {
                 startLine + componentsEndLine! - 2,
                 componentsEndColumn! - 1
               )
-              componentInsertValue = ` ${toPascalCase(componentName)} `
+              componentInsertValue = ` ${pascalCaseComponentName} `
             } else {
               // components不是空的
               componentInsertPosition = new Position(
                 startLine + componentsEndLine! - 2,
                 componentsEndColumn! - 2
               )
-              componentInsertValue = `, ${toPascalCase(componentName)}`
+              componentInsertValue = `, ${pascalCaseComponentName}`
             }
           } else {
             // components不在一行
@@ -109,7 +116,7 @@ function insertStatementAtScript(script: { text: string; startLine: number }) {
               startLine + componentsEndLine! - 3,
               1000
             )
-            componentInsertValue = `,\n    ${toPascalCase(componentName)}`
+            componentInsertValue = `,\n    ${pascalCaseComponentName}`
           }
         } else {
           // 没有components
@@ -117,13 +124,12 @@ function insertStatementAtScript(script: { text: string; startLine: number }) {
             startLine + exportStartLine - 1,
             0
           )
-          componentInsertValue = `  components: {\n    ${toPascalCase(
-            componentName
-          )}\n  },\n`
+          componentInsertValue = `  components: {\n    ${pascalCaseComponentName}\n  },\n`
         }
         let dataInsertPosition: Position, dataInsertValue: string
         // data
         if (componentName.endsWith('-dialog')) {
+          const camelCaseComponentName = toCamelCase(componentName)
           const dataNode = node.declaration.properties.find(
             item =>
               item.type === 'Property' &&
@@ -138,7 +144,7 @@ function insertStatementAtScript(script: { text: string; startLine: number }) {
               1000
             )
             dataInsertValue = `,
-      ${toCamelCase(componentName)}: {
+      ${camelCaseComponentName}: {
         data: {},
         mode: 1,
         show: false
@@ -151,7 +157,7 @@ function insertStatementAtScript(script: { text: string; startLine: number }) {
             )
             dataInsertValue = `  data() {
     return {
-      ${toCamelCase(componentName)}: {
+      ${camelCaseComponentName}: {
         data: {},
         mode: 1,
         show: false
@@ -163,16 +169,23 @@ function insertStatementAtScript(script: { text: string; startLine: number }) {
         window.activeTextEditor!.edit(editBuilder => {
           editBuilder.insert(
             new Position(startLine + exportStartLine - 2, 0),
-            `import ${toPascalCase(
-              componentName
-            )} from './${componentName}.vue'\n\n`
+            `import ${pascalCaseComponentName} from './${componentName}.vue'\n\n`
           )
           editBuilder.insert(componentInsertPosition, componentInsertValue)
           if (dataInsertValue) {
             editBuilder.insert(dataInsertPosition, dataInsertValue)
           }
         })
-        // TODO 跳转到修改处
+        const editor = window.activeTextEditor
+        if (editor) {
+          editor.selection = new Selection(
+            startLine + exportStartLine - 2,
+            pascalCaseComponentName.length + 14,
+            startLine + exportStartLine - 2,
+            pascalCaseComponentName.length + 14
+          )
+          editor.revealRange(editor.selection, TextEditorRevealType.InCenter)
+        }
       }
     }
   }
