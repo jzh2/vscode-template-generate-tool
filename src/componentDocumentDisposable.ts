@@ -59,10 +59,7 @@ export function getComponentDocumentDisposable() {
       ) {
         // 4.nontax-saas-ui依赖
         env.openExternal(
-          Uri.parse(
-            'http://172.18.166.134:31034/frontend-component-doc/#/' +
-              componentName
-          )
+          Uri.parse('http://172.18.166.139:31035/#/' + componentName)
         )
       }
     }

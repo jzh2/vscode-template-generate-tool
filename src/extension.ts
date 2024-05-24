@@ -116,17 +116,17 @@ export function activate(context: ExtensionContext) {
     // 文档
     getDocDisposable(
       '前端文档',
-      'http://172.18.166.134:31034/frontend-docs/pc/dev-env',
+      'http://172.18.166.139:31034/pc/dev-env',
       context
     ),
     getDocDisposable(
       '前端组件库',
-      'http://172.18.166.134:31034/frontend-component-doc/#/changelog',
+      'http://172.18.166.139:31035/#/changelog',
       context
     ),
     getDocDisposable(
       '样式工具类',
-      'http://172.18.166.134:31034/frontend-docs/pc/css-utils',
+      'http://172.18.166.139:31034/pc/css-utils',
       context
     ),
     // 浏览器

@@ -699,7 +699,7 @@ export default {
       } else {
         vscode.postMessage({
           command: 'openWebsite',
-          website: `http://172.18.166.134:31034/frontend-component-doc/index.html#/${type[1]}`
+          website: `http://172.18.166.139:31035/#/${type[1]}`
         })
       }
     },
