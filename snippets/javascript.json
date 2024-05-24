@@ -24,9 +24,31 @@
     "body": ".findIndex(item => item.$1)",
     "description": "findIndex"
   },
+  "some": {
+    "prefix": ".some",
+    "body": [".some(item => item.$1)"],
+    "description": "some"
+  },
+  "every": {
+    "prefix": ".every",
+    "body": [".every(item => item.$1)"],
+    "description": "every"
+  },
   "map": {
     "prefix": ".map",
-    "body": [".map(item => {\r", "  $1\r", "})"],
+    "body": [".map(item => item.$1)"],
     "description": "map"
+  },
+  "map-return": {
+    "prefix": ".map",
+    "body": [
+      ".map(item => {\r",
+      "  return {\r",
+      "    ...item,\r",
+      "    $1\r",
+      "  }\r",
+      "})"
+    ],
+    "description": "map-return"
   }
 }
