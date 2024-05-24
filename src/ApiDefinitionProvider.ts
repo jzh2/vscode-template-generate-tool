@@ -27,7 +27,11 @@ export class ApiDefinitionProvider implements DefinitionProvider {
     const preMethodText =
       (line > 0 ? document.lineAt(line - 1).text.trim() : '') +
       document.getText(new Range(line, 0, line, character)).trim()
-    if (!preMethodText.endsWith('$api.')) {
+    if (
+      !preMethodText.endsWith('$api.') && // $api.xxx中间可能有换行
+      !preMethodText.endsWith('api-config="') &&
+      !preMethodText.endsWith("method: '")
+    ) {
       return
     }
     const workspaceFolder = workspace.workspaceFolders?.find(item =>
