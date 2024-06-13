@@ -1,4 +1,4 @@
-export const elComponentsTransform: Record<string, string> = {
+export const elComponentsMap: Record<string, string> = {
   row: 'layout',
   col: 'layout',
 

@@ -9,7 +9,11 @@ import {
   Location,
   RelativePattern
 } from 'vscode'
-import { bsComponents } from './bsComponents'
+import {
+  bsComponents,
+  bsOperationComponents,
+  bsOperationComponentsMap
+} from './bsComponents'
 import { existsSync } from 'fs'
 import { join } from 'path'
 
@@ -101,18 +105,19 @@ export class ComponentDefinitionProvider implements DefinitionProvider {
     if (possibleLocation.length > 0) {
       return possibleLocation
     }
-    // 4.nontax-saas-ui依赖
+    // 4.kun-peng-ui依赖
     if (
       componentName.startsWith('bs-') ||
       bsComponents.includes(componentName)
     ) {
       // Vue.use和Vue.component不是通过import导入，所以f12找不到
       for (const base of baseWorkspaceFolders) {
-        for (const item of ['business', 'common', 'layout']) {
+        for (const item of ['common', 'layout']) {
           const filePath = join(
             base.uri.fsPath,
             'node_modules',
-            'nontax-saas-ui',
+            '@bs',
+            'kun-peng-ui',
             'packages',
             item,
             componentName,
@@ -123,6 +128,29 @@ export class ComponentDefinitionProvider implements DefinitionProvider {
             return new Location(Uri.file(filePath), newPosition)
           }
         }
+      }
+    }
+    // 5.saas-operation-ui依赖
+    const operationWorkspaceFolder = baseWorkspaceFolders.find(
+      item => item.name === 'operation-frontend'
+    )
+    if (
+      operationWorkspaceFolder &&
+      bsOperationComponents.includes(componentName)
+    ) {
+      // Vue.use和Vue.component不是通过import导入，所以f12找不到
+      const filePath = join(
+        operationWorkspaceFolder.uri.fsPath,
+        'node_modules',
+        '@bs',
+        'saas-operation-ui',
+        'packages',
+        'business',
+        bsOperationComponentsMap[componentName] ??
+          join(componentName, 'index.vue')
+      )
+      if (existsSync(filePath)) {
+        return new Location(Uri.file(filePath), newPosition)
       }
     }
   }

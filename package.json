@@ -71,6 +71,18 @@
         "title": "npm publish"
       },
       {
+        "command": "vscode-template-generate-tool.npmInstall",
+        "title": "npm install"
+      },
+      {
+        "command": "vscode-template-generate-tool.gitPull",
+        "title": "git pull"
+      },
+      {
+        "command": "vscode-template-generate-tool.gitRemoteUpdateOrigin",
+        "title": "git remote update origin -p(更新分支)"
+      },
+      {
         "command": "vscode-template-generate-tool.customTerminal1",
         "title": "自定义命令1"
       },
@@ -113,6 +125,10 @@
       {
         "command": "vscode-template-generate-tool.openProxy",
         "title": "打开本地代理"
+      },
+      {
+        "command": "vscode-template-generate-tool.addProxyDisposable",
+        "title": "添加到本地代理"
       },
       {
         "command": "vscode-template-generate-tool.openModule",
@@ -420,20 +436,24 @@
           "group": "vscode-template-generate-tool@4"
         },
         {
-          "command": "vscode-template-generate-tool.openProxy",
+          "command": "vscode-template-generate-tool.addProxyDisposable",
           "group": "vscode-template-generate-tool@5"
         },
         {
-          "command": "vscode-template-generate-tool.openModule",
+          "command": "vscode-template-generate-tool.openProxy",
           "group": "vscode-template-generate-tool@6"
         },
         {
-          "command": "vscode-template-generate-tool.openMenu",
+          "command": "vscode-template-generate-tool.openModule",
           "group": "vscode-template-generate-tool@7"
         },
         {
-          "command": "vscode-template-generate-tool.openRoute",
+          "command": "vscode-template-generate-tool.openMenu",
           "group": "vscode-template-generate-tool@8"
+        },
+        {
+          "command": "vscode-template-generate-tool.openRoute",
+          "group": "vscode-template-generate-tool@9"
         }
       ]
     },

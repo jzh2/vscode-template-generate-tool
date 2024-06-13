@@ -13,6 +13,7 @@ import { getRecentFileDisposable } from './recentFileDisposable'
 import { getOpenGitRepositoryDisposable } from './openGitRepositoryDisposable'
 import { getOpenLinkDisposable } from './openLinkDisposable'
 import { getOpenFileDisposable } from './openFileDisposable'
+import { getAddProxyDisposable } from './addProxyDisposable'
 import { getDocDisposable } from './docDisposable'
 import { getWebDisposable } from './webDisposable'
 import { getSearchDisposable } from './searchDisposable'
@@ -111,6 +112,9 @@ export function activate(context: ExtensionContext) {
     getOpenFileDisposable('openMenu', 'src/mock/menu.js'), // 菜单
     getOpenFileDisposable('openRoute', 'src/router/routes.js') // 路由
   )
+
+  // 添加到本地代理
+  context.subscriptions.push(getAddProxyDisposable())
 
   context.subscriptions.push(
     // 文档

@@ -1,5 +1,5 @@
 import { commands, window, env, Uri } from 'vscode'
-import { elComponentsTransform } from './elComponents'
+import { elComponentsMap } from './elComponents'
 import { uvComponentsTransform } from './uvComponents'
 import { bsComponents } from './bsComponents'
 
@@ -34,7 +34,7 @@ export function getComponentDocumentDisposable() {
         env.openExternal(
           Uri.parse(
             'https://element.eleme.cn/#/zh-CN/component/' +
-              (elComponentsTransform[componentName.slice(3)] ??
+              (elComponentsMap[componentName.slice(3)] ??
                 componentName.slice(3))
           )
         )

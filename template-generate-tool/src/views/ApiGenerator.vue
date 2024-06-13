@@ -334,7 +334,7 @@ export default {
       texts.forEach(item2 => {
         if (/^(post|get|delete|put)$/i.test(item2)) {
           item.type = item2.toLowerCase()
-        } else if (/^(\/[0-9a-zA-Z]+)*$/.test(item2)) {
+        } else if (/^(\/[0-9a-zA-Z{}-]+)*$/.test(item2)) {
           if (this.baseUrl && item2.startsWith(this.baseUrl + '/')) {
             item.url = item2.replace(this.baseUrl, '')
             item.useBaseUrl = 1
@@ -356,7 +356,7 @@ export default {
         return ''
       }
       let upperCamelCase = ''
-      const words = url.split('/')
+      const words = url.split(/[/-]/)
       words.forEach((word, index) => {
         if (!index) {
           return
@@ -387,7 +387,7 @@ export default {
       this.calcStr()
     },
     checkUrl(url) {
-      if (/^(\/[0-9a-zA-Z{}]+)*$/.test(url)) {
+      if (/^(\/[0-9a-zA-Z{}-]+)*$/.test(url)) {
         return true
       } else {
         this.$tip.warning('url格式不正确')
