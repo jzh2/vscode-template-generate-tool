@@ -20,7 +20,7 @@
 - f12 打开组件定义文件（可追踪到入口工程）
 - f12 可打开$api.后的 api 定义文件
 - f12 可查找 vue 模板中的函数定义
-- ctrl+alt+f12 在浏览器打开组件文档（bs、el、uv）
+- ctrl+alt+f12 在浏览器打开组件文档（bs、el、uv、wd）
 - ctrl+alt+f11 生成组件的导入语句
 - f9 可添加和删除一行 debugger（会覆盖 vscode 的快捷键，可关闭）
 - Ctrl + 数字键区 0-7（Mac: Cmd + Alt + 主键盘区 0-7）
@@ -34,7 +34,7 @@
 - 编辑器选中文本后右键通过搜索引擎、MDN、ElementUI、npmjs 搜索，建议配置为受信任的域
 - 在函数上悬停可复制完整函数
 
-- paging-grid 等单页面代码片段，created，computed 等生命周期代码片段
+- paging-grid 等单页面代码片段
 - 设置页面可以打开最近的文件、依赖和模板文件夹
 
 问题和 bug

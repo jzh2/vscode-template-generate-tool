@@ -61,7 +61,22 @@ export class ComponentDefinitionProvider implements DefinitionProvider {
       }
       return
     }
-    // 3.项目内定义
+    if (componentName.startsWith('wd-')) {
+      // 3.wot-design-uni
+      const filePath = join(
+        workspaceFolder,
+        'node_modules',
+        'wot-design-uni',
+        'components',
+        componentName,
+        `${componentName}.vue`
+      )
+      if (existsSync(filePath)) {
+        return new Location(Uri.file(filePath), new Position(0, 0))
+      }
+      return
+    }
+    // 4.项目内定义
     const baseWorkspaceFolder = workspace.workspaceFolders?.find(item =>
       document.uri.path.includes(item.uri.path)
     )
@@ -105,7 +120,7 @@ export class ComponentDefinitionProvider implements DefinitionProvider {
     if (possibleLocation.length > 0) {
       return possibleLocation
     }
-    // 4.kun-peng-ui依赖
+    // 5.kun-peng-ui依赖
     if (
       componentName.startsWith('bs-') ||
       bsComponents.includes(componentName)
@@ -130,7 +145,7 @@ export class ComponentDefinitionProvider implements DefinitionProvider {
         }
       }
     }
-    // 5.saas-operation-ui依赖
+    // 6.saas-operation-ui依赖
     const operationWorkspaceFolder = baseWorkspaceFolders.find(
       item => item.name === 'operation-frontend'
     )

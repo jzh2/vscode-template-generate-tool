@@ -1,6 +1,7 @@
 import { commands, window, env, Uri } from 'vscode'
 import { elComponentsMap } from './elComponents'
 import { uvComponentsTransform } from './uvComponents'
+import { wdComponentsTransform } from './wdComponents'
 import { bsComponents } from './bsComponents'
 
 // 打开组件文档
@@ -53,11 +54,21 @@ export function getComponentDocumentDisposable() {
               '.html'
           )
         )
+      } else if (componentName.startsWith('wd-')) {
+        // 3.wot-design-uni
+        env.openExternal(
+          Uri.parse(
+            'https://wot-design-uni.netlify.app/component/' +
+              (wdComponentsTransform[componentName.slice(3)] ??
+                componentName.slice(3)) +
+              '.html'
+          )
+        )
       } else if (
         componentName.startsWith('bs-') ||
         bsComponents.includes(componentName)
       ) {
-        // 4.nontax-saas-ui依赖
+        // 4.kun-peng-ui和saas-operation-ui依赖
         env.openExternal(
           Uri.parse('http://172.18.166.139:31035/#/' + componentName)
         )
