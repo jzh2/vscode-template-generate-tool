@@ -86,11 +86,17 @@ export function activate(context: ExtensionContext) {
     getTerminalDisposable('npmRunServe', 'npm run serve'),
     getTerminalDisposable('npmRunDev', 'npm run dev'),
     getTerminalDisposable('npmRunBuild', 'npm run build'),
-    getTerminalDisposable('npmPublish', 'npm publish')
+    getTerminalDisposable('npmPublish', 'npm publish'),
+    getTerminalDisposable('npmInstall', 'npm install'),
+    getTerminalDisposable('gitPull', 'git pull'),
+    getTerminalDisposable(
+      'gitRemoteUpdateOriginP',
+      'git remote update origin -p'
+    )
   )
 
   // 自定义终端命令
-  for (let i = 1; i <= 3; i++) {
+  for (let i = 4; i <= 6; i++) {
     context.subscriptions.push(
       getTerminalDisposable(`customTerminal${i}`, '', i)
     )
