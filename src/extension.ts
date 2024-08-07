@@ -96,7 +96,7 @@ export function activate(context: ExtensionContext) {
   )
 
   // 自定义终端命令
-  for (let i = 4; i <= 6; i++) {
+  for (let i = 1; i <= 3; i++) {
     context.subscriptions.push(
       getTerminalDisposable(`customTerminal${i}`, '', i)
     )
