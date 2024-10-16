@@ -13,7 +13,7 @@ import {
   bsComponents,
   bsOperationComponents,
   bsOperationComponentsMap
-} from './bsComponents'
+} from './componentsMap/bsComponents'
 import { existsSync } from 'fs'
 import { join } from 'path'
 

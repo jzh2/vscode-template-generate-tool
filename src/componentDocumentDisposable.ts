@@ -1,8 +1,8 @@
 import { commands, window, env, Uri } from 'vscode'
-import { elComponentsMap } from './elComponents'
-import { uvComponentsTransform } from './uvComponents'
-import { wdComponentsTransform } from './wdComponents'
-import { bsComponents } from './bsComponents'
+import { elComponentsMap } from './componentsMap/elComponents'
+import { uvComponentsTransform } from './componentsMap/uvComponents'
+import { wdComponentsTransform } from './componentsMap/wdComponents'
+import { bsComponents } from './componentsMap/bsComponents'
 
 // 打开组件文档
 export function getComponentDocumentDisposable() {
@@ -25,8 +25,12 @@ export function getComponentDocumentDisposable() {
       if (!lineText1.startsWith('<')) {
         return
       }
-      const componentName =
+      const componentName = (
         lineText1.slice(lineText1.indexOf('/') === 1 ? 2 : 1) + lineText2
+      )
+        .replace(/([A-Z])/g, '-$1')
+        .toLowerCase()
+        .replace(/^-/, '') // 大驼峰转短横线
       if (!/^[\w-]+$/.test(componentName)) {
         return
       }

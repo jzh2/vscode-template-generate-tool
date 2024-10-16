@@ -26,5 +26,7 @@ export const elComponentsMap: Record<string, string> = {
 
   'form-item': 'form',
 
-  'table-column': 'table'
+  'table-column': 'table',
+
+  'tab-pane': 'tabs'
 }
