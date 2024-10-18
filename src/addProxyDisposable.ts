@@ -9,19 +9,13 @@ import {
 } from 'vscode'
 import { join } from 'path'
 import { existsSync } from 'fs'
+import { getProject, getRelatedProjectPaths } from './utils'
 
 // 打开指定文件
 export function getAddProxyDisposable() {
   return commands.registerCommand(
     `vscode-template-generate-tool.addProxyDisposable`,
-    async uri => {
-      const workspaceFolder = workspace.workspaceFolders?.find(item =>
-        uri.path.includes(item.uri.path)
-      )
-      if (!workspaceFolder) {
-        return
-      }
-
+    async (uri: Uri) => {
       const editor = window.activeTextEditor
       if (!editor) {
         return
@@ -60,59 +54,47 @@ export function getAddProxyDisposable() {
           nextText.slice(0, nextFirstIndex - 1)
       }
 
-      const fsPath = workspaceFolder.uri.fsPath
-      const filePath = join(fsPath, 'vue.config.proxy.js')
-      let proxyUri: Uri
-      if (existsSync(filePath)) {
-        proxyUri = Uri.file(filePath)
+      let proxyPath = ''
+      const relatedProjectPaths = getRelatedProjectPaths(uri)
+      for (const fsPath of relatedProjectPaths) {
+        const filePath = join(fsPath, 'vue.config.proxy.js')
+        if (existsSync(filePath)) {
+          proxyPath = filePath
+          break
+        }
+      }
+      if (proxyPath) {
+        editFile()
       } else {
-        const entranceWorkspaceMap =
-          workspace
-            .getConfiguration()
-            .get<Record<string, string>>(
-              `vscode-template-generate-tool.entranceWorkspaceMap`
-            ) || {}
-        const entranceName = entranceWorkspaceMap[workspaceFolder.name]
-        if (entranceName) {
-          const entranceWorkspaceFolder = workspace.workspaceFolders?.find(
-            item => item.name === entranceName
-          )
-          if (entranceWorkspaceFolder) {
-            const entranceFilePath = join(
-              entranceWorkspaceFolder.uri.fsPath,
-              'vue.config.proxy.js'
-            )
-            if (existsSync(entranceFilePath)) {
-              proxyUri = Uri.file(entranceFilePath)
-            }
-          }
-        } else {
-          const yes: MessageItem = { title: '是' }
-          const no: MessageItem = { title: '否', isCloseAffordance: true }
-          const result = await window.showInformationMessage(
-            `无本地代理文件，是否创建`,
-            yes,
-            no
-          )
-          if (result === yes) {
-            workspace.fs.writeFile(
-              Uri.file(filePath),
-              Buffer.from(`module.exports = {
+        const yes: MessageItem = { title: '是' }
+        const no: MessageItem = { title: '否', isCloseAffordance: true }
+        const result = await window.showInformationMessage(
+          `无本地代理文件，是否创建`,
+          yes,
+          no
+        )
+        if (result === no) {
+          return
+        }
+        const { projectPath } = getProject(uri)
+        proxyPath = join(projectPath, 'vue.config.proxy.js')
+        workspace.fs.writeFile(
+          Uri.file(proxyPath),
+          Buffer.from(`module.exports = {
   port: 8080
 }
 `)
-            )
-            proxyUri = Uri.file(filePath)
-          }
-        }
+        )
+        setTimeout(() => {
+          editFile()
+        }, 1000)
       }
-      editFile()
 
       function editFile() {
-        workspace.openTextDocument(proxyUri).then(document => {
+        workspace.openTextDocument(Uri.file(proxyPath)).then(document => {
           const edit = new WorkspaceEdit()
           edit.replace(
-            proxyUri,
+            Uri.file(proxyPath),
             new Range(
               document.lineCount - 3,
               1000,

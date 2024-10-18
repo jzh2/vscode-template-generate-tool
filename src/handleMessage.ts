@@ -1,6 +1,5 @@
 import {
   ExtensionContext,
-  workspace,
   WebviewPanel,
   window,
   ViewColumn,
@@ -10,15 +9,17 @@ import {
 } from 'vscode'
 import { getDocContent } from './docContent'
 import { join } from 'path'
+import { getProject } from './utils'
 
 // 处理消息
 export async function handleMessage(
   message: Message,
   context: ExtensionContext
 ) {
-  const path = workspace.workspaceFolders?.find(item =>
-    window.activeTextEditor?.document.uri.path.includes(item.uri.path)
-  )?.uri.path
+  if (!window.activeTextEditor) {
+    return
+  }
+  const { projectPath } = getProject(window.activeTextEditor.document.uri)
   switch (message.command) {
     case 'openWebsite':
       let panel: WebviewPanel | null = window.createWebviewPanel(
@@ -43,10 +44,10 @@ export async function handleMessage(
       env.openExternal(Uri.parse(message.website))
       return
     case 'openFolder':
-      if (path) {
+      if (projectPath) {
         await commands.executeCommand(
           'vscode.openFolder',
-          Uri.file(join(path, message.folder)),
+          Uri.file(join(projectPath, message.folder)),
           {
             noRecentEntry: true,
             forceNewWindow: true
@@ -55,10 +56,10 @@ export async function handleMessage(
       }
       return
     case 'openFile':
-      if (path) {
+      if (projectPath) {
         await commands.executeCommand(
           'vscode.openFolder',
-          Uri.file(join(path, message.file))
+          Uri.file(join(projectPath, message.file))
         )
       }
       return

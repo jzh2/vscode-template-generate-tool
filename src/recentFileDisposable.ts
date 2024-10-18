@@ -1,4 +1,4 @@
-import { commands, workspace, window } from 'vscode'
+import { commands, Uri, workspace, window } from 'vscode'
 import { execSync } from 'child_process'
 import { readdirSync, statSync } from 'fs'
 import { join } from 'path'
@@ -7,7 +7,7 @@ import { join } from 'path'
 export function getRecentFileDisposable() {
   return commands.registerCommand(
     `vscode-template-generate-tool.openRecentFile`,
-    async uri => {
+    async (uri: Uri) => {
       let gitFiles: string[] = []
       try {
         gitFiles = execSync(`git status -s`, { cwd: uri.fsPath })

@@ -7,7 +7,7 @@ import { dirname } from 'path'
 export function getOpenGitRepositoryDisposable() {
   return commands.registerCommand(
     `vscode-template-generate-tool.openGitRepository`,
-    async uri => {
+    async (uri: Uri) => {
       try {
         const { fsPath } = uri
         const cwd = statSync(fsPath).isDirectory() ? fsPath : dirname(fsPath)

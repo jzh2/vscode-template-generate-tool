@@ -16,6 +16,7 @@ import {
 } from './componentsMap/bsComponents'
 import { existsSync } from 'fs'
 import { join } from 'path'
+import { getProject, getRelatedProjectPaths } from './utils'
 
 // 查找组件定义
 export class ComponentDefinitionProvider implements DefinitionProvider {
@@ -23,12 +24,6 @@ export class ComponentDefinitionProvider implements DefinitionProvider {
     document: TextDocument,
     position: Position
   ): Promise<Definition | DefinitionLink[] | undefined> {
-    const workspaceFolder = workspace.workspaceFolders?.find(item =>
-      document.uri.path.includes(item.uri.path)
-    )?.uri.fsPath
-    if (!workspaceFolder) {
-      return
-    }
     const { line, character } = position
     // 获取组件名
     const lineText = document.lineAt(line).text
@@ -45,10 +40,11 @@ export class ComponentDefinitionProvider implements DefinitionProvider {
     if (!/^[\w-]+$/.test(componentName)) {
       return
     }
+    const { projectPath } = getProject(document.uri)
     if (componentName.startsWith('uv-')) {
       // 2.uv-ui
       const filePath = join(
-        workspaceFolder,
+        projectPath,
         'node_modules',
         '@climblee',
         'uv-ui',
@@ -64,7 +60,7 @@ export class ComponentDefinitionProvider implements DefinitionProvider {
     if (componentName.startsWith('wd-')) {
       // 3.wot-design-uni
       const filePath = join(
-        workspaceFolder,
+        projectPath,
         'node_modules',
         'wot-design-uni',
         'components',
@@ -77,28 +73,7 @@ export class ComponentDefinitionProvider implements DefinitionProvider {
       return
     }
     // 4.项目内定义
-    const baseWorkspaceFolder = workspace.workspaceFolders?.find(item =>
-      document.uri.path.includes(item.uri.path)
-    )
-    if (!baseWorkspaceFolder) {
-      return
-    }
-    const baseWorkspaceFolders = [baseWorkspaceFolder]
-    const entranceWorkspaceMap =
-      workspace
-        .getConfiguration()
-        .get<Record<string, string>>(
-          `vscode-template-generate-tool.entranceWorkspaceMap`
-        ) || {}
-    const entranceName = entranceWorkspaceMap[baseWorkspaceFolder.name]
-    if (entranceName) {
-      const entranceWorkspaceFolder = workspace.workspaceFolders?.find(
-        item => item.name === entranceName
-      )
-      if (entranceWorkspaceFolder) {
-        baseWorkspaceFolders.push(entranceWorkspaceFolder)
-      }
-    }
+    const relatedProjectPaths = getRelatedProjectPaths(document.uri)
     const newPosition = new Position(0, 0)
     const possibleLocation: Location[] = []
     const patterns = [
@@ -108,9 +83,9 @@ export class ComponentDefinitionProvider implements DefinitionProvider {
       `src/components/**/${componentName}/index.vue`
     ]
     for (const pattern of patterns) {
-      for (const base of baseWorkspaceFolders) {
+      for (const fsPath of relatedProjectPaths) {
         const files = await workspace.findFiles(
-          new RelativePattern(base, pattern)
+          new RelativePattern(fsPath, pattern)
         )
         for (const file of files) {
           possibleLocation.push(new Location(file, newPosition))
@@ -126,10 +101,10 @@ export class ComponentDefinitionProvider implements DefinitionProvider {
       bsComponents.includes(componentName)
     ) {
       // Vue.use和Vue.component不是通过import导入，所以f12找不到
-      for (const base of baseWorkspaceFolders) {
+      for (const fsPath of relatedProjectPaths) {
         for (const item of ['common', 'layout']) {
           const filePath = join(
-            base.uri.fsPath,
+            fsPath,
             'node_modules',
             '@bs',
             'kun-peng-ui',
@@ -146,16 +121,13 @@ export class ComponentDefinitionProvider implements DefinitionProvider {
       }
     }
     // 6.saas-operation-ui依赖
-    const operationWorkspaceFolder = baseWorkspaceFolders.find(
-      item => item.name === 'operation-frontend'
+    const operationProjectPath = relatedProjectPaths.find(item =>
+      item.endsWith('operation-frontend')
     )
-    if (
-      operationWorkspaceFolder &&
-      bsOperationComponents.includes(componentName)
-    ) {
+    if (operationProjectPath && bsOperationComponents.includes(componentName)) {
       // Vue.use和Vue.component不是通过import导入，所以f12找不到
       const filePath = join(
-        operationWorkspaceFolder.uri.fsPath,
+        operationProjectPath,
         'node_modules',
         '@bs',
         'saas-operation-ui',

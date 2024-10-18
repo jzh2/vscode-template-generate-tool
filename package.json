@@ -551,9 +551,9 @@
             "description": "文档打开方式",
             "order": 5
           },
-          "vscode-template-generate-tool.entranceWorkspaceMap": {
+          "vscode-template-generate-tool.relatedProjectMap": {
             "type": "object",
-            "description": "子项目所属入口工程",
+            "description": "关联项目映射",
             "default": {
               "ebill-industry": "ebill-frontend",
               "ebill-assistant-industry": "ebill-frontend",

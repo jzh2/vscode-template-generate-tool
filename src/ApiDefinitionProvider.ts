@@ -4,7 +4,6 @@ import {
   Position,
   Definition,
   Range,
-  workspace,
   Location,
   Uri,
   window
@@ -12,6 +11,7 @@ import {
 import { parse, Expression, Property, SpreadElement } from 'acorn'
 import { readdirSync, statSync, readFileSync } from 'fs'
 import { join } from 'path'
+import { getProject } from './utils'
 
 // Api定义实例
 export class ApiDefinitionProvider implements DefinitionProvider {
@@ -34,21 +34,12 @@ export class ApiDefinitionProvider implements DefinitionProvider {
     ) {
       return
     }
-    const workspaceFolder = workspace.workspaceFolders?.find(item =>
-      document.uri.path.includes(item.uri.path)
-    )?.uri.fsPath
-    if (!workspaceFolder) {
-      return
-    }
     const methodText = document.getText(range)
     try {
-      const folderPath = join(workspaceFolder, 'src', 'api')
+      const { projectPath } = getProject(document.uri)
+      const folderPath = join(projectPath, 'src', 'api')
       async function findMethodInFile(file: string): Promise<Location | void> {
         return new Promise(async resolve => {
-          if (!workspaceFolder) {
-            resolve()
-            return
-          }
           const filePath = join(folderPath, file)
           if (statSync(filePath).isDirectory()) {
             // 子文件夹找到任意一个也返回
