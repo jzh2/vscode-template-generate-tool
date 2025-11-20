@@ -13,7 +13,8 @@
     "prefix": "<template>",
     "body": [
       "<template v-if=\"$1\">$2</template>\r",
-      "<template v-else>$3</template>"
+      "<template v-else-if=\"$3\">$4</template>\r",
+      "<template v-else>$5</template>"
     ],
     "description": "template"
   }

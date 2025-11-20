@@ -4,6 +4,16 @@
     "body": ["console.log($1)"],
     "description": "Log output to console"
   },
+  "Print to console this": {
+    "prefix": "llt",
+    "body": ["console.log(this.$1)"],
+    "description": "Log output to console this"
+  },
+  "Print to console this.$refs": {
+    "prefix": "llr",
+    "body": ["console.log(this.\\$refs.$1)"],
+    "description": "Log output to console this.$refs."
+  },
   "console": {
     "prefix": "console.log",
     "body": ["console.log($1)"],
