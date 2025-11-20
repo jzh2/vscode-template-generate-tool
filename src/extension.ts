@@ -18,7 +18,10 @@ import { getDocDisposable } from './docDisposable'
 import { getWebDisposable } from './webDisposable'
 import { getSearchDisposable } from './searchDisposable'
 
-let generatePanel: WebviewPanel | null
+import { getGenerateSchemaDisposable } from './schema/generateSchemaDisposable'
+
+let generatePanel: WebviewPanel | null = null
+let generateSchemaPanel: WebviewPanel | null = null
 
 export function activate(context: ExtensionContext) {
   // 侧边栏
@@ -41,6 +44,11 @@ export function activate(context: ExtensionContext) {
     getGenerateDisposable('表格生成', 'table', context, generatePanel),
     getGenerateDisposable('API生成', 'api', context, generatePanel),
     getGenerateDisposable('设置', 'settings', context, generatePanel)
+  )
+
+  // Schema面板
+  context.subscriptions.push(
+    getGenerateSchemaDisposable(context, generateSchemaPanel)
   )
 
   // 函数悬浮时复制按钮

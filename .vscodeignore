@@ -4,6 +4,7 @@
 
 !out
 !template-generate-tool/dist
+!preview-schema/dist
 !package.json
 
 !node_modules/acorn

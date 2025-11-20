@@ -201,6 +201,11 @@
       {
         "command": "vscode-template-generate-tool.npmjs",
         "title": "npmjs"
+      },
+      {
+        "command": "vscode-template-generate-tool.previewSchema",
+        "title": "预览Schema",
+        "icon": "$(book)"
       }
     ],
     "keybindings": [
@@ -324,6 +329,12 @@
         {
           "submenu": "vscode-template-generate-tool.open",
           "group": "vscode-template-generate-tool@4"
+        }
+      ],
+      "editor/title": [
+        {
+          "command": "vscode-template-generate-tool.previewSchema",
+          "group": "navigation"
         }
       ],
       "vscode-template-generate-tool.terminal": [
