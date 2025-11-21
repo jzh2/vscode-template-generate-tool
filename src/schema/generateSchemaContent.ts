@@ -15,14 +15,20 @@ export function getSchemaGenerateContent(webview: Webview, extensionUri: any) {
   const scriptUri = getUri(webview, extensionUri, [
     'preview-schema',
     'dist',
-    'assets',
-    'index.js'
+    'js',
+    'app.js'
+  ])
+  const chunkScriptUri = getUri(webview, extensionUri, [
+    'preview-schema',
+    'dist',
+    'js',
+    'chunk-vendors.js'
   ])
   const stylesUri = getUri(webview, extensionUri, [
     'preview-schema',
     'dist',
-    'assets',
-    'index.css'
+    'css',
+    'app.css'
   ])
   return /*html*/ `
 <!DOCTYPE html>
@@ -31,6 +37,7 @@ export function getSchemaGenerateContent(webview: Webview, extensionUri: any) {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>preview-schema</title>
+    <script defer="defer" src="${chunkScriptUri}"></script>
     <script defer="defer" src="${scriptUri}"></script>
     <link href="${stylesUri}" rel="stylesheet" />
   </head>
