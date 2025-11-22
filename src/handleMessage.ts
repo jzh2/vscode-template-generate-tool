@@ -23,7 +23,7 @@ export async function handleMessage(
   switch (message.command) {
     case 'openWebsite':
       let panel: WebviewPanel | null = window.createWebviewPanel(
-        'template-generate-tool',
+        'template-generate-tool.reference',
         '参考文档',
         ViewColumn.One,
         {

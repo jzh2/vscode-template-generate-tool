@@ -22,7 +22,7 @@ export function getGenerateDisposable(
         generatePanel.reveal(ViewColumn.Two)
       } else {
         generatePanel = window.createWebviewPanel(
-          'template-generate-tool',
+          'template-generate-tool.generate',
           '模板代码生成工具',
           ViewColumn.Two,
           {

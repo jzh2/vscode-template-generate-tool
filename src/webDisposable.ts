@@ -14,7 +14,7 @@ export function getWebDisposable(context: ExtensionContext) {
     `vscode-template-generate-tool.新建浏览器页签`,
     () => {
       let webPanel: WebviewPanel | null = window.createWebviewPanel(
-        'template-generate-tool',
+        'template-generate-tool.web',
         '浏览器',
         ViewColumn.One,
         {

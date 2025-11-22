@@ -29,7 +29,7 @@ export function getDocDisposable(
         return
       }
       let docPanel: WebviewPanel | null = window.createWebviewPanel(
-        'template-generate-tool',
+        'template-generate-tool.doc',
         commandName,
         ViewColumn.One,
         {
