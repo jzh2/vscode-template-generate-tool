@@ -7,7 +7,8 @@ module.exports = defineConfig({
   publicPath: '',
   pages: {
     index: 'src/main.js',
-    'star-website': 'src/views/star-website/main.js'
+    'star-website': 'src/views/star-website/main.js',
+    'preview-schema': 'src/views/preview-schema/main.js'
   },
   // devServer: {
   //   proxy: {

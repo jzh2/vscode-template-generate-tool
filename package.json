@@ -206,6 +206,11 @@
         "command": "vscode-template-generate-tool.previewSchema",
         "title": "预览Schema",
         "icon": "$(book)"
+      },
+      {
+        "command": "vscode-template-generate-tool.refreshSchema",
+        "title": "刷新Schema",
+        "icon": "$(refresh)"
       }
     ],
     "keybindings": [
@@ -334,7 +339,13 @@
       "editor/title": [
         {
           "command": "vscode-template-generate-tool.previewSchema",
-          "group": "navigation"
+          "group": "navigation",
+          "when": "resourceFilename =~ /^(form|page).(json|js)$/"
+        },
+        {
+          "command": "vscode-template-generate-tool.refreshSchema",
+          "group": "navigation",
+          "when": "activeWebviewPanelId == template-generate-tool.schema"
         }
       ],
       "vscode-template-generate-tool.terminal": [
@@ -595,6 +606,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.28.5",
     "@types/node": "^20.11.19",
     "@types/vscode": "^1.74.0",
     "typescript": "^5.3.3"

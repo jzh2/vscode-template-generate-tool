@@ -1,4 +1,10 @@
-import { WebviewPanel, ExtensionContext, window, languages } from 'vscode'
+import {
+  WebviewPanel,
+  ExtensionContext,
+  window,
+  languages,
+  workspace
+} from 'vscode'
 import { GenerateWebviewViewProvider } from './GenerateWebviewViewProvider'
 import { getGenerateDisposable } from './generateDisposable'
 import { CopyFunctionHoverProvider } from './CopyFunctionHoverProvider'
@@ -17,11 +23,14 @@ import { getAddProxyDisposable } from './addProxyDisposable'
 import { getDocDisposable } from './docDisposable'
 import { getWebDisposable } from './webDisposable'
 import { getSearchDisposable } from './searchDisposable'
-
-import { getGenerateSchemaDisposable } from './schema/generateSchemaDisposable'
+import {
+  getSchemaWebviewDisposable,
+  refreshSchemaWebviewDisposable,
+  updateSchemaDisposable
+} from './schemaDisposable'
 
 let generatePanel: WebviewPanel | null = null
-let generateSchemaPanel: WebviewPanel | null = null
+let schemaPanel: WebviewPanel | null = null
 
 export function activate(context: ExtensionContext) {
   // 侧边栏
@@ -47,9 +56,9 @@ export function activate(context: ExtensionContext) {
   )
 
   // Schema面板
-  context.subscriptions.push(
-    getGenerateSchemaDisposable(context, generateSchemaPanel)
-  )
+  context.subscriptions.push(getSchemaWebviewDisposable(context, schemaPanel))
+  context.subscriptions.push(refreshSchemaWebviewDisposable())
+  context.subscriptions.push(updateSchemaDisposable())
 
   // 函数悬浮时复制按钮
   const availableLanguages = ['vue', 'javascript']
