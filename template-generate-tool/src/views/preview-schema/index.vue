@@ -11,7 +11,7 @@ export default {
     return {
       dataReady: true,
       iframe: null,
-      website: 'http://172.18.121.24:30000/saas-industry/#/form-schema-preview'
+      website: 'http://172.18.163.52:30000/saas-industry/#/preview-schema'
     }
   },
   destroyed() {

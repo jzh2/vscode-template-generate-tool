@@ -154,7 +154,6 @@ function getWebContent(webview: Webview, extensionUri: any) {
     'css',
     'chunk-vendors.css'
   ])
-  console.log('jzh-', scriptUri)
   return /*html*/ `
 <!DOCTYPE html>
 <html lang="">
