@@ -1,31 +1,33 @@
 <template>
   <div class="preview-schema">
-    <iframe v-if="dataReady" id="iframe" :src="website" @load="handleLoad()" />
+    <iframe v-if="website" id="previewSchemaIframe" :src="website" />
   </div>
 </template>
 
 <script>
+const DEFAULT_WEBSITE =
+  'http://172.18.163.52:30000/saas-industry/#/preview-schema'
+
 export default {
   name: 'PreviewSchema',
   data() {
     return {
-      dataReady: true,
-      iframe: null,
-      website: 'http://172.18.163.52:30000/saas-industry/#/preview-schema'
+      website: DEFAULT_WEBSITE
     }
+  },
+  created() {
+    window.addEventListener('message', this.handleMessage)
   },
   destroyed() {
     window.removeEventListener('message', this.handleMessage)
   },
   methods: {
-    handleLoad() {
-      this.iframe = document.getElementById('iframe')
-      window.addEventListener('message', this.handleMessage)
-    },
     handleMessage({ data }) {
       switch (data.command) {
         case 'previewSchema':
-          this.iframe.contentWindow.postMessage(data, this.website)
+          this.website = data.website || DEFAULT_WEBSITE
+          const iframeElement = document.getElementById('previewSchemaIframe')
+          iframeElement.contentWindow.postMessage(data, this.website)
           break
         case 'refreshSchema':
           this.refreshIframe()
@@ -35,9 +37,10 @@ export default {
       }
     },
     refreshIframe() {
-      this.dataReady = false
+      const website = this.website
+      this.website = ''
       this.$nextTick(() => {
-        this.dataReady = true
+        this.website = website
       })
     }
   }

@@ -513,6 +513,17 @@
       {
         "title": "Vscode Template Generate Tool",
         "properties": {
+          "vscode-template-generate-tool.schemaWebsiteMap": {
+            "type": "object",
+            "description": "schema地址映射",
+            "default": {
+              "事前申请": "http://172.18.163.52:30000/saas-industry/#/preview-schema",
+              "资金单据": "http://172.18.163.52:30000/saas-industry/#/preview-schema",
+              "报销单据": "http://172.18.163.52:30000/saas-industry/#/preview-schema",
+              "单据配置": "http://172.18.163.52:30000/saas-industry/#/preview-schema"
+            },
+            "order": 0
+          },
           "vscode-template-generate-tool.copyFunctionKinds": {
             "type": "array",
             "default": [
@@ -536,28 +547,28 @@
               ]
             },
             "description": "支持复制的函数类型",
-            "order": 0
+            "order": 10
           },
           "vscode-template-generate-tool.enableToggleDebugger": {
             "type": "boolean",
             "description": "是否启用切换断点",
             "default": true,
-            "order": 1
+            "order": 11
           },
           "vscode-template-generate-tool.customTerminal1": {
             "type": "string",
             "description": "自定义命令1",
-            "order": 2
+            "order": 20
           },
           "vscode-template-generate-tool.customTerminal2": {
             "type": "string",
             "description": "自定义命令2",
-            "order": 3
+            "order": 21
           },
           "vscode-template-generate-tool.customTerminal3": {
             "type": "string",
             "description": "自定义命令3",
-            "order": 4
+            "order": 22
           },
           "vscode-template-generate-tool.docOpenMode": {
             "type": "string",
@@ -571,7 +582,7 @@
               "内部浏览器"
             ],
             "description": "文档打开方式",
-            "order": 5
+            "order": 30
           },
           "vscode-template-generate-tool.relatedProjectMap": {
             "type": "object",
@@ -584,22 +595,22 @@
               "ebill-assistant-operation": "operation-frontend",
               "finance-payment-operation": "operation-frontend"
             },
-            "order": 6
+            "order": 31
           },
           "vscode-template-generate-tool.openJenkins": {
             "type": "object",
             "description": "Jenkins地址",
-            "order": 7
+            "order": 32
           },
           "vscode-template-generate-tool.openKubernetes2": {
             "type": "object",
             "description": "K8S地址2",
-            "order": 8
+            "order": 33
           },
           "vscode-template-generate-tool.openKubernetes4": {
             "type": "object",
             "description": "K8S地址4",
-            "order": 9
+            "order": 34
           }
         }
       }

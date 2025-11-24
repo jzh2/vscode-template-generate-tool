@@ -49,9 +49,7 @@ export function getSchemaWebviewDisposable(
           context.subscriptions
         )
         mySchemaPanel = schemaPanel
-        setTimeout(() => {
-          postMessageSchema(document)
-        }, 10000)
+        postMessageSchema(document)
       }
     }
   )
@@ -95,7 +93,8 @@ async function postMessageSchema(e: TextDocument | undefined) {
     command: 'previewSchema',
     schema,
     effects,
-    fileName: e.fileName
+    fileName: e.fileName,
+    website: getSchemaWebsite(e.fileName)
   })
 }
 
@@ -126,6 +125,21 @@ function getSchemaName(fileName: string | undefined) {
   }
   const fileNameList = fileName.split('\\')
   return fileNameList[fileNameList.length - 3]
+}
+// 获取Schema网址
+function getSchemaWebsite(fileName: string | undefined) {
+  if (!fileName) {
+    return ''
+  }
+  const schemaWebsiteMap =
+    workspace
+      .getConfiguration()
+      .get<Record<string, string>>(
+        'vscode-template-generate-tool.schemaWebsiteMap'
+      ) || {}
+  const fileNameList = fileName.split('\\')
+  const key = fileNameList[fileNameList.length - 4]
+  return schemaWebsiteMap[key] || ''
 }
 
 // Schema内容
