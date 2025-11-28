@@ -26,6 +26,7 @@ import { getSearchDisposable } from './searchDisposable'
 import {
   getSchemaWebviewDisposable,
   refreshSchemaWebviewDisposable,
+  saveSchemaDisposable,
   updateSchemaDisposable
 } from './schemaDisposable'
 
@@ -58,6 +59,7 @@ export function activate(context: ExtensionContext) {
   // Schema面板
   context.subscriptions.push(getSchemaWebviewDisposable(context, schemaPanel))
   context.subscriptions.push(refreshSchemaWebviewDisposable())
+  context.subscriptions.push(saveSchemaDisposable())
   context.subscriptions.push(updateSchemaDisposable())
 
   // 函数悬浮时复制按钮

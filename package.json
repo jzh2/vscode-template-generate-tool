@@ -2,7 +2,7 @@
   "name": "vscode-template-generate-tool",
   "displayName": "Vscode Template Generate Tool",
   "description": "快速配置prop和label，生成el-form和el-table代码",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "publisher": "jzh",
   "icon": "icons/logo.png",
   "homepage": "https://github.com/jzh2/vscode-template-generate-tool/blob/main/README.md",
@@ -211,6 +211,11 @@
         "command": "vscode-template-generate-tool.refreshSchema",
         "title": "刷新Schema",
         "icon": "$(refresh)"
+      },
+      {
+        "command": "vscode-template-generate-tool.saveSchema",
+        "title": "保存Schema",
+        "icon": "$(save)"
       }
     ],
     "keybindings": [
@@ -344,7 +349,12 @@
         },
         {
           "command": "vscode-template-generate-tool.refreshSchema",
-          "group": "navigation",
+          "group": "navigation@1",
+          "when": "activeWebviewPanelId == template-generate-tool.schema"
+        },
+        {
+          "command": "vscode-template-generate-tool.saveSchema",
+          "group": "navigation@2",
           "when": "activeWebviewPanelId == template-generate-tool.schema"
         }
       ],
@@ -518,9 +528,11 @@
             "description": "schema地址映射",
             "default": {
               "事前申请": "http://172.18.163.52:30000/saas-industry/#/preview-schema",
-              "资金单据": "http://172.18.163.52:30000/saas-industry/#/preview-schema",
               "报销单据": "http://172.18.163.52:30000/saas-industry/#/preview-schema",
-              "单据配置": "http://172.18.163.52:30000/saas-industry/#/preview-schema"
+              "资金单据": "http://172.18.163.52:30000/saas-industry/#/preview-schema",
+              "原始凭证": "http://172.18.163.52:30000/saas-industry/#/preview-schema",
+              "其他单据": "http://172.18.163.52:30000/saas-industry/#/preview-schema",
+              "单据配置": "http://172.18.163.52:30000/saas-industry/#/preview-form-config"
             },
             "order": 0
           },

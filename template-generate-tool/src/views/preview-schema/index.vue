@@ -24,14 +24,20 @@ export default {
   methods: {
     handleMessage({ data }) {
       switch (data.command) {
-        case 'previewSchema':
+        case 'previewSchema': {
           this.website = data.website || DEFAULT_WEBSITE
           const iframeElement = document.getElementById('previewSchemaIframe')
           iframeElement.contentWindow.postMessage(data, this.website)
           break
+        }
         case 'refreshSchema':
           this.refreshIframe()
           break
+        case 'saveSchema': {
+          const iframeElement = document.getElementById('previewSchemaIframe')
+          iframeElement.contentWindow.postMessage(data, this.website)
+          break
+        }
         default:
           break
       }

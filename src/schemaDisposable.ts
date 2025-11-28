@@ -111,6 +111,19 @@ export function refreshSchemaWebviewDisposable() {
     }
   )
 }
+// 保存Schema内容
+export function saveSchemaDisposable() {
+  return commands.registerCommand(
+    `vscode-template-generate-tool.saveSchema`,
+    () => {
+      if (mySchemaPanel) {
+        mySchemaPanel.webview.postMessage({
+          command: 'saveSchema'
+        })
+      }
+    }
+  )
+}
 
 function isSchema(fileName: string) {
   return fileName.match(/\\(form|page).json$/)
@@ -124,7 +137,11 @@ function getSchemaName(fileName: string | undefined) {
     return ''
   }
   const fileNameList = fileName.split('\\')
-  return fileNameList[fileNameList.length - 3]
+  if (fileNameList[fileNameList.length - 3] === '单据配置') {
+    return fileNameList[fileNameList.length - 2]
+  } else {
+    return fileNameList[fileNameList.length - 3]
+  }
 }
 // 获取Schema网址
 function getSchemaWebsite(fileName: string | undefined) {
@@ -138,6 +155,9 @@ function getSchemaWebsite(fileName: string | undefined) {
         'vscode-template-generate-tool.schemaWebsiteMap'
       ) || {}
   const fileNameList = fileName.split('\\')
+  if (fileNameList[fileNameList.length - 3] === '单据配置') {
+    return schemaWebsiteMap['单据配置'] || ''
+  }
   const key = fileNameList[fileNameList.length - 4]
   return schemaWebsiteMap[key] || ''
 }
