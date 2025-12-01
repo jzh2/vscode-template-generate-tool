@@ -29,6 +29,7 @@ export function getSchemaWebviewDisposable(
         schemaPanel.reveal(ViewColumn.Two)
         schemaPanel.title = getSchemaName(fileName)
         mySchemaPanel = schemaPanel
+        customHash = ''
         postMessageSchema(document)
       } else {
         schemaPanel = window.createWebviewPanel(
@@ -166,6 +167,7 @@ export function toggleCustomSchemaWebsiteDisposable() {
       await workspace
         .getConfiguration()
         .update('vscode-template-generate-tool.useCustomSchemaWebsite', true, 1)
+      customHash = ''
       postMessageSchema(currentDocument)
       if (mySchemaPanel) {
         mySchemaPanel.webview.postMessage({
