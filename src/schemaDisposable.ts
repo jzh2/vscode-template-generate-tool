@@ -11,6 +11,8 @@ import {
 import { existsSync } from 'fs'
 import { getUri } from './uri'
 let mySchemaPanel: WebviewPanel | null = null
+let currentDocument: TextDocument | undefined = undefined
+let customHash = ''
 
 // Schema面板
 export function getSchemaWebviewDisposable(
@@ -21,6 +23,7 @@ export function getSchemaWebviewDisposable(
     `vscode-template-generate-tool.previewSchema`,
     () => {
       const document = window.activeTextEditor?.document
+      currentDocument = document
       const fileName = document?.fileName
       if (schemaPanel) {
         schemaPanel.reveal(ViewColumn.Two)
@@ -104,9 +107,19 @@ export function refreshSchemaWebviewDisposable() {
     `vscode-template-generate-tool.refreshSchema`,
     () => {
       if (mySchemaPanel) {
-        mySchemaPanel.webview.postMessage({
-          command: 'refreshSchema'
-        })
+        const useCustomSchemaWebsite = workspace
+          .getConfiguration()
+          .get<boolean>('vscode-template-generate-tool.useCustomSchemaWebsite')
+        if (
+          useCustomSchemaWebsite &&
+          (customHash === '' || customHash === 'zhfw')
+        ) {
+          postMessageSchema(currentDocument)
+        } else {
+          mySchemaPanel.webview.postMessage({
+            command: 'refreshSchema'
+          })
+        }
       }
     }
   )
@@ -119,6 +132,44 @@ export function saveSchemaDisposable() {
       if (mySchemaPanel) {
         mySchemaPanel.webview.postMessage({
           command: 'saveSchema'
+        })
+      }
+    }
+  )
+}
+// 切换到线上环境
+export function toggleOnlineSchemaWebsiteDisposable() {
+  return commands.registerCommand(
+    `vscode-template-generate-tool.toggleOnlineSchemaWebsite`,
+    async () => {
+      await workspace
+        .getConfiguration()
+        .update(
+          'vscode-template-generate-tool.useCustomSchemaWebsite',
+          false,
+          1
+        )
+      postMessageSchema(currentDocument)
+      if (mySchemaPanel) {
+        mySchemaPanel.webview.postMessage({
+          command: 'refreshSchema'
+        })
+      }
+    }
+  )
+}
+// 切换到自定义环境
+export function toggleCustomSchemaWebsiteDisposable() {
+  return commands.registerCommand(
+    `vscode-template-generate-tool.toggleCustomSchemaWebsite`,
+    async () => {
+      await workspace
+        .getConfiguration()
+        .update('vscode-template-generate-tool.useCustomSchemaWebsite', true, 1)
+      postMessageSchema(currentDocument)
+      if (mySchemaPanel) {
+        mySchemaPanel.webview.postMessage({
+          command: 'refreshSchema'
         })
       }
     }
@@ -148,18 +199,47 @@ function getSchemaWebsite(fileName: string | undefined) {
   if (!fileName) {
     return ''
   }
+  const configuration = workspace.getConfiguration()
   const schemaWebsiteMap =
-    workspace
-      .getConfiguration()
-      .get<Record<string, string>>(
-        'vscode-template-generate-tool.schemaWebsiteMap'
-      ) || {}
+    configuration.get<Record<string, string>>(
+      'vscode-template-generate-tool.schemaWebsiteMap'
+    ) || {}
+  const useCustomSchemaWebsite = configuration.get<boolean>(
+    'vscode-template-generate-tool.useCustomSchemaWebsite'
+  )
+  const onlineSchemaWebsite =
+    configuration.get<string>(
+      'vscode-template-generate-tool.onlineSchemaWebsite'
+    ) || ''
+  const customSchemaWebsite =
+    configuration.get<string>(
+      'vscode-template-generate-tool.customSchemaWebsite'
+    ) || ''
   const fileNameList = fileName.split('\\')
+  let realHash = ''
   if (fileNameList[fileNameList.length - 3] === '单据配置') {
-    return schemaWebsiteMap['单据配置'] || ''
+    realHash = schemaWebsiteMap['单据配置'] || ''
+  } else {
+    const key = fileNameList[fileNameList.length - 4]
+    realHash = schemaWebsiteMap[key] || ''
   }
-  const key = fileNameList[fileNameList.length - 4]
-  return schemaWebsiteMap[key] || ''
+  let hash = ''
+  if (useCustomSchemaWebsite) {
+    // 自定义环境下，未登录hash会重定向到zhfw，刷新后才会访问realHash
+    if (customHash === '') {
+      customHash = 'zhfw'
+    } else {
+      customHash = realHash
+    }
+    hash = customHash
+  } else {
+    hash = realHash
+  }
+  return (
+    (useCustomSchemaWebsite ? customSchemaWebsite : onlineSchemaWebsite) +
+    '/#/' +
+    hash
+  )
 }
 
 // Schema内容

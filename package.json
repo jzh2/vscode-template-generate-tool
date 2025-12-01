@@ -2,7 +2,7 @@
   "name": "vscode-template-generate-tool",
   "displayName": "Vscode Template Generate Tool",
   "description": "快速配置prop和label，生成el-form和el-table代码",
-  "version": "1.1.7",
+  "version": "1.1.8",
   "publisher": "jzh",
   "icon": "icons/logo.png",
   "homepage": "https://github.com/jzh2/vscode-template-generate-tool/blob/main/README.md",
@@ -216,6 +216,16 @@
         "command": "vscode-template-generate-tool.saveSchema",
         "title": "保存Schema",
         "icon": "$(save)"
+      },
+      {
+        "command": "vscode-template-generate-tool.toggleOnlineSchemaWebsite",
+        "title": "切换到线上环境",
+        "icon": "$(arrow-swap)"
+      },
+      {
+        "command": "vscode-template-generate-tool.toggleCustomSchemaWebsite",
+        "title": "切换到自定义环境",
+        "icon": "$(arrow-swap)"
       }
     ],
     "keybindings": [
@@ -356,6 +366,16 @@
           "command": "vscode-template-generate-tool.saveSchema",
           "group": "navigation@2",
           "when": "activeWebviewPanelId == template-generate-tool.schema"
+        },
+        {
+          "command": "vscode-template-generate-tool.toggleOnlineSchemaWebsite",
+          "group": "navigation@3",
+          "when": "activeWebviewPanelId == template-generate-tool.schema && config.vscode-template-generate-tool.useCustomSchemaWebsite"
+        },
+        {
+          "command": "vscode-template-generate-tool.toggleCustomSchemaWebsite",
+          "group": "navigation@4",
+          "when": "activeWebviewPanelId == template-generate-tool.schema && !config.vscode-template-generate-tool.useCustomSchemaWebsite"
         }
       ],
       "vscode-template-generate-tool.terminal": [
@@ -527,14 +547,32 @@
             "type": "object",
             "description": "schema地址映射",
             "default": {
-              "事前申请": "http://172.18.163.52:30000/saas-industry/#/preview-schema",
-              "报销单据": "http://172.18.163.52:30000/saas-industry/#/preview-schema",
-              "资金单据": "http://172.18.163.52:30000/saas-industry/#/preview-schema",
-              "原始凭证": "http://172.18.163.52:30000/saas-industry/#/preview-schema",
-              "其他单据": "http://172.18.163.52:30000/saas-industry/#/preview-schema",
-              "单据配置": "http://172.18.163.52:30000/saas-industry/#/preview-form-config"
+              "事前申请": "preview-schema",
+              "报销单据": "preview-schema",
+              "资金单据": "preview-schema",
+              "原始凭证": "preview-schema",
+              "其他单据": "preview-schema",
+              "单据配置": "preview-form-config"
             },
             "order": 0
+          },
+          "vscode-template-generate-tool.onlineSchemaWebsite": {
+            "type": "string",
+            "description": "线上环境地址",
+            "default": "http://172.18.163.52:30000/saas-industry",
+            "order": 1
+          },
+          "vscode-template-generate-tool.customSchemaWebsite": {
+            "type": "string",
+            "description": "自定义环境地址",
+            "default": "http://172.18.163.52:30000/saas-industry",
+            "order": 2
+          },
+          "vscode-template-generate-tool.useCustomSchemaWebsite": {
+            "type": "boolean",
+            "description": "是否使用自定义环境",
+            "default": false,
+            "order": 3
           },
           "vscode-template-generate-tool.copyFunctionKinds": {
             "type": "array",

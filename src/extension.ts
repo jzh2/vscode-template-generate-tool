@@ -27,7 +27,9 @@ import {
   getSchemaWebviewDisposable,
   refreshSchemaWebviewDisposable,
   saveSchemaDisposable,
-  updateSchemaDisposable
+  updateSchemaDisposable,
+  toggleOnlineSchemaWebsiteDisposable,
+  toggleCustomSchemaWebsiteDisposable
 } from './schemaDisposable'
 
 let generatePanel: WebviewPanel | null = null
@@ -61,6 +63,8 @@ export function activate(context: ExtensionContext) {
   context.subscriptions.push(refreshSchemaWebviewDisposable())
   context.subscriptions.push(saveSchemaDisposable())
   context.subscriptions.push(updateSchemaDisposable())
+  context.subscriptions.push(toggleOnlineSchemaWebsiteDisposable())
+  context.subscriptions.push(toggleCustomSchemaWebsiteDisposable())
 
   // 函数悬浮时复制按钮
   const availableLanguages = ['vue', 'javascript']
