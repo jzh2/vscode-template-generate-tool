@@ -2,7 +2,7 @@
   "name": "vscode-template-generate-tool",
   "displayName": "Vscode Template Generate Tool",
   "description": "快速配置prop和label，生成el-form和el-table代码",
-  "version": "1.1.8",
+  "version": "1.1.9",
   "publisher": "jzh",
   "icon": "icons/logo.png",
   "homepage": "https://github.com/jzh2/vscode-template-generate-tool/blob/main/README.md",
@@ -552,6 +552,7 @@
               "资金单据": "preview-schema",
               "原始凭证": "preview-schema",
               "其他单据": "preview-schema",
+              "移动端": "preview-mobile-schema",
               "单据配置": "preview-form-config"
             },
             "order": 0

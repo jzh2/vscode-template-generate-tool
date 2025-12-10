@@ -13,6 +13,7 @@ import { getUri } from './uri'
 let mySchemaPanel: WebviewPanel | null = null
 let currentDocument: TextDocument | undefined = undefined
 let customHash = ''
+let timeoutId: NodeJS.Timeout | null = null
 
 // Schema面板
 export function getSchemaWebviewDisposable(
@@ -219,7 +220,9 @@ function getSchemaWebsite(fileName: string | undefined) {
     ) || ''
   const fileNameList = fileName.split('\\')
   let realHash = ''
-  if (fileNameList[fileNameList.length - 3] === '单据配置') {
+  if (fileNameList[fileNameList.length - 2] === 'mobile') {
+    realHash = schemaWebsiteMap['移动端'] || ''
+  } else if (fileNameList[fileNameList.length - 3] === '单据配置') {
     realHash = schemaWebsiteMap['单据配置'] || ''
   } else {
     const key = fileNameList[fileNameList.length - 4]
@@ -233,6 +236,14 @@ function getSchemaWebsite(fileName: string | undefined) {
     } else {
       customHash = realHash
     }
+    if (timeoutId) {
+      clearTimeout(timeoutId)
+      timeoutId = null
+    }
+    timeoutId = setTimeout(() => {
+      customHash = ''
+      // token可能过期，自定义环境需要定时重定向到登录页
+    }, 30 * 60 * 1000)
     hash = customHash
   } else {
     hash = realHash
