@@ -106,8 +106,11 @@ export class ApiDefinitionProvider implements DefinitionProvider {
             property.type === 'Property' &&
             property.key.type === 'Identifier' &&
             property.key.name === 'method' &&
-            property.value.type === 'Literal' &&
-            property.value.value === methodText
+            ((property.value.type === 'Literal' &&
+              property.value.value === methodText) ||
+              (property.value.type === 'TemplateLiteral' &&
+                property.value.quasis[0].value.raw === methodText))
+            // 只能处理只含字符串的模板字符串，不能处理表达式
           ) {
             const start = property.value.loc?.start
             if (start) {
