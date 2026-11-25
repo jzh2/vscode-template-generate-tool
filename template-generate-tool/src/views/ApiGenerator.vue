@@ -28,7 +28,7 @@
                 <el-input
                   v-model="baseUrl"
                   clearable
-                  @change="checkUrl(baseUrl), changeBaseUrl()"
+                  @change="(checkUrl(baseUrl), changeBaseUrl())"
                 />
               </el-form-item>
             </el-col>
@@ -45,7 +45,7 @@
                 <el-input
                   v-model="baseUrl2"
                   clearable
-                  @change="checkUrl(baseUrl2), calcStr()"
+                  @change="(checkUrl(baseUrl2), calcStr())"
                 />
               </el-form-item>
             </el-col>
@@ -160,7 +160,7 @@
                     <el-input
                       v-model="item.url"
                       clearable
-                      @change="checkUrl(item.url), changeUrl(item)"
+                      @change="(checkUrl(item.url), changeUrl(item))"
                     />
                   </el-form-item>
                 </el-col>
@@ -428,7 +428,7 @@ export default {
       }
       if (clipboardItems[0].types[0] === 'text/plain') {
         const text = await navigator.clipboard.readText()
-        this.dataList[index][type] = text
+        this.dataList[index][type] = text.trim()
         if (type === 'url') {
           if (this.checkUrl(text)) {
             if (this.baseUrl && text.startsWith(this.baseUrl + '/')) {

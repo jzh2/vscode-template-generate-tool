@@ -2,7 +2,7 @@
   "name": "vscode-template-generate-tool",
   "displayName": "Vscode Template Generate Tool",
   "description": "快速配置prop和label，生成el-form和el-table代码",
-  "version": "1.1.9",
+  "version": "1.1.10",
   "publisher": "jzh",
   "icon": "icons/logo.png",
   "homepage": "https://github.com/jzh2/vscode-template-generate-tool/blob/main/README.md",
@@ -95,6 +95,14 @@
         "title": "自定义命令3"
       },
       {
+        "command": "vscode-template-generate-tool.customTerminal4",
+        "title": "自定义命令4"
+      },
+      {
+        "command": "vscode-template-generate-tool.customTerminal5",
+        "title": "自定义命令5"
+      },
+      {
         "command": "vscode-template-generate-tool.openRecentFile",
         "title": "打开最近的文件"
       },
@@ -107,12 +115,12 @@
         "title": "打开Jenkins"
       },
       {
-        "command": "vscode-template-generate-tool.openKubernetes2",
-        "title": "打开K8S2"
+        "command": "vscode-template-generate-tool.openDevKubernetes",
+        "title": "打开开发K8S"
       },
       {
-        "command": "vscode-template-generate-tool.openKubernetes4",
-        "title": "打开K8S4"
+        "command": "vscode-template-generate-tool.openTestKubernetes",
+        "title": "打开测试K8S"
       },
       {
         "command": "vscode-template-generate-tool.openComponentDocument",
@@ -141,6 +149,22 @@
       {
         "command": "vscode-template-generate-tool.openRoute",
         "title": "打开路由"
+      },
+      {
+        "command": "vscode-template-generate-tool.openCustomLink1",
+        "title": "打开自定义链接1"
+      },
+      {
+        "command": "vscode-template-generate-tool.openCustomLink2",
+        "title": "打开自定义链接2"
+      },
+      {
+        "command": "vscode-template-generate-tool.openCustomLink3",
+        "title": "打开自定义链接3"
+      },
+      {
+        "command": "vscode-template-generate-tool.copyCertCode",
+        "title": "复制凭证编码"
       },
       {
         "command": "vscode-template-generate-tool.表单生成",
@@ -283,9 +307,19 @@
         "mac": "cmd+alt+6"
       },
       {
-        "command": "vscode-template-generate-tool.新建浏览器页签",
+        "command": "vscode-template-generate-tool.openCustomLink1",
         "key": "ctrl+NumPad7",
         "mac": "cmd+alt+7"
+      },
+      {
+        "command": "vscode-template-generate-tool.openCustomLink2",
+        "key": "ctrl+NumPad8",
+        "mac": "cmd+alt+8"
+      },
+      {
+        "command": "vscode-template-generate-tool.openCustomLink3",
+        "key": "ctrl+NumPad9",
+        "mac": "cmd+alt+9"
       }
     ],
     "submenus": [
@@ -331,6 +365,11 @@
           "submenu": "vscode-template-generate-tool.terminal",
           "when": "explorerViewletVisible",
           "group": "navigation@24"
+        },
+        {
+          "command": "vscode-template-generate-tool.copyCertCode",
+          "when": "explorerViewletVisible",
+          "group": "5_cutcopypaste@99"
         }
       ],
       "editor/context": [
@@ -349,6 +388,10 @@
         {
           "submenu": "vscode-template-generate-tool.open",
           "group": "vscode-template-generate-tool@4"
+        },
+        {
+          "command": "vscode-template-generate-tool.copyCertCode",
+          "group": "9_cutcopypaste@99"
         }
       ],
       "editor/title": [
@@ -414,6 +457,14 @@
         {
           "command": "vscode-template-generate-tool.customTerminal3",
           "group": "vscode-template-generate-tool@9"
+        },
+        {
+          "command": "vscode-template-generate-tool.customTerminal4",
+          "group": "vscode-template-generate-tool@10"
+        },
+        {
+          "command": "vscode-template-generate-tool.customTerminal5",
+          "group": "vscode-template-generate-tool@11"
         }
       ],
       "vscode-template-generate-tool.generate": [
@@ -492,11 +543,11 @@
           "group": "vscode-template-generate-tool@2"
         },
         {
-          "command": "vscode-template-generate-tool.openKubernetes2",
+          "command": "vscode-template-generate-tool.openDevKubernetes",
           "group": "vscode-template-generate-tool@3"
         },
         {
-          "command": "vscode-template-generate-tool.openKubernetes4",
+          "command": "vscode-template-generate-tool.openTestKubernetes",
           "group": "vscode-template-generate-tool@4"
         },
         {
@@ -518,6 +569,18 @@
         {
           "command": "vscode-template-generate-tool.openRoute",
           "group": "vscode-template-generate-tool@9"
+        },
+        {
+          "command": "vscode-template-generate-tool.openCustomLink1",
+          "group": "vscode-template-generate-tool@10"
+        },
+        {
+          "command": "vscode-template-generate-tool.openCustomLink2",
+          "group": "vscode-template-generate-tool@11"
+        },
+        {
+          "command": "vscode-template-generate-tool.openCustomLink3",
+          "group": "vscode-template-generate-tool@12"
         }
       ]
     },
@@ -621,6 +684,16 @@
             "description": "自定义命令3",
             "order": 22
           },
+          "vscode-template-generate-tool.customTerminal4": {
+            "type": "string",
+            "description": "自定义命令4",
+            "order": 23
+          },
+          "vscode-template-generate-tool.customTerminal5": {
+            "type": "string",
+            "description": "自定义命令5",
+            "order": 24
+          },
           "vscode-template-generate-tool.docOpenMode": {
             "type": "string",
             "default": "external",
@@ -653,15 +726,30 @@
             "description": "Jenkins地址",
             "order": 32
           },
-          "vscode-template-generate-tool.openKubernetes2": {
+          "vscode-template-generate-tool.openDevKubernetes": {
             "type": "object",
             "description": "K8S地址2",
             "order": 33
           },
-          "vscode-template-generate-tool.openKubernetes4": {
+          "vscode-template-generate-tool.openTestKubernetes": {
             "type": "object",
             "description": "K8S地址4",
             "order": 34
+          },
+          "vscode-template-generate-tool.customLink1": {
+            "type": "string",
+            "description": "打开自定义链接1",
+            "order": 35
+          },
+          "vscode-template-generate-tool.customLink2": {
+            "type": "string",
+            "description": "打开自定义链接2",
+            "order": 36
+          },
+          "vscode-template-generate-tool.customLink3": {
+            "type": "string",
+            "description": "打开自定义链接3",
+            "order": 37
           }
         }
       }

@@ -766,7 +766,7 @@ export default {
       }
       if (clipboardItems[0].types[0] === 'text/plain') {
         const text = await navigator.clipboard.readText()
-        this.dataList[index][type] = text
+        this.dataList[index][type] = text.trim()
         if (type === 'label') {
           this.changeLabel(this.dataList[index], index)
         } else if (type === 'prop') {

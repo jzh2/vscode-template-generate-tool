@@ -17,7 +17,11 @@ import { getDebuggerDisposable } from './debuggerDisposable'
 import { getTerminalDisposable } from './terminalDisposable'
 import { getRecentFileDisposable } from './recentFileDisposable'
 import { getOpenGitRepositoryDisposable } from './openGitRepositoryDisposable'
-import { getOpenLinkDisposable } from './openLinkDisposable'
+import {
+  getOpenLinkDisposable,
+  getOpenCustomLinkDisposable
+} from './openLinkDisposable'
+import { getCopyCertCodeDisposable } from './copyCertCodeDisposable'
 import { getOpenFileDisposable } from './openFileDisposable'
 import { getAddProxyDisposable } from './addProxyDisposable'
 import { getDocDisposable } from './docDisposable'
@@ -119,7 +123,7 @@ export function activate(context: ExtensionContext) {
   )
 
   // 自定义终端命令
-  for (let i = 1; i <= 3; i++) {
+  for (let i = 1; i <= 5; i++) {
     context.subscriptions.push(
       getTerminalDisposable(`customTerminal${i}`, '', i)
     )
@@ -131,8 +135,16 @@ export function activate(context: ExtensionContext) {
   // 打开项目相关链接
   context.subscriptions.push(getOpenGitRepositoryDisposable())
   context.subscriptions.push(getOpenLinkDisposable('openJenkins'))
-  context.subscriptions.push(getOpenLinkDisposable('openKubernetes2'))
-  context.subscriptions.push(getOpenLinkDisposable('openKubernetes4'))
+  context.subscriptions.push(getOpenLinkDisposable('openDevKubernetes'))
+  context.subscriptions.push(getOpenLinkDisposable('openTestKubernetes'))
+
+  // 打开自定义链接
+  for (let i = 1; i <= 3; i++) {
+    context.subscriptions.push(getOpenCustomLinkDisposable(i))
+  }
+
+  // 复制凭证编码
+  context.subscriptions.push(getCopyCertCodeDisposable())
 
   // 打开指定文件
   context.subscriptions.push(
